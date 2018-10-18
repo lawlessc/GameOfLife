@@ -20,11 +20,7 @@ highp float rand(vec2 co)
 void main() {
 
 
-//Rules to be implemented here.
-//    Any live cell with fewer than two live neighbors dies, as if by underpopulation.
-//    Any live cell with two or three live neighbors lives on to the next generation.
-//    Any live cell with more than three live neighbors dies, as if by overpopulation.
-//    Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+
 
 vec2 stepX = vec2(inversesize.x, 0);
 vec2 stepY = vec2(0, inversesize.y);
@@ -32,7 +28,11 @@ vec2 stepY = vec2(0, inversesize.y);
 
 //vec2 p = vec2(gl_FragCoord.xy);
 
-vec4 cells   = texture2D(textureUnit0, gl_FragCoord.xy);
+
+
+
+//Cell information gathering phase.
+vec4 cell   = texture2D(textureUnit0, gl_FragCoord.xy);
 
 vec4 neighbourcells   = texture2D(textureUnit0, gl_FragCoord.xy + stepY);
      neighbourcells   += texture2D(textureUnit0, gl_FragCoord.xy - stepY);
@@ -47,15 +47,40 @@ vec4 neighbourcells   = texture2D(textureUnit0, gl_FragCoord.xy + stepY);
 
 
 
+//Rules to be implemented here.
+//    Any live cell with fewer than two live neighbors dies, as if by underpopulation.
+//    Any live cell with two or three live neighbors lives on to the next generation.
+//    Any live cell with more than three live neighbors dies, as if by overpopulation.
+//    Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
+
+if(cell.x >0.5)
+{
+
+cell.x= 1.0;
+}
+else
+{
+cell.x =0.0;
+
+}
 
 
+//float n = step(neighbourcells.x ,)
 
 
+vec4 col = vec4(0.0,0.0,0.0,0.0);
 
+if(firstrun == 1)
+{
+col = vec4(rand(gl_FragCoord.xy),rand(gl_FragCoord.xy),rand(gl_FragCoord.xy),1.0);
+}
+else
+{
+//gl_FragColor = texture2D(textureUnit0, vec2(v_texCoord.x, v_texCoord.y));
+col = vec4(cell.x,cell.x,cell.x,1.0);
+}
 
-
-
-
-gl_FragColor = texture2D(textureUnit0, vec2(v_texCoord.x, v_texCoord.y));
+gl_FragColor = col;
+//gl_FragColor = texture2D(textureUnit0, vec2(v_texCoord.x, v_texCoord.y));
 //gl_FragColor = texture2D(textureUnit0, vec2(gl_FragCoord.x, gl_FragCoord.y));
 }

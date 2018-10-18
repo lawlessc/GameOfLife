@@ -46,12 +46,13 @@ public class PostProcessHandler {
     //public Object3D displayObj = null;
 
 
-    public  Boolean velocityswitch= true;
+    public  Boolean switcher= true;
 
     SimpleVector InverseSize;
     SimpleVector splatPos;
     float AspectRatio;
     float splatRadius;
+    boolean first_run = true;
 
 
 
@@ -89,7 +90,7 @@ public class PostProcessHandler {
 
 
 
-        if(velocityswitch) {
+        if(switcher) {
 
             fb.setRenderTarget(frame_two);
 
@@ -99,7 +100,7 @@ public class PostProcessHandler {
             displayWorld.draw(fb);
             fb.display();
             fameObjOne.setVisibility(false);
-            fb.removeRenderTarget();
+         //   fb.removeRenderTarget();
 
             //advectingObj.setTexture(advecting_ti);
 
@@ -136,7 +137,7 @@ public class PostProcessHandler {
 
   ;
 
-        velocityswitch = !velocityswitch;
+        switcher = !switcher;
 
     }
 
@@ -191,7 +192,6 @@ public class PostProcessHandler {
 //        tm.addTexture("textureless", textureless);
 
 
-
         frame_one = new NPOTTexture(width , height, RGBColor.BLACK);
         frame_one.setFiltering(textureFiltering);
         frame_one.setMipmap(textureMipMap);
@@ -204,7 +204,6 @@ public class PostProcessHandler {
         frame_two.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture("frametwo", frame_two);
 
-
     }
 
     public void setUpCameras()
@@ -215,14 +214,11 @@ public class PostProcessHandler {
         displayCam.lookAt(new SimpleVector(0, 0, 0));
     }
 
-
     public void loadShaders(Resources res)
     {
         String vertexShader =   Loader.loadTextFile(res.openRawResource(R.raw.gof_vertex));
         String FragmentShader =   Loader.loadTextFile(res.openRawResource(R.raw.gof_frag));
-
         GOF_shader = new GLSLShader(vertexShader,FragmentShader);
-
     }
 
 

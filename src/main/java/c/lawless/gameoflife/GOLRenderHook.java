@@ -14,28 +14,23 @@ public class GOLRenderHook implements IRenderHook {
     GLSLShader shader;
 
 
-
-
-
     public GOLRenderHook(PostProcessHandler parent , GLSLShader shader)
     {
         this.parent=parent;
         this.shader =shader;
-
-
     }
 
 
     @Override
     public void beforeRendering(int i) {
-        //divergence.setStaticUniform("aspectRatio", parent.AspectRatio);
-      //  shader.setStaticUniform("HalfInverseCellSize", parent.HALFCELL);
         shader.setStaticUniform("inversesize", parent.InverseSize);
+        shader.setStaticUniform("firstrun", parent.first_run ? -1 : 1);
+
     }
 
     @Override
     public void afterRendering(int i) {
-
+        parent.first_run =false;
     }
 
     @Override

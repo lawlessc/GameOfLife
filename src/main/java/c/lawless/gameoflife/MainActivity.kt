@@ -56,14 +56,11 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
     enum class allGameObjects {
         INSTANCE;
-
         //might make sense to start this at 0 anyway
         var runningTime: Long = 0
         var runningTimeSeconds: Long = 0
         var isActionPaused: Boolean? = false
-
         var processHandler: PostProcessHandler? = null
-
     }
     //////////////////////////////////This needs to be seperated from the graphical stuff above somehow.
 
@@ -72,10 +69,8 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         Logger.log("onCreate")
         //Logger.setLogLevel(Logger.LL_DEBUG);
         //Logger.setLogLevel(Logger.);
-        //
-        //
-        Logger.setLogLevel(Logger.DEBUG)
 
+        Logger.setLogLevel(Logger.DEBUG)
 
         //Context baseContext= this.getBaseContext();
         //Resources res = getResources();
@@ -201,15 +196,13 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
 
                 val res = resources
-                //allGameObjects.INSTANCE.gameeventmanager.mainSetup(res,w,h,fb);
+ ;
                 allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb)
 
 
                 current = System.currentTimeMillis()
                 lag = 0
                 previous = System.currentTimeMillis()
-
-                //allGameObjects.INSTANCE.gameeventmanager.mainMenu();
 
 
                 MemoryHelper.compact()
@@ -288,28 +281,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
     }
 
 
-    fun asteroidTest(view: View) {
-        //allShields.execute();
-
-        val ctop = SimpleVector(10f, 20f, 10f)
-        val planepos = SimpleVector(20f, 0f, 40f)
-
-        val pucpos = SimpleVector(20f, 0f, 40f)
-
-
-    }
-
-
-    fun retroSwitch(view: View) {
-
-
-        if (useRetroRender == false) {
-            useRetroRender = true
-        } else {
-            useRetroRender = false
-        }
-
-    }
 
 
     private inner class TapListener : OnGestureListener, GestureDetector.OnDoubleTapListener {
