@@ -1,4 +1,4 @@
-package c.lawless.gameoflife
+package c.lawless.gameoflife;
 
 import android.content.res.Resources;
 import com.threed.jpct.*;
@@ -24,7 +24,7 @@ public class PostProcessHandler {
 
 
 
-    public NPOTTexture frame_one;//VECLOCITY IF FOR ADVECTING
+    public NPOTTexture frame_one;//Textures for alternating frames.
     public NPOTTexture frame_two;
 
 
@@ -124,9 +124,19 @@ public class PostProcessHandler {
 
         //WE NEED A FINALLY RENDER HERE TO  FRAME BUFFER itself.
 
+        fameObjOne.setVisibility(true);
+        fb.removeRenderTarget();
+        fb.clear();
+        displayWorld.renderScene(fb);//
+        displayWorld.draw(fb);
+        fb.display();
+        fameObjOne.setVisibility(false);
+
 
 
   ;
+
+        velocityswitch = !velocityswitch;
 
     }
 
@@ -142,7 +152,7 @@ public class PostProcessHandler {
         fameObjOne.setShader(GOF_shader);
        // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
       //  advecting_ti.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG), TextureInfo.MODE_ADD);
-        fameObjOne.setTexture("frameOne");
+        fameObjOne.setTexture("frameone");
         fameObjOne.setCulling(false);
         fameObjOne.compile();
        // advectingObj.strip();

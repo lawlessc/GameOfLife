@@ -2,6 +2,20 @@ precision lowp float;
 uniform sampler2D textureUnit0;
 varying vec2 v_texCoord;
 uniform  vec3 inversesize;
+uniform  int   firstrun;
+
+
+
+highp float rand(vec2 co)
+{//Thank you http://byteblacksmith.com/improvements-to-the-canonical-one-liner-glsl-rand-for-opengl-es-2-0/
+    highp float a = 12.9898;
+    highp float b = 78.233;
+    highp float c = 43758.5453;
+    highp float dt= dot(co.xy ,vec2(a,b));
+    highp float sn= mod(dt,3.14);
+    return fract(sin(sn) * c);
+}
+
 
 void main() {
 
@@ -16,19 +30,19 @@ vec2 stepX = vec2(inversesize.x, 0);
 vec2 stepY = vec2(0, inversesize.y);
 
 
-vec2 p = vec2(gl_FragCoord.xy);
+//vec2 p = vec2(gl_FragCoord.xy);
 
-vec3 cells   = texture2D(textureUnit0, p);
+vec4 cells   = texture2D(textureUnit0, gl_FragCoord.xy);
 
-vec3 neighbourcells   = texture2D(textureUnit0, p + stepY);
-     neighbourcells   += texture2D(textureUnit0, p - stepY);
-     neighbourcells   += texture2D(textureUnit0, p - stepX);
-     neighbourcells   += texture2D(textureUnit0, p + stepX);
+vec4 neighbourcells   = texture2D(textureUnit0, gl_FragCoord.xy + stepY);
+     neighbourcells   += texture2D(textureUnit0, gl_FragCoord.xy - stepY);
+     neighbourcells   += texture2D(textureUnit0, gl_FragCoord.xy - stepX);
+     neighbourcells   += texture2D(textureUnit0, gl_FragCoord.xy + stepX);
 
-     neighbourcells   += texture2D(textureUnit0, p + stepY + stepX);
-     neighbourcells   += texture2D(textureUnit0, p - stepY + stepX);
-     neighbourcells   += texture2D(textureUnit0, p + stepY - stepX);
-     neighbourcells   += texture2D(textureUnit0, p - stepY - stepX);
+     neighbourcells   += texture2D(textureUnit0, gl_FragCoord.xy + stepY + stepX);
+     neighbourcells   += texture2D(textureUnit0, gl_FragCoord.xy - stepY + stepX);
+     neighbourcells   += texture2D(textureUnit0, gl_FragCoord.xy + stepY - stepX);
+     neighbourcells   += texture2D(textureUnit0, gl_FragCoord.xy - stepY - stepX);
 
 
 
