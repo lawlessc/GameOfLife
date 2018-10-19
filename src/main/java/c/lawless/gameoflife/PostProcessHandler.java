@@ -36,8 +36,8 @@ public class PostProcessHandler {
     public Object3D  fameObjTwo = null;
 
 
-    public TextureInfo frame_one_ti= null;
-    public TextureInfo frame_two_ti= null;
+//    public TextureInfo frame_one_ti= null;
+//    public TextureInfo frame_two_ti= null;
 
 
     public World displayWorld;
@@ -52,6 +52,7 @@ public class PostProcessHandler {
     SimpleVector splatPos;
     float AspectRatio;
     float splatRadius;
+
     boolean first_run = true;
 
 
@@ -75,20 +76,6 @@ public class PostProcessHandler {
 
 
     public void Process(FrameBuffer fb) {
-//        if (firstRun)
-//    {
-//        fb.setRenderTarget(velocity);
-//        fb.clear(Color.RED);
-//        FillWorld.renderScene(fb);//WAS POST PROCESS
-//        FillWorld.draw(fb);
-//        fb.display();
-//        swapVelocities();
-//        firstRun=false;
-//    }
-
-
-
-
 
         if(switcher) {
 
@@ -101,9 +88,7 @@ public class PostProcessHandler {
             fb.display();
             fameObjOne.setVisibility(false);
          //   fb.removeRenderTarget();
-
             //advectingObj.setTexture(advecting_ti);
-
         }
        else
         {
@@ -123,8 +108,7 @@ public class PostProcessHandler {
         }
 
 
-        //WE NEED A FINALLY RENDER HERE TO  FRAME BUFFER itself.
-
+        //Render to screen here
         fameObjOne.setVisibility(true);
         fb.removeRenderTarget();
         fb.clear();
@@ -133,10 +117,7 @@ public class PostProcessHandler {
         fb.display();
         fameObjOne.setVisibility(false);
 
-
-
-  ;
-
+        first_run =false;
         switcher = !switcher;
 
     }
