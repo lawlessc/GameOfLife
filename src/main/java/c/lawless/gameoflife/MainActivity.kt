@@ -216,45 +216,10 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             //	Logger.log("onSurfaceCreated");
         }
 
-
         override fun onDrawFrame(gl: GL10) {
-
-
-            if ((!allGameObjects.INSTANCE.isActionPaused!!)!!) {
-                current = System.currentTimeMillis()
-                elapsed = current - previous
-                allGameObjects.INSTANCE.runningTime += elapsed
-                allGameObjects.INSTANCE.runningTimeSeconds =
-                        (allGameObjects.INSTANCE.runningTime * 0.001).toInt().toLong()
-                previous = current
-                lag += elapsed
-
-
-                while (lag >= MS_PER_UPDATE) {
-
-                    lag -= MS_PER_UPDATE
-                }
-            } else {
-
-                lag = 0
-                previous = System.currentTimeMillis()
-                current = System.currentTimeMillis()
-            }
-
             allGameObjects.INSTANCE.processHandler!!.Process(fb)
-
-
-            if (System.currentTimeMillis() - time >= 1000) {
-                lfps = fps
-                fps = 0
-                time = System.currentTimeMillis()
-            }
-            fps++
         }
-    }//	Resources res = getResources();
-    //time = System.currentTimeMillis();
-    //font = new Texture(res.openRawResource(R.raw.numbers));
-    //	font.setMipmap(false);
+    }
 
 
     override fun onScale(detector: ScaleGestureDetector): Boolean {
@@ -326,6 +291,20 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             val top = mGLView!!.top
 
             allGameObjects.INSTANCE.processHandler!!.switchView()
+
+
+            allGameObjects.INSTANCE.isActionPaused = allGameObjects.INSTANCE.isActionPaused
+
+            if(allGameObjects.INSTANCE.isActionPaused!!)
+            {
+                allGameObjects.INSTANCE.isActionPaused = false
+            }
+            else
+            {
+
+                allGameObjects.INSTANCE.isActionPaused = true;
+            }
+
             //allGameObjects.INSTANCE.cameraCursor.onDoubleTap(e,fb, left, top);
             return false
         }

@@ -23,8 +23,8 @@ public class GOLRenderHook implements IRenderHook {
 
     @Override
     public void beforeRendering(int i) {
-        shader.setStaticUniform("inversesize", parent.InverseSize);
-        shader.setStaticUniform("firstrun", parent.first_run ? 1 : -1);
+        shader.setUniform("inversesize", parent.InverseSize);
+        shader.setUniform("firstrun", parent.first_run ? 1 : -1);
 
 
     }

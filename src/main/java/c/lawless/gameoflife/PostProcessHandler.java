@@ -15,7 +15,7 @@ public class PostProcessHandler {
     TextureManager tm = TextureManager.getInstance();
 
     Boolean textureCompression= true;
-    Boolean textureFiltering= true;
+    Boolean textureFiltering= false;
     Boolean textureMipMap= false;
     Boolean setGLFiltering=false;
 
@@ -87,8 +87,19 @@ public class PostProcessHandler {
             displayWorld.draw(fb);
             fb.display();
             fameObjOne.setVisibility(false);
-         //   fb.removeRenderTarget();
+            fb.removeRenderTarget();
             //advectingObj.setTexture(advecting_ti);
+
+
+            //Render to screen here
+            fameObjOne.setVisibility(true);
+            fb.removeRenderTarget();
+            fb.clear();
+            displayWorld.renderScene(fb);//
+            displayWorld.draw(fb);
+            fb.display();
+            fameObjOne.setVisibility(false);
+
         }
        else
         {
@@ -102,23 +113,26 @@ public class PostProcessHandler {
             displayWorld.draw(fb);
             fb.display();
             fameObjTwo.setVisibility(false);
+            fb.removeRenderTarget();
 
+            //Render to screen here
+            fameObjTwo.setVisibility(true);
+            fb.removeRenderTarget();
+            fb.clear();
+            displayWorld.renderScene(fb);//
+            displayWorld.draw(fb);
+            fb.display();
+            fameObjTwo.setVisibility(false);
 
-
+         //   first_run =false;
+           // switcher = !switcher;
         }
 
 
-        //Render to screen here
-        fameObjOne.setVisibility(true);
-        fb.removeRenderTarget();
-        fb.clear();
-        displayWorld.renderScene(fb);//
-        displayWorld.draw(fb);
-        fb.display();
-        fameObjOne.setVisibility(false);
 
         first_run =false;
         switcher = !switcher;
+
 
     }
 
