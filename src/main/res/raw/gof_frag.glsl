@@ -40,20 +40,20 @@ vec4 cell   = texture2D(textureUnit0, p);
 
 vec4 neighbourcells   = texture2D(textureUnit0, p + stepY);
       //neighbours += step(neighbourcells.x , 0.5);
-     neighbourcells   = texture2D(textureUnit0, p - stepY);
+     neighbourcells   += texture2D(textureUnit0, p - stepY);
       //neighbours += step(neighbourcells.x , 0.5);
-     neighbourcells   = texture2D(textureUnit0, p - stepX);
+     neighbourcells   += texture2D(textureUnit0, p - stepX);
       //neighbours += step(neighbourcells.x , 0.5);
-     neighbourcells   = texture2D(textureUnit0, p + stepX);
+     neighbourcells   += texture2D(textureUnit0, p + stepX);
       //neighbours += step(neighbourcells.x , 0.5);
 
-     neighbourcells   = texture2D(textureUnit0, p + stepY + stepX);
+     neighbourcells   += texture2D(textureUnit0, p + stepY + stepX);
       //neighbours += step(neighbourcells.x , 0.5);
-     neighbourcells   = texture2D(textureUnit0, p - stepY + stepX);
+     neighbourcells   += texture2D(textureUnit0, p - stepY + stepX);
       //neighbours += step(neighbourcells.x , 0.5);
-     neighbourcells   = texture2D(textureUnit0, p + stepY - stepX);
+     neighbourcells   += texture2D(textureUnit0, p + stepY - stepX);
       //neighbours += step(neighbourcells.x , 0.5);
-     neighbourcells   = texture2D(textureUnit0, p - stepY - stepX);
+     neighbourcells   += texture2D(textureUnit0, p - stepY - stepX);
       //neighbours += step(neighbourcells.x , 0.5);
 
 //Rules to be implemented here.
