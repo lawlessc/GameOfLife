@@ -36,25 +36,25 @@ vec4 cell   = texture2D(textureUnit0, p);
 
 
 
-float neighbours =0.0;
+//float neighbours =0.0;
 
 vec4 neighbourcells   = texture2D(textureUnit0, p + stepY);
-      neighbours += step(neighbourcells.x , 0.5);
+      //neighbours += step(neighbourcells.x , 0.5);
      neighbourcells   = texture2D(textureUnit0, p - stepY);
-      neighbours += step(neighbourcells.x , 0.5);
+      //neighbours += step(neighbourcells.x , 0.5);
      neighbourcells   = texture2D(textureUnit0, p - stepX);
-      neighbours += step(neighbourcells.x , 0.5);
+      //neighbours += step(neighbourcells.x , 0.5);
      neighbourcells   = texture2D(textureUnit0, p + stepX);
-      neighbours += step(neighbourcells.x , 0.5);
+      //neighbours += step(neighbourcells.x , 0.5);
 
      neighbourcells   = texture2D(textureUnit0, p + stepY + stepX);
-      neighbours += step(neighbourcells.x , 0.5);
+      //neighbours += step(neighbourcells.x , 0.5);
      neighbourcells   = texture2D(textureUnit0, p - stepY + stepX);
-      neighbours += step(neighbourcells.x , 0.5);
+      //neighbours += step(neighbourcells.x , 0.5);
      neighbourcells   = texture2D(textureUnit0, p + stepY - stepX);
-      neighbours += step(neighbourcells.x , 0.5);
+      //neighbours += step(neighbourcells.x , 0.5);
      neighbourcells   = texture2D(textureUnit0, p - stepY - stepX);
-      neighbours += step(neighbourcells.x , 0.5);
+      //neighbours += step(neighbourcells.x , 0.5);
 
 //Rules to be implemented here.
 //    Any live cell with fewer than two live neighbors dies, as if by underpopulation.
@@ -64,21 +64,27 @@ vec4 neighbourcells   = texture2D(textureUnit0, p + stepY);
 
 float newval = 0.0;
 
-if( (cell.x >= 1.0) && ((neighbourcells.x < 2.0) || (neighbourcells.x > 3.0)) )
+if( (cell.x == 1.0) && (neighbourcells.x < 2.0) )
 {
 newval =0.0;
 }
 
-if( (cell.x == 1.0) && ((neighbourcells.x >= 1.0) && (neighbourcells.x <= 3.0)) )
+else if( (cell.x == 1.0) && (neighbourcells.x > 3.0) )
+{
+newval =0.0;
+}
+
+else if( (cell.x == 1.0) && (neighbourcells.x >= 2.0) && (neighbourcells.x <= 3.0) )
 {
 newval =1.0;
-
 }
+
+
 
 
 if(neighbourcells.x == 3.0)
 {
-newval =1.0;
+newval = step(neighbourcells.x, 3.0);
 }
 
 //cell.x = step(cell.x, 0.5);
