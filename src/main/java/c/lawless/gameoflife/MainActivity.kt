@@ -209,6 +209,8 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                 //Main.allGameObjects.INSTANCE.world.compileAllObjects();
             }
 
+            allGameObjects.INSTANCE.processHandler!!.first_run= true
+
         }
 
         override fun onSurfaceCreated(gl: GL10, config: EGLConfig) {
