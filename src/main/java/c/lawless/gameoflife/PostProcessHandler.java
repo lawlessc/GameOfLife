@@ -48,12 +48,19 @@ public class PostProcessHandler {
 
     public  Boolean switcher= true;
 
-    SimpleVector InverseSize;
+    //SimpleVector InverseSize;
+
+    SimpleVector InverseSizex;
+    SimpleVector InverseSizey;
+
     SimpleVector splatPos;
     float AspectRatio;
     float splatRadius;
 
     boolean first_run = true;
+
+    int size_modifier =1;// setting this to one keeps cells to 1 per pixel.
+                         //higher resolutions are unpleasant to look at
 
 
 
@@ -62,9 +69,13 @@ public class PostProcessHandler {
      fb.freeMemory();
     loadShaders(res);
     setUpCameras();//worlds
-    setupTextures(fb.getWidth(),fb.getHeight());
+    setupTextures(fb.getWidth()*size_modifier,fb.getHeight()*size_modifier);
 
-     InverseSize = new SimpleVector(1.0f/ fb.getWidth() ,1.0f/ fb.getHeight() ,0);
+    // InverseSize = new SimpleVector(1.0f/ fb.getWidth() ,1.0f/ fb.getHeight() ,0);
+
+     InverseSizex = new SimpleVector(1.0f/ fb.getWidth()*size_modifier ,0 ,0);
+     InverseSizey = new SimpleVector(0 ,1.0f/ fb.getHeight()*size_modifier ,0);
+
      splatRadius =   fb.getWidth() /8.0f;
      splatPos    =  new SimpleVector(  fb.getWidth() / 2.0f, fb.getWidth() /2.0f , 0);
      AspectRatio = fb.getWidth()/fb.getHeight();
@@ -223,7 +234,7 @@ public class PostProcessHandler {
     {
 
         this.outPutTexture = outPutTexture;
-       InverseSize = new SimpleVector(1.0f/ outPutTexture.getWidth() ,1.0f/ outPutTexture.getHeight() ,0);
+       //InverseSize = new SimpleVector(1.0f/ outPutTexture.getWidth() ,1.0f/ outPutTexture.getHeight() ,0);
     }
 
 
