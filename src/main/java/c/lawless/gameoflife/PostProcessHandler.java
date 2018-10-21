@@ -41,7 +41,7 @@ public class PostProcessHandler {
     public World displayWorld;
     public Camera displayCam = null;
 
-
+  displayCam.
     public  Boolean switcher= true;
 
     SimpleVector InverseSizex;

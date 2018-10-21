@@ -14,11 +14,13 @@ public class GOLRenderHook implements IRenderHook {
     GLSLShader shader;
 
 
+
     public GOLRenderHook(PostProcessHandler parent , GLSLShader shader)
     {
         this.parent=parent;
         this.shader =shader;
     }
+
 
 
     @Override
