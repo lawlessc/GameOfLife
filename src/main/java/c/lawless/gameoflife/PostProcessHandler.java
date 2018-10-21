@@ -8,8 +8,9 @@ import com.threed.jpct.*;
  * Created by lawless on 12/10/2015.
  */
 public class PostProcessHandler {
+    MainActivity main ;
 
-    public NPOTTexture outPutTexture = null; //if not a null we output texture to this.
+   // public NPOTTexture outPutTexture = null; //if not a null we output texture to this.
 
 
     TextureManager tm = TextureManager.getInstance();
@@ -18,23 +19,17 @@ public class PostProcessHandler {
     Boolean textureFiltering= false;
     Boolean textureMipMap= false;
     Boolean setGLFiltering=false;
-    MainActivity main ;
-
-
-
-
 
 
     public NPOTTexture frame_one;//Textures for alternating frames.
     public NPOTTexture frame_two;
 
 
-
-
     public GLSLShader GOF_shader;
     public GLSLShader random_shader;
     public GLSLShader render_shader;
     GOLRenderHook  GOF_Hook;
+
     public Object3D  random_obj = null;
     public Object3D  fameObjOne = null;
     public Object3D  fameObjTwo = null;
@@ -43,19 +38,11 @@ public class PostProcessHandler {
     public Object3D  render_to_screen_obj_two = null;
 
 
-//    public TextureInfo frame_one_ti= null;
-//    public TextureInfo frame_two_ti= null;
-
-
     public World displayWorld;
     public Camera displayCam = null;
-    public GLSLShader displayShader = null;
-    //public Object3D displayObj = null;
 
 
     public  Boolean switcher= true;
-
-    //SimpleVector InverseSize;
 
     SimpleVector InverseSizex;
     SimpleVector InverseSizey;
@@ -68,8 +55,6 @@ public class PostProcessHandler {
 
     int size_modifier =1;// setting this to one keeps cells to 1 per pixel.
                          //higher resolutions are unpleasant to look at
-
-
 
 
     public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main) {
@@ -310,12 +295,12 @@ public class PostProcessHandler {
 
 
 
-    public void setOutPutTexture(NPOTTexture outPutTexture)
-    {
-
-        this.outPutTexture = outPutTexture;
-       //InverseSize = new SimpleVector(1.0f/ outPutTexture.getWidth() ,1.0f/ outPutTexture.getHeight() ,0);
-    }
+//    public void setOutPutTexture(NPOTTexture outPutTexture)
+//    {
+//
+//        this.outPutTexture = outPutTexture;
+//       //InverseSize = new SimpleVector(1.0f/ outPutTexture.getWidth() ,1.0f/ outPutTexture.getHeight() ,0);
+//    }
 
 
 
