@@ -171,9 +171,9 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
 
     internal inner class MyRenderer : GLSurfaceView.Renderer {
-        private var fps = 0
-        private var lfps = 0
-        private var time = System.currentTimeMillis()
+//        private var fps = 0
+//        private var lfps = 0
+//        private var time = System.currentTimeMillis()
 
         override fun onSurfaceChanged(gl: GL10, w: Int, h: Int) {
 
@@ -288,10 +288,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             val left = mGLView!!.left
             val top = mGLView!!.top
 
-           // allGameObjects.INSTANCE.processHandler!!.switchView()
-
-
-           // allGameObjects.INSTANCE.isActionPaused = allGameObjects.INSTANCE.isActionPaused
 
             if(isActionPaused!!)
             {
