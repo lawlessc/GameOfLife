@@ -41,7 +41,7 @@ public class PostProcessHandler {
     public World displayWorld;
     public Camera displayCam = null;
 
-  displayCam.
+
     public  Boolean switcher= true;
 
     SimpleVector InverseSizex;
@@ -124,7 +124,7 @@ public class PostProcessHandler {
        else
         {
 
-
+   //displayWorld.
 
             if(main.isActionPaused()) {
                 fb.setRenderTarget(frame_one);
