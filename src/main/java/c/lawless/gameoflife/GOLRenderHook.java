@@ -27,7 +27,7 @@ public class GOLRenderHook implements IRenderHook {
 
         shader.setStaticUniform("inversesizex", parent.InverseSizex);
         shader.setStaticUniform("inversesizey", parent.InverseSizey);
-        shader.setUniform("firstrun", parent.first_run ? 1 : 0);
+       // shader.setUniform("firstrun", parent.first_run ? 1 : 0);
 
 
     }

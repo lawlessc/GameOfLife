@@ -39,13 +39,12 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
     private var renderer: MyRenderer? = null
     private var fb: FrameBuffer? = null
 
-    private var useRetroRender = false
     internal var MS_PER_UPDATE: Long = 16
 
     var previous: Long = 0
     var current: Long = 0
     var lag: Long = 0
-    var elapsed: Long = 0
+
 
 
     private var mScaleDetector: ScaleGestureDetector? = null
@@ -53,13 +52,12 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
     //private Texture font = null;
     private var texturesLoaded: Boolean? = false
+    var isActionPaused: Boolean? = false
 
-    enum class allGameObjects {
+     enum class allGameObjects {
         INSTANCE;
         //might make sense to start this at 0 anyway
-        var runningTime: Long = 0
-        var runningTimeSeconds: Long = 0
-        var isActionPaused: Boolean? = false
+
         var processHandler: PostProcessHandler? = null
     }
     //////////////////////////////////This needs to be seperated from the graphical stuff above somehow.
@@ -125,7 +123,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
 
     override fun onPause() {
-        allGameObjects.INSTANCE.isActionPaused = true
+        isActionPaused = true
         super.onPause()
         mGLView!!.onPause()
     }
@@ -188,16 +186,14 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             //	}
 
 
-            //  fb.setBlittingShader(EntityFactory.gameboy_shader);
-
             if (master == null) {
-                //	System.out.println("MASTER IS NULLLLL");
+
                 master = this@MainActivity
 
 
                 val res = resources
- ;
-                allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb)
+
+                allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb, master)
 
 
                 current = System.currentTimeMillis()
@@ -292,19 +288,19 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             val left = mGLView!!.left
             val top = mGLView!!.top
 
-            allGameObjects.INSTANCE.processHandler!!.switchView()
+           // allGameObjects.INSTANCE.processHandler!!.switchView()
 
 
-            allGameObjects.INSTANCE.isActionPaused = allGameObjects.INSTANCE.isActionPaused
+           // allGameObjects.INSTANCE.isActionPaused = allGameObjects.INSTANCE.isActionPaused
 
-            if(allGameObjects.INSTANCE.isActionPaused!!)
+            if(isActionPaused!!)
             {
-                allGameObjects.INSTANCE.isActionPaused = false
+               isActionPaused = false
             }
             else
             {
 
-                allGameObjects.INSTANCE.isActionPaused = true;
+                isActionPaused = true;
             }
 
             //allGameObjects.INSTANCE.cameraCursor.onDoubleTap(e,fb, left, top);

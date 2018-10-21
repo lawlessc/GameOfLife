@@ -18,6 +18,7 @@ public class PostProcessHandler {
     Boolean textureFiltering= false;
     Boolean textureMipMap= false;
     Boolean setGLFiltering=false;
+    MainActivity main ;
 
 
 
@@ -31,9 +32,15 @@ public class PostProcessHandler {
 
 
     public GLSLShader GOF_shader;
+    public GLSLShader random_shader;
+    public GLSLShader render_shader;
     GOLRenderHook  GOF_Hook;
+    public Object3D  random_obj = null;
     public Object3D  fameObjOne = null;
     public Object3D  fameObjTwo = null;
+
+    public Object3D  render_to_screen_obj_one = null;
+    public Object3D  render_to_screen_obj_two = null;
 
 
 //    public TextureInfo frame_one_ti= null;
@@ -65,11 +72,12 @@ public class PostProcessHandler {
 
 
 
-    public PostProcessHandler(Resources res, FrameBuffer fb) {
-     fb.freeMemory();
+    public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main) {
+    fb.freeMemory();
     loadShaders(res);
     setUpCameras();//worlds
     setupTextures(fb.getWidth()*size_modifier,fb.getHeight()*size_modifier);
+    this.main=main;
 
     // InverseSize = new SimpleVector(1.0f/ fb.getWidth() ,1.0f/ fb.getHeight() ,0);
 
@@ -88,28 +96,44 @@ public class PostProcessHandler {
 
     public void Process(FrameBuffer fb) {
 
-        if(switcher) {
 
-            fb.setRenderTarget(frame_two);
 
-            fameObjOne.setVisibility(true);
+
+        if(first_run)
+        {
+            fb.setRenderTarget(frame_one);
+            random_obj.setVisibility(true);
             fb.clear();
             displayWorld.renderScene(fb);
             displayWorld.draw(fb);
             fb.display();
-            fameObjOne.setVisibility(false);
+            random_obj.setVisibility(false);
             fb.removeRenderTarget();
-            //advectingObj.setTexture(advecting_ti);
+        }
+
+        if(switcher) {
+
+            if(main.isActionPaused()) {
+                fb.setRenderTarget(frame_two);
+                fameObjOne.setVisibility(true);
+                fb.clear();
+                displayWorld.renderScene(fb);
+                displayWorld.draw(fb);
+                fb.display();
+                fameObjOne.setVisibility(false);
+                fb.removeRenderTarget();
+            }
+
 
 
             //Render to screen here
-            fameObjOne.setVisibility(true);
+            render_to_screen_obj_two.setVisibility(true);
             fb.removeRenderTarget();
             fb.clear();
             displayWorld.renderScene(fb);//
             displayWorld.draw(fb);
             fb.display();
-            fameObjOne.setVisibility(false);
+            render_to_screen_obj_two.setVisibility(false);
 
         }
        else
@@ -117,23 +141,25 @@ public class PostProcessHandler {
 
 
 
-            fb.setRenderTarget(frame_one);
-            fameObjTwo.setVisibility(true);
-            fb.clear();
-            displayWorld.renderScene(fb);
-            displayWorld.draw(fb);
-            fb.display();
-            fameObjTwo.setVisibility(false);
-            fb.removeRenderTarget();
+            if(main.isActionPaused()) {
+                fb.setRenderTarget(frame_one);
+                fameObjTwo.setVisibility(true);
+                fb.clear();
+                displayWorld.renderScene(fb);
+                displayWorld.draw(fb);
+                fb.display();
+                fameObjTwo.setVisibility(false);
+                fb.removeRenderTarget();
+            }
 
             //Render to screen here
-            fameObjTwo.setVisibility(true);
+            render_to_screen_obj_one.setVisibility(true);
             fb.removeRenderTarget();
             fb.clear();
             displayWorld.renderScene(fb);//
             displayWorld.draw(fb);
             fb.display();
-            fameObjTwo.setVisibility(false);
+            render_to_screen_obj_one.setVisibility(false);
 
          //   first_run =false;
            // switcher = !switcher;
@@ -155,6 +181,22 @@ public class PostProcessHandler {
         fameObjOne = Primitives.getPlane(4,10);
         fameObjOne.setOrigin(new SimpleVector(0.01, 0, 0));
 
+
+        random_obj = Primitives.getPlane(4,10);
+        random_obj.setOrigin(new SimpleVector(0.01, 0, 0));
+        random_obj.setRenderHook(GOF_Hook);
+        random_obj.setShader(random_shader);
+        // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
+        //  advecting_ti.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG), TextureInfo.MODE_ADD);
+       // fameObjOne.setTexture("frameone");
+        random_obj.setCulling(false);
+        random_obj.compile();
+        // advectingObj.strip();
+        displayWorld.addObject(random_obj);
+        random_obj.setVisibility(false);
+
+        fameObjOne = Primitives.getPlane(4,10);
+        fameObjOne.setOrigin(new SimpleVector(0.01, 0, 0));
         fameObjOne.setRenderHook(GOF_Hook);
         fameObjOne.setShader(GOF_shader);
        // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
@@ -168,7 +210,6 @@ public class PostProcessHandler {
 
         fameObjTwo = Primitives.getPlane(4,10);
         fameObjTwo.setOrigin(new SimpleVector(0.01, 0, 0));
-
         fameObjTwo.setRenderHook(GOF_Hook);
         fameObjTwo.setShader(GOF_shader);
        // advecting_tiTwo   =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG_TWO));
@@ -179,6 +220,35 @@ public class PostProcessHandler {
         //advectingObjTwo.strip();
         displayWorld.addObject(fameObjTwo);
         fameObjTwo.setVisibility(false);
+
+
+
+        render_to_screen_obj_one = Primitives.getPlane(4,10);
+        render_to_screen_obj_one.setOrigin(new SimpleVector(0.01, 0, 0));
+        //render_to_screen_obj_one.setRenderHook(GOF_Hook);
+        render_to_screen_obj_one.setShader(render_shader);
+        // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
+        //  advecting_ti.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG), TextureInfo.MODE_ADD);
+        render_to_screen_obj_one.setTexture("frameone");
+        render_to_screen_obj_one.setCulling(false);
+        render_to_screen_obj_one.compile();
+        // advectingObj.strip();
+        displayWorld.addObject(render_to_screen_obj_one);
+        render_to_screen_obj_one.setVisibility(false);
+
+        render_to_screen_obj_two = Primitives.getPlane(4,10);
+        render_to_screen_obj_two.setOrigin(new SimpleVector(0.01, 0, 0));
+        //render_to_screen_obj_two.setRenderHook(GOF_Hook);
+        render_to_screen_obj_two.setShader(render_shader);
+        // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
+        //  advecting_ti.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG), TextureInfo.MODE_ADD);
+        render_to_screen_obj_two.setTexture("frametwo");
+        render_to_screen_obj_two.setCulling(false);
+        render_to_screen_obj_two.compile();
+        // advectingObj.strip();
+        displayWorld.addObject(render_to_screen_obj_two);
+        render_to_screen_obj_two.setVisibility(false);
+
 
 
     }
@@ -225,6 +295,16 @@ public class PostProcessHandler {
         String vertexShader =   Loader.loadTextFile(res.openRawResource(R.raw.gof_vertex));
         String FragmentShader =   Loader.loadTextFile(res.openRawResource(R.raw.gof_frag));
         GOF_shader = new GLSLShader(vertexShader,FragmentShader);
+
+
+        String vertexShaderr =   Loader.loadTextFile(res.openRawResource(R.raw.gof_vertex));
+        String FragmentShaderr =   Loader.loadTextFile(res.openRawResource(R.raw.random_frag));
+        random_shader = new GLSLShader(vertexShaderr,FragmentShaderr);
+
+        render_shader = new GLSLShader(Loader.loadTextFile(res.openRawResource(R.raw.gof_vertex))
+                ,Loader.loadTextFile(res.openRawResource(R.raw.render_to_screen_frag)) );
+
+
     }
 
 
@@ -245,45 +325,6 @@ public class PostProcessHandler {
         y = frame_one.getHeight() -y;
         splatPos = new SimpleVector(x,y,0);
     }
-
-
-
-    public void switchView()
-    {
-//        switch (viewtype)
-//        {
-//            case DENSITY:
-//                displayObj.setTexture(DENSITY_TEXTURE_TAG);
-//                viewtype = Viewtype.VELOCITY;
-//                break;
-//            case VELOCITY:
-//                displayObj.setTexture(VELOCITY_TEXTURE_TAG);
-//                viewtype = Viewtype.DIVERGENCE;
-//                break;
-//            case DIVERGENCE:
-//                displayObj.setTexture(DIVERGENCE_TEXTURE_TAG);
-//                viewtype = Viewtype.PRESSURE;
-//                break;
-//
-//            case PRESSURE:
-//                displayObj.setTexture(PRESSURE_TEXTURE_TAG);
-//                viewtype = Viewtype.DENSITY;
-//                break;
-//        }
-    }
-
-
-
-
-
-    //
-    public void AddDensity()
-    {
-
-
-    }
-
-
 
 
 
