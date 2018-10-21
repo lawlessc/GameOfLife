@@ -82,8 +82,6 @@ public class PostProcessHandler {
     public void Process(FrameBuffer fb) {
 
 
-
-
         if(first_run)
         {
             fb.setRenderTarget(frame_one);
@@ -96,7 +94,12 @@ public class PostProcessHandler {
             fb.removeRenderTarget();
         }
 
+
+
         if(switcher) {
+
+
+
 
             if(main.isActionPaused()) {
                 fb.setRenderTarget(frame_two);
@@ -107,22 +110,32 @@ public class PostProcessHandler {
                 fb.display();
                 fameObjOne.setVisibility(false);
                 fb.removeRenderTarget();
+
+
+                //Render to screen here
+                render_to_screen_obj_two.setVisibility(true);
+                fb.removeRenderTarget();
+                fb.clear();
+                displayWorld.renderScene(fb);//
+                displayWorld.draw(fb);
+                fb.display();
+                render_to_screen_obj_two.setVisibility(false);
             }
-
-
-
-            //Render to screen here
-            render_to_screen_obj_two.setVisibility(true);
-            fb.removeRenderTarget();
-            fb.clear();
-            displayWorld.renderScene(fb);//
-            displayWorld.draw(fb);
-            fb.display();
-            render_to_screen_obj_two.setVisibility(false);
 
         }
        else
         {
+            if(first_run)
+            {
+                fb.setRenderTarget(frame_two);
+                random_obj.setVisibility(true);
+                fb.clear();
+                displayWorld.renderScene(fb);
+                displayWorld.draw(fb);
+                fb.display();
+                random_obj.setVisibility(false);
+                fb.removeRenderTarget();
+            }
 
    //displayWorld.
 
@@ -137,14 +150,16 @@ public class PostProcessHandler {
                 fb.removeRenderTarget();
             }
 
-            //Render to screen here
-            render_to_screen_obj_one.setVisibility(true);
-            fb.removeRenderTarget();
-            fb.clear();
-            displayWorld.renderScene(fb);//
-            displayWorld.draw(fb);
-            fb.display();
-            render_to_screen_obj_one.setVisibility(false);
+
+                //Render to screen here
+                render_to_screen_obj_one.setVisibility(true);
+                fb.removeRenderTarget();
+                fb.clear();
+                displayWorld.renderScene(fb);//
+                displayWorld.draw(fb);
+                fb.display();
+                render_to_screen_obj_one.setVisibility(false);
+
 
          //   first_run =false;
            // switcher = !switcher;
