@@ -24,13 +24,23 @@ public class PostProcessHandler {
     public NPOTTexture frame_one;//Textures for alternating frames.
     public NPOTTexture frame_two;
 
+    public NPOTTexture splat_tex;
+
 
     public GLSLShader GOF_shader;
     public GLSLShader random_shader;
     public GLSLShader render_shader;
+
+    public GLSLShader draw_shader;
+
     GOLRenderHook  GOF_Hook;
+    SplatHook  Splat_Hook;
 
     public Object3D  random_obj = null;
+    public Object3D  draw_obj_one = null;
+   // public Object3D  draw_obj_two = null;
+
+
     public Object3D  fameObjOne = null;
     public Object3D  fameObjTwo = null;
 
@@ -50,6 +60,7 @@ public class PostProcessHandler {
     SimpleVector splatPos;
     float AspectRatio;
     float splatRadius;
+    boolean splat_on=false;
 
     boolean first_run = true;
 
@@ -69,7 +80,7 @@ public class PostProcessHandler {
      InverseSizex = new SimpleVector(1.0f/ fb.getWidth()*size_modifier ,0 ,0);
      InverseSizey = new SimpleVector(0 ,1.0f/ fb.getHeight()*size_modifier ,0);
 
-     splatRadius =   fb.getWidth() /8.0f;
+     splatRadius =   fb.getWidth() /16.0f;
      splatPos    =  new SimpleVector(  fb.getWidth() / 2.0f, fb.getWidth() /2.0f , 0);
      AspectRatio = fb.getWidth()/fb.getHeight();
      setupObjects();
@@ -80,6 +91,21 @@ public class PostProcessHandler {
 
 
     public void Process(FrameBuffer fb) {
+
+
+
+     //   if(splat_on)
+     //   {
+            fb.setRenderTarget(splat_tex);
+            draw_obj_one.setVisibility(true);
+            fb.clear();
+            displayWorld.renderScene(fb);
+            displayWorld.draw(fb);
+            fb.display();
+            draw_obj_one.setVisibility(false);
+            fb.removeRenderTarget();
+     //   }
+
 
 
         if(first_run)
@@ -95,11 +121,7 @@ public class PostProcessHandler {
         }
 
 
-
         if(switcher) {
-
-
-
 
             if(main.isActionPaused()) {
                 fb.setRenderTarget(frame_two);
@@ -121,7 +143,6 @@ public class PostProcessHandler {
                 fb.display();
                 render_to_screen_obj_two.setVisibility(false);
             }
-
         }
        else
         {
@@ -137,7 +158,8 @@ public class PostProcessHandler {
                 fb.removeRenderTarget();
             }
 
-   //displayWorld.
+
+            //displayWorld.
 
             if(main.isActionPaused()) {
                 fb.setRenderTarget(frame_one);
@@ -159,17 +181,12 @@ public class PostProcessHandler {
                 displayWorld.draw(fb);
                 fb.display();
                 render_to_screen_obj_one.setVisibility(false);
-
-
-         //   first_run =false;
-           // switcher = !switcher;
         }
-
-
 
         first_run =false;
         switcher = !switcher;
 
+        System.out.println(splat_on + " splat STATE");
 
     }
 
@@ -178,9 +195,17 @@ public class PostProcessHandler {
     {
 
         GOF_Hook = new GOLRenderHook(this,GOF_shader);
-        fameObjOne = Primitives.getPlane(4,10);
-        fameObjOne.setOrigin(new SimpleVector(0.01, 0, 0));
+        Splat_Hook = new SplatHook(this, draw_shader);
 
+
+        draw_obj_one = Primitives.getPlane(4,10);
+        draw_obj_one.setOrigin(new SimpleVector(0.01, 0, 0));
+        draw_obj_one.setRenderHook(Splat_Hook);
+        draw_obj_one.setShader(draw_shader);
+        draw_obj_one.setCulling(false);
+        draw_obj_one.compile();
+        displayWorld.addObject(draw_obj_one);
+        draw_obj_one.setVisibility(false);
 
         random_obj = Primitives.getPlane(4,10);
         random_obj.setOrigin(new SimpleVector(0.01, 0, 0));
@@ -199,9 +224,9 @@ public class PostProcessHandler {
         fameObjOne.setOrigin(new SimpleVector(0.01, 0, 0));
         fameObjOne.setRenderHook(GOF_Hook);
         fameObjOne.setShader(GOF_shader);
-       // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
-      //  advecting_ti.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG), TextureInfo.MODE_ADD);
-        fameObjOne.setTexture("frameone");
+        TextureInfo one  =  new TextureInfo(TextureManager.getInstance().getTextureID("frameone"));
+        one.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
+        fameObjOne.setTexture(one);
         fameObjOne.setCulling(false);
         fameObjOne.compile();
        // advectingObj.strip();
@@ -212,15 +237,14 @@ public class PostProcessHandler {
         fameObjTwo.setOrigin(new SimpleVector(0.01, 0, 0));
         fameObjTwo.setRenderHook(GOF_Hook);
         fameObjTwo.setShader(GOF_shader);
-       // advecting_tiTwo   =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG_TWO));
-       // advecting_tiTwo.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG_TWO), TextureInfo.MODE_ADD);
-        fameObjTwo.setTexture("frametwo");
+        TextureInfo two  =  new TextureInfo(TextureManager.getInstance().getTextureID("frametwo"));
+        two.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
+        fameObjTwo.setTexture(two);
         fameObjTwo.setCulling(false);
         fameObjTwo.compile();
         //advectingObjTwo.strip();
         displayWorld.addObject(fameObjTwo);
         fameObjTwo.setVisibility(false);
-
 
 
         render_to_screen_obj_one = Primitives.getPlane(4,10);
@@ -248,9 +272,6 @@ public class PostProcessHandler {
         // advectingObj.strip();
         displayWorld.addObject(render_to_screen_obj_two);
         render_to_screen_obj_two.setVisibility(false);
-
-
-
     }
 
 
@@ -280,6 +301,14 @@ public class PostProcessHandler {
         frame_two.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture("frametwo", frame_two);
 
+
+        splat_tex = new NPOTTexture(width , height, RGBColor.BLACK);
+        splat_tex.setFiltering(textureFiltering);
+        splat_tex.setMipmap(textureMipMap);
+        splat_tex.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+        tm.addTexture("splatt", splat_tex);
+
+
     }
 
     public void setUpCameras()
@@ -305,6 +334,9 @@ public class PostProcessHandler {
                 ,Loader.loadTextFile(res.openRawResource(R.raw.render_to_screen_frag)) );
 
 
+        draw_shader = new GLSLShader(Loader.loadTextFile(res.openRawResource(R.raw.gof_vertex))
+            ,Loader.loadTextFile(res.openRawResource(R.raw.splat_frag)) );
+
     }
 
 
@@ -321,9 +353,15 @@ public class PostProcessHandler {
 
     public void setSplatPos(float x , float y)
     {
-
         y = frame_one.getHeight() -y;
         splatPos = new SimpleVector(x,y,0);
+        splat_on=true;
+    }
+
+
+    public void splatOff()
+    {
+        splat_on=false;
     }
 
 

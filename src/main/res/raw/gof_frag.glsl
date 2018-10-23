@@ -1,5 +1,6 @@
 precision lowp float;
 uniform sampler2D textureUnit0;
+uniform sampler2D textureUnit1;
 varying vec2 v_texCoord;
 uniform  vec3 inversesizex;
 uniform  vec3 inversesizey;
@@ -32,6 +33,6 @@ vec4 neighbourcells   = texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy)
 float newval = ( step(neighbourcells.x,3.0) * step(  2.0 ,  neighbourcells.x)) * cell.x;
 newval += step(neighbourcells.x, 3.0)*step(  3.0 ,  neighbourcells.x); //this will check if exactly 3 neighbours
 
-gl_FragColor = vec4(newval,newval,newval,1.0);
+gl_FragColor = vec4(newval,newval,newval,1.0)  + texture2D(textureUnit1, v_texCoord.xy); //we add the splat  texture here too
 
 }

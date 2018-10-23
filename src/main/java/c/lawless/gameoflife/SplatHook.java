@@ -3,31 +3,35 @@ package c.lawless.gameoflife;
 import com.threed.jpct.GLSLShader;
 import com.threed.jpct.IRenderHook;
 import com.threed.jpct.Object3D;
+import com.threed.jpct.SimpleVector;
 
 /**
  * Created by Chris on 29/05/2016.
+ *
+ * Basically so i can tap the screen
  */
-public class GOLRenderHook implements IRenderHook {
-
+public class SplatHook implements IRenderHook {
 
     PostProcessHandler parent;
-    GLSLShader shader;
+    GLSLShader impulse;
+    SimpleVector fillcol = new SimpleVector(1,1,1);
 
 
-
-    public GOLRenderHook(PostProcessHandler parent , GLSLShader shader)
+    public SplatHook(PostProcessHandler parent , GLSLShader impulse)
     {
         this.parent=parent;
-        this.shader =shader;
+        this.impulse =impulse;
     }
-
-
 
     @Override
     public void beforeRendering(int i) {
-        //shader.setStaticUniform("inversesize", parent.InverseSize);
-        shader.setStaticUniform("inversesizex", parent.InverseSizex);
-        shader.setStaticUniform("inversesizey", parent.InverseSizey);
+
+
+        //impulse.setStaticUniform("aspectRatio", parent.AspectRatio);
+        impulse.setStaticUniform("on", parent.splat_on ? 1 : 0);
+        impulse.setStaticUniform("Point", parent.splatPos);
+        impulse.setStaticUniform("Radius", parent.splatRadius);
+        impulse.setStaticUniform("FillColor", fillcol);
     }
 
     @Override

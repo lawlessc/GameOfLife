@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.res.Resources
 import android.opengl.GLSurfaceView
+import android.support.v4.view.MotionEventCompat
 
 import android.view.GestureDetector
 import android.view.GestureDetector.OnGestureListener
@@ -157,16 +158,137 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
     }
 
     //IMPORTANT
-    override fun onTouchEvent(me: MotionEvent): Boolean {
-        mScaleDetector!!.onTouchEvent(me)
-        tapdetection!!.onTouchEvent(me)
-        //    int left = mGLView.getLeft();
-        //    int top  =mGLView.getTop();
+//    override fun onTouchEvent(me: MotionEvent): Boolean {
+//        mScaleDetector!!.onTouchEvent(me)
+//        tapdetection!!.onTouchEvent(me)
+////        //    int left = mGLView.getLeft();
+////        //    int top  =mGLView.getTop();
+////        allGameObjects.INSTANCE.processHandler!!.setSplatPos(me.x, me.y)
+//
+////        if (me.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+////
+////            Thread().run {
+////                val left = mGLView!!.left
+////                val top = mGLView!!.top
+////                allGameObjects.INSTANCE.processHandler!!.setSplatPos(me.getX() , me.getY())
+////                allGameObjects.INSTANCE.processHandler!!.splat_on=true
+////           }
+////
+////
+////        } else if (me.getAction() == android.view.MotionEvent.ACTION_UP) {
+////
+////
+////
+////            allGameObjects.INSTANCE.processHandler!!.splat_on=false
+////
+////        }
+//
+////        val action = MotionEventCompat.getActionMasked(me)
+////
+////
+////
+////
+////        when (action) {
+////            MotionEvent.ACTION_DOWN -> {
+////                MotionEventCompat.getActionIndex(ev).also { pointerIndex ->
+////                    // Remember where we started (for dragging)
+////                    mLastTouchX = MotionEventCompat.getX(ev, pointerIndex)
+////                    mLastTouchY = MotionEventCompat.getY(ev, pointerIndex)
+////                }
+////
+////                // Save the ID of this pointer (for dragging)
+////                mActivePointerId = MotionEventCompat.getPointerId(ev, 0)
+////            }
+////
+////            MotionEvent.ACTION_MOVE -> {
+////                // Find the index of the active pointer and fetch its position
+//////                val (x: Float, y: Float) =
+//////                        MotionEventCompat.findPointerIndex(ev, mActivePointerId).let { pointerIndex ->
+//////                            // Calculate the distance moved
+//////                            MotionEventCompat.getX(ev, pointerIndex) to
+//////                                    MotionEventCompat.getY(ev, pointerIndex)
+//////                        }
+//////
+//////                mPosX += x - mLastTouchX
+//////                mPosY += y - mLastTouchY
+//////
+//////                invalidate()
+//////
+//////                // Remember this touch position for the next move event
+//////                mLastTouchX = x
+//////                mLastTouchY = y
+////            }
+////            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+////                //mActivePointerId = INVALID_POINTER_ID
+////            }
+////            MotionEvent.ACTION_POINTER_UP -> {
+////
+////
+////            }
+////        }
+////        return true
+//
+//
+//
+//
+//        return super.onTouchEvent(me)
+//    }
 
 
-        allGameObjects.INSTANCE.processHandler!!.setSplatPos(me.x, me.y)
 
-        return super.onTouchEvent(me)
+   // private var mActivePointerId = INVALID_POINTER_ID
+
+    override fun onTouchEvent(ev: MotionEvent): Boolean {
+        mScaleDetector!!.onTouchEvent(ev)
+        tapdetection!!.onTouchEvent(ev)
+        // Let the ScaleGestureDetector inspect all events.
+        //mScaleDetector.onTouchEvent(ev)
+
+        val action = MotionEventCompat.getActionMasked(ev)
+
+        when (action) {
+            MotionEvent.ACTION_DOWN -> {
+
+
+
+                                Thread().run {
+                    val left = mGLView!!.left
+                    val top = mGLView!!.top
+                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX() , ev.getY())
+                    allGameObjects.INSTANCE.processHandler!!.splat_on=true
+                }
+
+
+
+            }
+
+            MotionEvent.ACTION_MOVE -> {
+
+
+                Thread().run {
+                    val left = mGLView!!.left
+                    val top = mGLView!!.top
+                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX() , ev.getY())
+                    allGameObjects.INSTANCE.processHandler!!.splat_on=true
+                }
+
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+
+                Thread().run {
+                    allGameObjects.INSTANCE.processHandler!!.splat_on = false
+                }
+            }
+            MotionEvent.ACTION_POINTER_UP -> {
+
+
+                Thread().run {
+                    allGameObjects.INSTANCE.processHandler!!.splat_on = false
+                }
+
+            }
+        }
+        return true
     }
 
 
@@ -176,7 +298,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 //        private var time = System.currentTimeMillis()
 
         override fun onSurfaceChanged(gl: GL10, w: Int, h: Int) {
-
             if (fb != null) {
                 //	fb.dispose();
                 fb!!.resize(w, h)
@@ -184,22 +305,16 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             // else{
             fb = FrameBuffer(w, h)
             //	}
-
-
             if (master == null) {
 
                 master = this@MainActivity
 
-
                 val res = resources
-
                 allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb, master)
-
 
                 current = System.currentTimeMillis()
                 lag = 0
                 previous = System.currentTimeMillis()
-
 
                 MemoryHelper.compact()
                 //Main.allGameObjects.INSTANCE.world.compileAllObjects();
@@ -247,12 +362,15 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
 
     private inner class TapListener : OnGestureListener, GestureDetector.OnDoubleTapListener {
-        override fun onDown(e: MotionEvent): Boolean {
 
+
+        override fun onDown(e: MotionEvent): Boolean {
 
             // TODO Auto-generated method stub
             return false
         }
+
+
 
         override fun onFling(
             e1: MotionEvent, e2: MotionEvent, velocityX: Float,
@@ -274,11 +392,34 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         }
 
         override fun onShowPress(e: MotionEvent) {
+
+
+        //   if (e.getAction() == android.view.MotionEvent.ACTION_DOWN) {
+
+//                Thread().run {
+//                    val left = mGLView!!.left
+//                    val top = mGLView!!.top
+//                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(e.getX() , e.getY())
+//                    allGameObjects.INSTANCE.processHandler!!.splat_on=true
+//                }
+
+
+          //  } else if (e.getAction() == android.view.MotionEvent.ACTION_UP) {
+
+
+
+           //     allGameObjects.INSTANCE.processHandler!!.splat_on=false
+
+          //  }
+
+
             // TODO Auto-generated method stub
             //allGameObjects.INSTANCE.processHandler.setSplatPos(e.getX() , e.getY());
         }
 
         override fun onSingleTapUp(e: MotionEvent): Boolean {
+
+            allGameObjects.INSTANCE.processHandler!!.splat_on=false
 
             // TODO Auto-generated method stub
             return false
@@ -289,17 +430,20 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             val top = mGLView!!.top
 
 
-            if(isActionPaused!!)
-            {
-               isActionPaused = false
-            }
-            else
-            {
+         System.out.println("PAUSE BUTTTON HIT")
 
-                isActionPaused = true;
-            }
 
-            //allGameObjects.INSTANCE.cameraCursor.onDoubleTap(e,fb, left, top);
+            isActionPaused = !isActionPaused!!
+
+//            if(isActionPaused!!)
+//            {
+//               isActionPaused = false
+//            }
+//            else
+//            {
+//
+//                isActionPaused = true;
+//            }
             return false
         }
 
