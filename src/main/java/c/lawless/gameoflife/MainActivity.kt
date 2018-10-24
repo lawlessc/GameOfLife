@@ -36,6 +36,8 @@ import javax.microedition.khronos.opengles.GL10
  * @author Christopher Lawless
  */
 class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
+
+    private var master: MainActivity? = null
     private var mGLView: GLSurfaceView? = null
     private var renderer: MyRenderer? = null
     private var fb: FrameBuffer? = null
@@ -454,6 +456,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             //pauseAction();
             //cameraCursor.onDoubleTap(e,fb);
             //allGameObjects.INSTANCE.processHandler.setSplatPos(e.getX() , e.getY());
+          allGameObjects.INSTANCE.processHandler!!.changeColours();
             return false
         }
 
@@ -465,8 +468,5 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
     }
 
-    companion object {
-        // Used to handle pause and resume...
-        private var master: MainActivity? = null
-    }
+
 }

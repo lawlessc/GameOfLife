@@ -1,6 +1,7 @@
 package c.lawless.gameoflife;
 
 import android.content.res.Resources;
+import c.lawless.gameoflife.ColourSchemes.ColorSchemes;
 import com.threed.jpct.*;
 
 
@@ -35,6 +36,7 @@ public class PostProcessHandler {
 
     GOLRenderHook  GOF_Hook;
     SplatHook  Splat_Hook;
+    MainRender_hook render_hook;
 
     public Object3D  random_obj = null;
     public Object3D  draw_obj_one = null;
@@ -66,6 +68,8 @@ public class PostProcessHandler {
 
     int size_modifier =1;// setting this to one keeps cells to 1 per pixel.
                          //higher resolutions are unpleasant to look at
+
+    int colour_mode=0;
 
 
     public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main) {
@@ -196,6 +200,8 @@ public class PostProcessHandler {
 
         GOF_Hook = new GOLRenderHook(this,GOF_shader);
         Splat_Hook = new SplatHook(this, draw_shader);
+        render_hook = new MainRender_hook(this, render_shader);
+
 
 
         draw_obj_one = Primitives.getPlane(4,10);
@@ -211,9 +217,6 @@ public class PostProcessHandler {
         random_obj.setOrigin(new SimpleVector(0.01, 0, 0));
         random_obj.setRenderHook(GOF_Hook);
         random_obj.setShader(random_shader);
-        // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
-        //  advecting_ti.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG), TextureInfo.MODE_ADD);
-       // fameObjOne.setTexture("frameone");
         random_obj.setCulling(false);
         random_obj.compile();
         // advectingObj.strip();
@@ -242,34 +245,28 @@ public class PostProcessHandler {
         fameObjTwo.setTexture(two);
         fameObjTwo.setCulling(false);
         fameObjTwo.compile();
-        //advectingObjTwo.strip();
         displayWorld.addObject(fameObjTwo);
         fameObjTwo.setVisibility(false);
 
 
         render_to_screen_obj_one = Primitives.getPlane(4,10);
         render_to_screen_obj_one.setOrigin(new SimpleVector(0.01, 0, 0));
-        //render_to_screen_obj_one.setRenderHook(GOF_Hook);
+        render_to_screen_obj_one.setRenderHook(render_hook);
         render_to_screen_obj_one.setShader(render_shader);
-        // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
-        //  advecting_ti.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG), TextureInfo.MODE_ADD);
+
         render_to_screen_obj_one.setTexture("frameone");
         render_to_screen_obj_one.setCulling(false);
         render_to_screen_obj_one.compile();
-        // advectingObj.strip();
         displayWorld.addObject(render_to_screen_obj_one);
         render_to_screen_obj_one.setVisibility(false);
 
         render_to_screen_obj_two = Primitives.getPlane(4,10);
         render_to_screen_obj_two.setOrigin(new SimpleVector(0.01, 0, 0));
-        //render_to_screen_obj_two.setRenderHook(GOF_Hook);
+        render_to_screen_obj_two.setRenderHook(render_hook);
         render_to_screen_obj_two.setShader(render_shader);
-        // advecting_ti  =  new TextureInfo(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG));
-        //  advecting_ti.add(TextureManager.getInstance().getTextureID(VELOCITY_TEXTURE_TAG), TextureInfo.MODE_ADD);
         render_to_screen_obj_two.setTexture("frametwo");
         render_to_screen_obj_two.setCulling(false);
         render_to_screen_obj_two.compile();
-        // advectingObj.strip();
         displayWorld.addObject(render_to_screen_obj_two);
         render_to_screen_obj_two.setVisibility(false);
     }
@@ -342,12 +339,42 @@ public class PostProcessHandler {
 
 
 
+
+
+
+
 //    public void setOutPutTexture(NPOTTexture outPutTexture)
 //    {
 //
 //        this.outPutTexture = outPutTexture;
 //       //InverseSize = new SimpleVector(1.0f/ outPutTexture.getWidth() ,1.0f/ outPutTexture.getHeight() ,0);
 //    }
+
+
+    public void changeColours()
+    {
+
+
+        switch (colour_mode)
+        {
+            case 0:
+                render_hook.setColours(ColorSchemes.white,ColorSchemes.black);
+                colour_mode++;
+                break;
+            case 1 :
+                render_hook.setColours(ColorSchemes.ice,ColorSchemes.sea);
+                colour_mode++;
+                break;
+            case 2 :
+                render_hook.setColours(ColorSchemes.jungle_light,ColorSchemes.jundle_dark);
+                colour_mode++;
+                break;
+            case 3 :
+               // render_hook.setColours(ColorSchemes.white,ColorSchemes.white);
+                colour_mode=0;
+                break;
+        }
+    }
 
 
 

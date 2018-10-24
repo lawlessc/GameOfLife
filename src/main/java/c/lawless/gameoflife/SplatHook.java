@@ -13,14 +13,14 @@ import com.threed.jpct.SimpleVector;
 public class SplatHook implements IRenderHook {
 
     PostProcessHandler parent;
-    GLSLShader impulse;
+    GLSLShader splatshade;
     SimpleVector fillcol = new SimpleVector(1,1,1);
 
 
-    public SplatHook(PostProcessHandler parent , GLSLShader impulse)
+    public SplatHook(PostProcessHandler parent , GLSLShader splatshade)
     {
         this.parent=parent;
-        this.impulse =impulse;
+        this.splatshade =splatshade;
     }
 
     @Override
@@ -28,10 +28,10 @@ public class SplatHook implements IRenderHook {
 
 
         //impulse.setStaticUniform("aspectRatio", parent.AspectRatio);
-        impulse.setStaticUniform("on", parent.splat_on ? 1 : 0);
-        impulse.setStaticUniform("Point", parent.splatPos);
-        impulse.setStaticUniform("Radius", parent.splatRadius);
-        impulse.setStaticUniform("FillColor", fillcol);
+        splatshade.setStaticUniform("on", parent.splat_on ? 1 : 0);
+        splatshade.setStaticUniform("Point", parent.splatPos);
+        splatshade.setStaticUniform("Radius", parent.splatRadius);
+        splatshade.setStaticUniform("FillColor", fillcol);
     }
 
     @Override
