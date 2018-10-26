@@ -127,7 +127,7 @@ public class PostProcessHandler {
 
         if(switcher) {
 
-            if(main.isActionPaused()) {
+          //  if(main.isActionPaused()) {
                 fb.setRenderTarget(frame_two);
                 fameObjOne.setVisibility(true);
                 fb.clear();
@@ -146,7 +146,8 @@ public class PostProcessHandler {
                 displayWorld.draw(fb);
                 fb.display();
                 render_to_screen_obj_two.setVisibility(false);
-            }
+         //
+            //   }
         }
        else
         {
@@ -165,7 +166,7 @@ public class PostProcessHandler {
 
             //displayWorld.
 
-            if(main.isActionPaused()) {
+            //if(main.isActionPaused()) {
                 fb.setRenderTarget(frame_one);
                 fameObjTwo.setVisibility(true);
                 fb.clear();
@@ -174,7 +175,7 @@ public class PostProcessHandler {
                 fb.display();
                 fameObjTwo.setVisibility(false);
                 fb.removeRenderTarget();
-            }
+           // }
 
 
                 //Render to screen here

@@ -4,6 +4,7 @@ uniform sampler2D textureUnit1;
 varying vec2 v_texCoord;
 uniform  vec3 inversesizex;
 uniform  vec3 inversesizey;
+uniform  float paused;
 
 //uniform  int   firstrun;
 const  vec2 scale = vec2(0.5, 0.5);
@@ -33,6 +34,6 @@ vec4 neighbourcells   = texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy)
 float newval = ( step(neighbourcells.x,3.0) * step(  2.0 ,  neighbourcells.x)) * cell.x;
 newval += step(neighbourcells.x, 3.0)*step(  3.0 ,  neighbourcells.x); //this will check if exactly 3 neighbours
 
-gl_FragColor = vec4(newval,newval,newval,1.0)  + texture2D(textureUnit1, v_texCoord.xy); //we add the splat  texture here too
+gl_FragColor = (  (vec4(newval,newval,newval,1.0) *(1.0-paused) ) +(vec4(cell.xyz,1.0)*paused)  )+ texture2D(textureUnit1, v_texCoord.xy); //we add the splat  texture here too
 
 }
