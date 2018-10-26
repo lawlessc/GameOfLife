@@ -14,6 +14,7 @@ import android.view.MotionEvent
 import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
+import android.widget.Button
 
 import com.threed.jpct.Camera
 import com.threed.jpct.Config
@@ -67,6 +68,9 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
+
         Logger.log("onCreate")
         //Logger.setLogLevel(Logger.LL_DEBUG);
         //Logger.setLogLevel(Logger.);
@@ -80,6 +84,11 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         if (master != null) {
             copy(master!!)
         }
+
+
+
+
+
 
         super.onCreate(savedInstanceState)
 
@@ -112,12 +121,30 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         }
 
 
+
+     //   mGLView!!.setZOrderMediaOverlay(true);
+
         if ((!texturesLoaded!!)!!) {
             val baseContext = this.baseContext
 
 
             texturesLoaded = true
         }
+
+
+        val button: Button = findViewById(R.id.colourpicker)
+        button.setOnClickListener {
+            // Do something in response to button click
+            allGameObjects.INSTANCE.processHandler!!.changeColours();
+        }
+
+        val pause_button: Button = findViewById(R.id.pause)
+        pause_button.setOnClickListener {
+            // Do something in response to button click
+            isActionPaused = !isActionPaused!!
+        }
+
+
 
         mScaleDetector = ScaleGestureDetector(this, ScaleListener())
         tapdetection = GestureDetector(this, TapListener())
@@ -158,83 +185,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         }
 
     }
-
-    //IMPORTANT
-//    override fun onTouchEvent(me: MotionEvent): Boolean {
-//        mScaleDetector!!.onTouchEvent(me)
-//        tapdetection!!.onTouchEvent(me)
-////        //    int left = mGLView.getLeft();
-////        //    int top  =mGLView.getTop();
-////        allGameObjects.INSTANCE.processHandler!!.setSplatPos(me.x, me.y)
-//
-////        if (me.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-////
-////            Thread().run {
-////                val left = mGLView!!.left
-////                val top = mGLView!!.top
-////                allGameObjects.INSTANCE.processHandler!!.setSplatPos(me.getX() , me.getY())
-////                allGameObjects.INSTANCE.processHandler!!.splat_on=true
-////           }
-////
-////
-////        } else if (me.getAction() == android.view.MotionEvent.ACTION_UP) {
-////
-////
-////
-////            allGameObjects.INSTANCE.processHandler!!.splat_on=false
-////
-////        }
-//
-////        val action = MotionEventCompat.getActionMasked(me)
-////
-////
-////
-////
-////        when (action) {
-////            MotionEvent.ACTION_DOWN -> {
-////                MotionEventCompat.getActionIndex(ev).also { pointerIndex ->
-////                    // Remember where we started (for dragging)
-////                    mLastTouchX = MotionEventCompat.getX(ev, pointerIndex)
-////                    mLastTouchY = MotionEventCompat.getY(ev, pointerIndex)
-////                }
-////
-////                // Save the ID of this pointer (for dragging)
-////                mActivePointerId = MotionEventCompat.getPointerId(ev, 0)
-////            }
-////
-////            MotionEvent.ACTION_MOVE -> {
-////                // Find the index of the active pointer and fetch its position
-//////                val (x: Float, y: Float) =
-//////                        MotionEventCompat.findPointerIndex(ev, mActivePointerId).let { pointerIndex ->
-//////                            // Calculate the distance moved
-//////                            MotionEventCompat.getX(ev, pointerIndex) to
-//////                                    MotionEventCompat.getY(ev, pointerIndex)
-//////                        }
-//////
-//////                mPosX += x - mLastTouchX
-//////                mPosY += y - mLastTouchY
-//////
-//////                invalidate()
-//////
-//////                // Remember this touch position for the next move event
-//////                mLastTouchX = x
-//////                mLastTouchY = y
-////            }
-////            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-////                //mActivePointerId = INVALID_POINTER_ID
-////            }
-////            MotionEvent.ACTION_POINTER_UP -> {
-////
-////
-////            }
-////        }
-////        return true
-//
-//
-//
-//
-//        return super.onTouchEvent(me)
-//    }
 
 
 
@@ -395,26 +345,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
         override fun onShowPress(e: MotionEvent) {
 
-
-        //   if (e.getAction() == android.view.MotionEvent.ACTION_DOWN) {
-
-//                Thread().run {
-//                    val left = mGLView!!.left
-//                    val top = mGLView!!.top
-//                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(e.getX() , e.getY())
-//                    allGameObjects.INSTANCE.processHandler!!.splat_on=true
-//                }
-
-
-          //  } else if (e.getAction() == android.view.MotionEvent.ACTION_UP) {
-
-
-
-           //     allGameObjects.INSTANCE.processHandler!!.splat_on=false
-
-          //  }
-
-
             // TODO Auto-generated method stub
             //allGameObjects.INSTANCE.processHandler.setSplatPos(e.getX() , e.getY());
         }
@@ -435,7 +365,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
          System.out.println("PAUSE BUTTTON HIT")
 
 
-            isActionPaused = !isActionPaused!!
+      //      isActionPaused = !isActionPaused!!
 
 //            if(isActionPaused!!)
 //            {
@@ -456,7 +386,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             //pauseAction();
             //cameraCursor.onDoubleTap(e,fb);
             //allGameObjects.INSTANCE.processHandler.setSplatPos(e.getX() , e.getY());
-          allGameObjects.INSTANCE.processHandler!!.changeColours();
+
             return false
         }
 

@@ -1,12 +1,37 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:id="@+id/graphics_frameLayout1"
-             android:layout_width="fill_parent"
-             android:layout_height="fill_parent" >
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent"
+                  android:orientation="vertical"
+                  android:id= "@+id/linearlayout1">
 
-    <android.opengl.GLSurfaceView
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 android:id="@+id/graphics_frameLayout1"
+                 android:layout_width="fill_parent"
+                 android:layout_height="fill_parent" >
+
+
+
+        <android.opengl.GLSurfaceView
             android:id="@+id/graphics_glsurfaceview1"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent">
-    </android.opengl.GLSurfaceView>
 
-</FrameLayout>
+
+
+                </android.opengl.GLSurfaceView>
+        <Button
+                android:text="Pause"
+
+                android:layout_width="141dp"
+                android:layout_height="wrap_content" android:id="@+id/pause"
+                android:layout_gravity="bottom|start"/>
+        <Button
+                android:text="Colour"
+                android:layout_width="135dp"
+                android:layout_height="wrap_content" android:id="@+id/colourpicker"
+                android:layout_gravity="bottom|end"/>
+
+
+    </FrameLayout>
+
+    </LinearLayout>
