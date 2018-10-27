@@ -97,9 +97,6 @@ public class PostProcessHandler {
     public void Process(FrameBuffer fb) {
 
 
-
-     //   if(splat_on)
-     //   {
             fb.setRenderTarget(splat_tex);
             draw_obj_one.setVisibility(true);
             fb.clear();
@@ -108,8 +105,6 @@ public class PostProcessHandler {
             fb.display();
             draw_obj_one.setVisibility(false);
             fb.removeRenderTarget();
-     //   }
-
 
 
         if(first_run)
@@ -127,7 +122,6 @@ public class PostProcessHandler {
 
         if(switcher) {
 
-          //  if(main.isActionPaused()) {
                 fb.setRenderTarget(frame_two);
                 fameObjOne.setVisibility(true);
                 fb.clear();
@@ -146,8 +140,6 @@ public class PostProcessHandler {
                 displayWorld.draw(fb);
                 fb.display();
                 render_to_screen_obj_two.setVisibility(false);
-         //
-            //   }
         }
        else
         {
@@ -164,9 +156,6 @@ public class PostProcessHandler {
             }
 
 
-            //displayWorld.
-
-            //if(main.isActionPaused()) {
                 fb.setRenderTarget(frame_one);
                 fameObjTwo.setVisibility(true);
                 fb.clear();
@@ -175,8 +164,6 @@ public class PostProcessHandler {
                 fb.display();
                 fameObjTwo.setVisibility(false);
                 fb.removeRenderTarget();
-           // }
-
 
                 //Render to screen here
                 render_to_screen_obj_one.setVisibility(true);
@@ -190,8 +177,6 @@ public class PostProcessHandler {
 
         first_run =false;
         switcher = !switcher;
-
-        System.out.println(splat_on + " splat STATE");
 
     }
 

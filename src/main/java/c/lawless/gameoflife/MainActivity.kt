@@ -146,6 +146,23 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
 
 
+        val big_pen_button: Button = findViewById(R.id.pen)
+        big_pen_button.setOnClickListener {
+            // Do something in response to button click
+           // isActionPaused = !isActionPaused!!
+            allGameObjects.INSTANCE.processHandler!!.splatRadius =  fb!!.getWidth() /16.0f
+        }
+
+        val shrink_pen_button: Button = findViewById(R.id.pen2)
+        shrink_pen_button.setOnClickListener {
+            // Do something in response to button click
+
+            allGameObjects.INSTANCE.processHandler!!.splatRadius =  1f
+          //  isActionPaused = !isActionPaused!!
+        }
+
+
+
         mScaleDetector = ScaleGestureDetector(this, ScaleListener())
         tapdetection = GestureDetector(this, TapListener())
         // master = this;
