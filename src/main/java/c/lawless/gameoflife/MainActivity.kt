@@ -122,12 +122,8 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
 
 
-     //   mGLView!!.setZOrderMediaOverlay(true);
-
         if ((!texturesLoaded!!)!!) {
             val baseContext = this.baseContext
-
-
             texturesLoaded = true
         }
 
@@ -149,29 +145,22 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         val big_pen_button: Button = findViewById(R.id.pen)
         big_pen_button.setOnClickListener {
             // Do something in response to button click
-           // isActionPaused = !isActionPaused!!
             allGameObjects.INSTANCE.processHandler!!.splatRadius =  fb!!.getWidth() /16.0f
         }
 
         val shrink_pen_button: Button = findViewById(R.id.pen2)
         shrink_pen_button.setOnClickListener {
             // Do something in response to button click
-
             allGameObjects.INSTANCE.processHandler!!.splatRadius =  1f
-          //  isActionPaused = !isActionPaused!!
+
         }
 
         val random_fill: Button = findViewById(R.id.ranom_fill)
         random_fill.setOnClickListener {
             // Do something in response to button click
-
             allGameObjects.INSTANCE.processHandler!!.random_fill =  true;
-            //  isActionPaused = !isActionPaused!!
+
         }
-
-
-
-
 
         mScaleDetector = ScaleGestureDetector(this, ScaleListener())
         tapdetection = GestureDetector(this, TapListener())
@@ -213,8 +202,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
     }
 
-
-
    // private var mActivePointerId = INVALID_POINTER_ID
 
     override fun onTouchEvent(ev: MotionEvent): Boolean {
@@ -228,8 +215,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         when (action) {
             MotionEvent.ACTION_DOWN -> {
 
-
-
                                 Thread().run {
                     val left = mGLView!!.left
                     val top = mGLView!!.top
@@ -242,7 +227,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             }
 
             MotionEvent.ACTION_MOVE -> {
-
 
                 Thread().run {
                     val left = mGLView!!.left
@@ -296,10 +280,8 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                 previous = System.currentTimeMillis()
 
                 MemoryHelper.compact()
-                //Main.allGameObjects.INSTANCE.world.compileAllObjects();
-            }
 
-           // allGameObjects.INSTANCE.processHandler!!.first_run= true
+            }
 
         }
 
@@ -331,8 +313,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
     private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
         override fun onScale(detector: ScaleGestureDetector): Boolean {
-            //I NEED TO FIND A WAY TO CHECK IF THIS IS ON AN OBJECT OR NOT?
-            //allGameObjects.INSTANCE.cameraCursor.setScaleFactor(detector);
             return true
         }
     }
@@ -342,9 +322,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
     private inner class TapListener : OnGestureListener, GestureDetector.OnDoubleTapListener {
 
-
         override fun onDown(e: MotionEvent): Boolean {
-
             // TODO Auto-generated method stub
             return false
         }
@@ -388,32 +366,12 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             val left = mGLView!!.left
             val top = mGLView!!.top
 
-
-         System.out.println("PAUSE BUTTTON HIT")
-
-
-      //      isActionPaused = !isActionPaused!!
-
-//            if(isActionPaused!!)
-//            {
-//               isActionPaused = false
-//            }
-//            else
-//            {
-//
-//                isActionPaused = true;
-//            }
             return false
         }
 
         override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
             val left = mGLView!!.left
             val top = mGLView!!.top
-            //a/llGameObjects.INSTANCE.cameraCursor.onSingleTapConfirmed(e,fb, left, top);
-            //pauseAction();
-            //cameraCursor.onDoubleTap(e,fb);
-            //allGameObjects.INSTANCE.processHandler.setSplatPos(e.getX() , e.getY());
-
             return false
         }
 
