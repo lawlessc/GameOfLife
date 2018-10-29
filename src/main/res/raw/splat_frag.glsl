@@ -4,7 +4,7 @@ uniform  float Radius;
 uniform  vec3 FillColor;
 //uniform sampler2D textureUnit0;
 varying vec2 v_texCoord;
-uniform   int on;
+uniform   float on;
 
 //uniform sampler2D density;//Previous DENSITY
 
@@ -37,7 +37,7 @@ vec2 mult;
 
 
 
-    if ((d < Radius) && (on==1) ) {
+    if ((d < Radius) && (on==1.0) ) {
         float a = (Radius - d) * 0.5;
         a = min(a, 1.0);
         gl_FragColor = vec4(FillColor, a);

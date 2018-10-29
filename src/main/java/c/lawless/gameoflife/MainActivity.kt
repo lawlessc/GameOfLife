@@ -161,6 +161,16 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
           //  isActionPaused = !isActionPaused!!
         }
 
+        val random_fill: Button = findViewById(R.id.ranom_fill)
+        random_fill.setOnClickListener {
+            // Do something in response to button click
+
+            allGameObjects.INSTANCE.processHandler!!.random_fill =  true;
+            //  isActionPaused = !isActionPaused!!
+        }
+
+
+
 
 
         mScaleDetector = ScaleGestureDetector(this, ScaleListener())
@@ -289,7 +299,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                 //Main.allGameObjects.INSTANCE.world.compileAllObjects();
             }
 
-            allGameObjects.INSTANCE.processHandler!!.first_run= true
+           // allGameObjects.INSTANCE.processHandler!!.first_run= true
 
         }
 

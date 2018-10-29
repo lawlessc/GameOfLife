@@ -63,8 +63,9 @@ public class PostProcessHandler {
     float AspectRatio;
     float splatRadius;
     boolean splat_on=false;
+    boolean random_spray=false;
 
-    boolean first_run = true;
+    boolean random_fill = false;
 
     int size_modifier =1;// setting this to one keeps cells to 1 per pixel.
                          //higher resolutions are unpleasant to look at
@@ -107,7 +108,7 @@ public class PostProcessHandler {
             fb.removeRenderTarget();
 
 
-        if(first_run)
+        if(random_fill)
         {
             fb.setRenderTarget(frame_one);
             random_obj.setVisibility(true);
@@ -143,7 +144,7 @@ public class PostProcessHandler {
         }
        else
         {
-            if(first_run)
+            if(random_fill)
             {
                 fb.setRenderTarget(frame_two);
                 random_obj.setVisibility(true);
@@ -175,7 +176,7 @@ public class PostProcessHandler {
                 render_to_screen_obj_one.setVisibility(false);
         }
 
-        first_run =false;
+        random_fill =false;
         switcher = !switcher;
 
     }
