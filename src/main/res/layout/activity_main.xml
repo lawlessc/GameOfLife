@@ -18,6 +18,11 @@
 
         </android.opengl.GLSurfaceView>
         <Button
+                android:text="clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/clear"
+                android:layout_gravity="top|left"/>
+        <Button
                 android:text="random"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/ranom_fill"

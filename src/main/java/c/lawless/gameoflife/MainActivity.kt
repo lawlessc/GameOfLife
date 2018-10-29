@@ -162,6 +162,14 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
         }
 
+        val clear_grid: Button = findViewById(R.id.clear)
+        clear_grid.setOnClickListener {
+            // Do something in response to button click
+            allGameObjects.INSTANCE.processHandler!!.clear_grid =  true;
+
+        }
+
+
         mScaleDetector = ScaleGestureDetector(this, ScaleListener())
         tapdetection = GestureDetector(this, TapListener())
         // master = this;

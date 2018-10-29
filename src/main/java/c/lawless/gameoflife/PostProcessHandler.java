@@ -63,9 +63,10 @@ public class PostProcessHandler {
     float AspectRatio;
     float splatRadius;
     boolean splat_on=false;
-    boolean random_spray=false;
+   // boolean random_spray=false;
 
     boolean random_fill = false;
+    boolean clear_grid = false;
 
     int size_modifier =1;// setting this to one keeps cells to 1 per pixel.
                          //higher resolutions are unpleasant to look at
@@ -98,28 +99,8 @@ public class PostProcessHandler {
     public void Process(FrameBuffer fb) {
 
 
-            fb.setRenderTarget(splat_tex);
-            draw_obj_one.setVisibility(true);
-            fb.clear();
-            displayWorld.renderScene(fb);
-            displayWorld.draw(fb);
-            fb.display();
-            draw_obj_one.setVisibility(false);
-            fb.removeRenderTarget();
 
-
-        if(random_fill)
-        {
-            fb.setRenderTarget(frame_one);
-            random_obj.setVisibility(true);
-            fb.clear();
-            displayWorld.renderScene(fb);
-            displayWorld.draw(fb);
-            fb.display();
-            random_obj.setVisibility(false);
-            fb.removeRenderTarget();
-        }
-
+        fills_and_draws(fb);
 
         if(switcher) {
 
@@ -133,16 +114,137 @@ public class PostProcessHandler {
                 fb.removeRenderTarget();
 
 
-                //Render to screen here
-                render_to_screen_obj_two.setVisibility(true);
-                fb.removeRenderTarget();
-                fb.clear();
-                displayWorld.renderScene(fb);//
-                displayWorld.draw(fb);
-                fb.display();
-                render_to_screen_obj_two.setVisibility(false);
+//                //Render to screen here
+//                render_to_screen_obj_two.setVisibility(true);
+//                fb.removeRenderTarget();
+//                fb.clear();
+//                displayWorld.renderScene(fb);//
+//                displayWorld.draw(fb);
+//                fb.display();
+//                render_to_screen_obj_two.setVisibility(false);
         }
        else
+        {
+//            if(random_fill)
+//            {
+//                fb.setRenderTarget(frame_two);
+//                random_obj.setVisibility(true);
+//                fb.clear();
+//                displayWorld.renderScene(fb);
+//                displayWorld.draw(fb);
+//                fb.display();
+//                random_obj.setVisibility(false);
+//                fb.removeRenderTarget();
+//            }
+
+
+                fb.setRenderTarget(frame_one);
+                fameObjTwo.setVisibility(true);
+                fb.clear();
+                displayWorld.renderScene(fb);
+                displayWorld.draw(fb);
+                fb.display();
+                fameObjTwo.setVisibility(false);
+                fb.removeRenderTarget();
+
+//                //Render to screen here
+//                render_to_screen_obj_one.setVisibility(true);
+//                fb.removeRenderTarget();
+//                fb.clear();
+//                displayWorld.renderScene(fb);//
+//                displayWorld.draw(fb);
+//                fb.display();
+//                render_to_screen_obj_one.setVisibility(false);
+        }
+
+        render_to_screen(fb);
+
+
+        random_fill =false;
+        clear_grid=false;
+        switcher = !switcher;
+
+    }
+
+
+
+    public void render_to_screen(FrameBuffer fb)
+    {
+        if(switcher) {
+
+            //Render to screen here
+            render_to_screen_obj_two.setVisibility(true);
+            fb.removeRenderTarget();
+            fb.clear();
+            displayWorld.renderScene(fb);//
+            displayWorld.draw(fb);
+            fb.display();
+            render_to_screen_obj_two.setVisibility(false);
+        }
+        else
+        {
+            //Render to screen here
+            render_to_screen_obj_one.setVisibility(true);
+            fb.removeRenderTarget();
+            fb.clear();
+            displayWorld.renderScene(fb);//
+            displayWorld.draw(fb);
+            fb.display();
+            render_to_screen_obj_one.setVisibility(false);
+        }
+
+
+    }
+
+
+    public void fills_and_draws(FrameBuffer fb)
+    {
+
+
+
+        fb.setRenderTarget(splat_tex);
+        draw_obj_one.setVisibility(true);
+        fb.clear();
+        displayWorld.renderScene(fb);
+        displayWorld.draw(fb);
+        fb.display();
+        draw_obj_one.setVisibility(false);
+        fb.removeRenderTarget();
+
+
+
+
+        if(switcher) {
+
+
+            if(random_fill)
+            {
+                fb.setRenderTarget(frame_one);
+                random_obj.setVisibility(true);
+                fb.clear();
+                displayWorld.renderScene(fb);
+                displayWorld.draw(fb);
+                fb.display();
+                random_obj.setVisibility(false);
+                fb.removeRenderTarget();
+            }
+
+            if(clear_grid)
+            {
+                fb.setRenderTarget(frame_one);
+                fb.clear();
+                fb.clear(RGBColor.BLACK);
+                displayWorld.renderScene(fb);
+                displayWorld.draw(fb);
+                fb.display();
+                fb.removeRenderTarget();
+            }
+
+
+
+
+        }
+        else
         {
             if(random_fill)
             {
@@ -156,28 +258,19 @@ public class PostProcessHandler {
                 fb.removeRenderTarget();
             }
 
-
-                fb.setRenderTarget(frame_one);
-                fameObjTwo.setVisibility(true);
+            if(clear_grid)
+            {
+                fb.setRenderTarget(frame_two);
                 fb.clear();
+                fb.clear(RGBColor.BLACK);
                 displayWorld.renderScene(fb);
                 displayWorld.draw(fb);
                 fb.display();
-                fameObjTwo.setVisibility(false);
                 fb.removeRenderTarget();
-
-                //Render to screen here
-                render_to_screen_obj_one.setVisibility(true);
-                fb.removeRenderTarget();
-                fb.clear();
-                displayWorld.renderScene(fb);//
-                displayWorld.draw(fb);
-                fb.display();
-                render_to_screen_obj_one.setVisibility(false);
+            }
         }
 
-        random_fill =false;
-        switcher = !switcher;
+
 
     }
 
