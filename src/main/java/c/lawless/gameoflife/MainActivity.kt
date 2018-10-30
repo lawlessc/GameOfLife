@@ -15,6 +15,7 @@ import android.view.ScaleGestureDetector
 import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
 import android.widget.Button
+import android.widget.ImageButton
 
 import com.threed.jpct.Camera
 import com.threed.jpct.Config
@@ -162,7 +163,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
         }
 
-        val clear_grid: Button = findViewById(R.id.clear)
+        val clear_grid: ImageButton = findViewById(R.id.clear)
         clear_grid.setOnClickListener {
             // Do something in response to button click
             allGameObjects.INSTANCE.processHandler!!.clear_grid =  true;
