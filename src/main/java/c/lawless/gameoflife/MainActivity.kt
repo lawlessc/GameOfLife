@@ -61,16 +61,12 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
      enum class allGameObjects {
         INSTANCE;
-        //might make sense to start this at 0 anyway
-
         var processHandler: PostProcessHandler? = null
     }
     //////////////////////////////////This needs to be seperated from the graphical stuff above somehow.
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
 
         Logger.log("onCreate")
         //Logger.setLogLevel(Logger.LL_DEBUG);
@@ -80,7 +76,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
         //Context baseContext= this.getBaseContext();
         //Resources res = getResources();
-
 
         if (master != null) {
             copy(master!!)
@@ -98,7 +93,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         if (master == null) {
             //This Sets Renderer , I may want to seperate these classes!
             setContentView(R.layout.activity_main) //or whatever the layout you want to use
-            mGLView = findViewById<View>(R.id.graphics_glsurfaceview1) as GLSurfaceView
+            mGLView = findViewById<View>(R.id.glsurfaceview1) as GLSurfaceView
 
 
             //mGLView = new GLSurfaceView(getApplication());
@@ -111,14 +106,20 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             mGLView!!.setRenderer(renderer)
 
             Texture.defaultToMipmapping(false)
-            Texture.defaultTo4bpp(true)
+            Texture.defaultTo4bpp(false)
             Texture.defaultToKeepPixels(true)
-            Config.maxTextureLayers = 4
+            //Config.maxTextureLayers = 3
             Config.unloadImmediately = true
+            Config.reuseTextureBuffers=true
+           // Config.
 
-            //	Config.maxPolysVisible = 5000;
-            //	Config.farPlane = 100;
-            //Config.nearPlane = 0;
+
+            Config.maxPolysVisible = 50
+            Config.farPlane = 10f
+            Config.nearPlane = 0f
+            //Config
+          //  Config.
+           // Config.glDebugLevel
         }
 
 
@@ -158,17 +159,40 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
         val random_fill: Button = findViewById(R.id.ranom_fill)
         random_fill.setOnClickListener {
-            // Do something in response to button click
-            allGameObjects.INSTANCE.processHandler!!.random_fill =  true;
+
+            allGameObjects.INSTANCE.processHandler!!.random_fill =  true
 
         }
 
         val clear_grid: ImageButton = findViewById(R.id.clear)
         clear_grid.setOnClickListener {
             // Do something in response to button click
-            allGameObjects.INSTANCE.processHandler!!.clear_grid =  true;
+            allGameObjects.INSTANCE.processHandler!!.clear_grid =  true
 
         }
+
+        val increase_size: Button = findViewById(R.id.increasesize)
+        increase_size.setOnClickListener {
+            // Do something in response to button click
+
+
+         //   Thread().run {
+                allGameObjects.INSTANCE.processHandler!!.increaseSize()
+         //   }
+
+        }
+        val deccrease_size: Button = findViewById(R.id.decreasesize)
+        deccrease_size.setOnClickListener {
+            // Do something in response to button click
+
+          //  Thread().run {
+                allGameObjects.INSTANCE.processHandler!!.decreaseSize()
+          //  }
+
+          //  allGameObjects.INSTANCE.processHandler!!.decreaseSize()
+
+        }
+
 
 
         mScaleDetector = ScaleGestureDetector(this, ScaleListener())
@@ -216,8 +240,10 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
     override fun onTouchEvent(ev: MotionEvent): Boolean {
         mScaleDetector!!.onTouchEvent(ev)
         tapdetection!!.onTouchEvent(ev)
-        // Let the ScaleGestureDetector inspect all events.
-        //mScaleDetector.onTouchEvent(ev)
+
+
+       val sizemod = allGameObjects.INSTANCE.processHandler!!.size_modifier
+
 
         val action = MotionEventCompat.getActionMasked(ev)
 
@@ -227,7 +253,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                                 Thread().run {
                     val left = mGLView!!.left
                     val top = mGLView!!.top
-                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX() , ev.getY())
+                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX()/ sizemod, ev.getY()/sizemod)
                     allGameObjects.INSTANCE.processHandler!!.splat_on=true
                 }
 
@@ -240,7 +266,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                 Thread().run {
                     val left = mGLView!!.left
                     val top = mGLView!!.top
-                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX() , ev.getY())
+                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX()/sizemod , ev.getY()/sizemod)
                     allGameObjects.INSTANCE.processHandler!!.splat_on=true
                 }
 
@@ -300,7 +326,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         }
 
         override fun onDrawFrame(gl: GL10) {
-            allGameObjects.INSTANCE.processHandler!!.Process(fb)
+            allGameObjects.INSTANCE.processHandler!!.update()
         }
     }
 

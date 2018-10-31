@@ -12,9 +12,8 @@
 
 
         <android.opengl.GLSurfaceView
-                android:id="@+id/graphics_glsurfaceview1"
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_gravity="center">
+                android:layout_height="fill_parent" android:layout_gravity="center" android:id="@+id/glsurfaceview1">
 
 
         </android.opengl.GLSurfaceView>
@@ -59,6 +58,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/pen"
                 android:layout_gravity="right|center_vertical"/>
+        <Button
+                android:text="+"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/increasesize"
+                android:layout_gravity="top|center_horizontal"/>
+        <Button
+                android:text="-"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/decreasesize"
+                android:layout_gravity="bottom|center_horizontal"/>
 
 
     </FrameLayout>

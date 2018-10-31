@@ -1,13 +1,9 @@
-package c.lawless.gameoflife.ColourSchemes;
-
+package c.lawless.gameoflife.enumerations;
 import com.threed.jpct.SimpleVector;
 
 public class ColorSchemes {
 
-
     //modes
-
-
     public static final SimpleVector black = new  SimpleVector(0,0,0);
     public static final SimpleVector white = new  SimpleVector(1,1,1);
 
