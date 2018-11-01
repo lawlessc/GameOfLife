@@ -81,11 +81,6 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             copy(master!!)
         }
 
-
-
-
-
-
         super.onCreate(savedInstanceState)
 
 
@@ -102,24 +97,30 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
             //
             //mGLView.setEGLConfigChooser(new AAConfigChooser(mGLView));
 
+
             renderer = MyRenderer()
             mGLView!!.setRenderer(renderer)
 
             Texture.defaultToMipmapping(false)
             Texture.defaultTo4bpp(false)
             Texture.defaultToKeepPixels(true)
-            //Config.maxTextureLayers = 3
-            Config.unloadImmediately = true
+
+
+            Config.unloadImmediately = false
             Config.reuseTextureBuffers=true
-           // Config.
+            Config.maxLights=1;
+            // Config.
 
 
             Config.maxPolysVisible = 50
             Config.farPlane = 10f
             Config.nearPlane = 0f
+           // Config.glDebugLevel=1
+            //Config.maxTextureLayers = 3
+
             //Config
-          //  Config.
            // Config.glDebugLevel
+            //  Config.
         }
 
 

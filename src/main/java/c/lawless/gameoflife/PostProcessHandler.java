@@ -109,7 +109,7 @@ public class PostProcessHandler {
      //AspectRatio = FB.getWidth()/FB.getHeight();
      setupObjects();
 
-     displayWorld.compileAllObjects();
+    // displayWorld.compileAllObjects();
 
     }
 
@@ -121,7 +121,9 @@ public class PostProcessHandler {
         {
             resizeGrid();
             System.gc();
+            do_resize = false;
         }
+
 
 
      FB.resize(GridWidth,GridHeight);
@@ -135,7 +137,7 @@ public class PostProcessHandler {
 
         random_fill =false;
         clear_grid=false;
-        do_resize = false;
+
         switcher = !switcher;
     }
 
@@ -392,14 +394,16 @@ public class PostProcessHandler {
     {
 
 
-        tm.unloadTexture(FB,frame_one);
-        tm.unloadTexture(FB,frame_two);
-        tm.unloadTexture(FB,splat_tex);
+
+//        tm.unloadTexture(FB,frame_one);
+//        tm.unloadTexture(FB,frame_two);
+//        tm.unloadTexture(FB,splat_tex);
 
         NPOTTexture frame_one_ = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
         frame_one_.setFiltering(textureFiltering);
         frame_one_.setMipmap(textureMipMap);
         frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+       // frame_one_.add(frame_one,1f);
         tm.replaceTexture("frameone", frame_one_);
 
 
@@ -407,6 +411,7 @@ public class PostProcessHandler {
         frame_two_.setFiltering(textureFiltering);
         frame_two_.setMipmap(textureMipMap);
         frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+      //  frame_two_.add(frame_two,1f);
         tm.replaceTexture("frametwo", frame_two_);
 
 
@@ -414,6 +419,7 @@ public class PostProcessHandler {
         splat_tex_.setFiltering(textureFiltering);
         splat_tex_.setMipmap(textureMipMap);
         splat_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+       // splat_tex_.add(splat_tex,1f);
         tm.replaceTexture("splatt", splat_tex_);
 
 
@@ -421,6 +427,13 @@ public class PostProcessHandler {
         frame_two= frame_two_;
         splat_tex= splat_tex_;
 
+
+      // setupTextures();
+
+
+        FB.flush();
+        FB.freeMemory();
+        System.gc();
 
 
     }
@@ -461,26 +474,38 @@ public class PostProcessHandler {
     {
         size_level--;
 
-                if(size_level <= 1)
+                if(size_level < 1)
                 {
                     size_level=1;
                 }
-        do_resize= true;
-        setSize();
+                else
+                {
+                    setSize();
+                    do_resize= true;
+                }
+
+    //   setSize();
+    //    do_resize= true;
     }
 
     public void decreaseSize()
     {
 
+
         size_level++;
 
-        if(size_level >= 8)
+        if(size_level > 8)
         {
             size_level=8;
         }
+        else
+        {
+            setSize();
+            do_resize= true;
+        }
 
-        do_resize= true;
-        setSize();
+
+
     }
 
 
@@ -514,10 +539,6 @@ public class PostProcessHandler {
                 break;
         }
       //  resizeGrid();
-
-
-
-
     }
 
 
@@ -536,9 +557,28 @@ public class PostProcessHandler {
         splatRadius =   GridWidth /16.0f;
         splatPos    =  new SimpleVector(  GridWidth / 2.0f, GridHeight /2.0f , 0);
 
-        setupObjects();
 
-        displayWorld.compileAllObjects();
+        TextureInfo one  =  new TextureInfo(TextureManager.getInstance().getTextureID("frameone"));
+        one.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
+        fameObjOne.setTexture(one);
+        TextureInfo two  =  new TextureInfo(TextureManager.getInstance().getTextureID("frametwo"));
+        two.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
+        fameObjTwo.setTexture(two);
+
+        render_to_screen_obj_one.setTexture("frameone");
+        render_to_screen_obj_two.setTexture("frametwo");
+
+
+
+
+        FB.setRenderTarget(frame_one);
+        FB.clear();
+        FB.clear(RGBColor.BLACK);
+        displayWorld.renderScene(FB);
+        displayWorld.draw(FB);
+        FB.display();
+        FB.removeRenderTarget();
+
     }
 
 
