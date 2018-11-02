@@ -135,8 +135,8 @@ public class PostProcessHandler {
       render_to_screen(FB);
 
 
-        random_fill =false;
-        clear_grid=false;
+
+
 
         switcher = !switcher;
     }
@@ -232,6 +232,7 @@ public class PostProcessHandler {
                 fb.display();
                 random_obj.setVisibility(false);
                 fb.removeRenderTarget();
+                random_fill =false;
             }
 
             if(clear_grid)
@@ -243,6 +244,7 @@ public class PostProcessHandler {
                 displayWorld.draw(fb);
                 fb.display();
                 fb.removeRenderTarget();
+                clear_grid=false;
             }
 
 
@@ -261,6 +263,7 @@ public class PostProcessHandler {
                 fb.display();
                 random_obj.setVisibility(false);
                 fb.removeRenderTarget();
+                random_fill =false;
             }
 
             if(clear_grid)
@@ -272,10 +275,9 @@ public class PostProcessHandler {
                 displayWorld.draw(fb);
                 fb.display();
                 fb.removeRenderTarget();
+                clear_grid=false;
             }
         }
-
-
 
     }
 
@@ -360,12 +362,6 @@ public class PostProcessHandler {
 
     public void setupTextures()
     {
-
-//        textureless = new NPOTTexture(width , height, RGBColor.BLACK);
-//        textureless.setFiltering(false);
-//        textureless.setMipmap(false);
-//        textureless.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-//        tm.addTexture("textureless", textureless);
 
 
         frame_one = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
@@ -558,15 +554,15 @@ public class PostProcessHandler {
         splatPos    =  new SimpleVector(  GridWidth / 2.0f, GridHeight /2.0f , 0);
 
 
-        TextureInfo one  =  new TextureInfo(TextureManager.getInstance().getTextureID("frameone"));
-        one.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
-        fameObjOne.setTexture(one);
-        TextureInfo two  =  new TextureInfo(TextureManager.getInstance().getTextureID("frametwo"));
-        two.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
-        fameObjTwo.setTexture(two);
-
-        render_to_screen_obj_one.setTexture("frameone");
-        render_to_screen_obj_two.setTexture("frametwo");
+//        TextureInfo one  =  new TextureInfo(TextureManager.getInstance().getTextureID("frameone"));
+//        one.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
+//        fameObjOne.setTexture(one);
+//        TextureInfo two  =  new TextureInfo(TextureManager.getInstance().getTextureID("frametwo"));
+//        two.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
+//        fameObjTwo.setTexture(two);
+//
+//        render_to_screen_obj_one.setTexture("frameone");
+//        render_to_screen_obj_two.setTexture("frametwo");
 
 
 
@@ -607,7 +603,12 @@ public class PostProcessHandler {
 
     public void setSplatPos(float x , float y)
     {
-        y = frame_one.getHeight() -y;
+        y = frame_one.getHeight() -(y/size_modifier);
+
+        x = x/size_modifier;
+        //x =  frame_one.getWidth()/x;
+        //        x= ((frame_one.getWidth()) +(x/size_modifier));
+//        x= 1f-x;
         splatPos = new SimpleVector(x,y,0);
         splat_on=true;
     }

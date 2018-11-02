@@ -243,7 +243,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
         tapdetection!!.onTouchEvent(ev)
 
 
-       val sizemod = allGameObjects.INSTANCE.processHandler!!.size_modifier
+      // val sizemod = allGameObjects.INSTANCE.processHandler!!.size_modifier
 
 
         val action = MotionEventCompat.getActionMasked(ev)
@@ -254,8 +254,8 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                                 Thread().run {
                     val left = mGLView!!.left
                     val top = mGLView!!.top
-                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX()/ sizemod, ev.getY()/sizemod)
-                    allGameObjects.INSTANCE.processHandler!!.splat_on=true
+                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX(), ev.getY())
+                    //allGameObjects.INSTANCE.processHandler!!.splat_on=true
                 }
 
 
@@ -267,8 +267,8 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                 Thread().run {
                     val left = mGLView!!.left
                     val top = mGLView!!.top
-                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX()/sizemod , ev.getY()/sizemod)
-                    allGameObjects.INSTANCE.processHandler!!.splat_on=true
+                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX() , ev.getY())
+                   // allGameObjects.INSTANCE.processHandler!!.splat_on=true
                 }
 
             }
