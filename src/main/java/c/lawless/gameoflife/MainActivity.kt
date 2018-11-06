@@ -3,9 +3,11 @@ package c.lawless.gameoflife
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.app.Activity
+import android.app.FragmentManager
 import android.content.Context
 import android.content.res.Resources
 import android.opengl.GLSurfaceView
+import android.support.v4.app.FragmentActivity
 import android.support.v4.view.MotionEventCompat
 
 import android.view.GestureDetector
@@ -37,7 +39,7 @@ import javax.microedition.khronos.opengles.GL10
 /**
  * @author Christopher Lawless
  */
-class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
+class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */ {
 
     private var master: MainActivity? = null
     private var mGLView: GLSurfaceView? = null
@@ -194,6 +196,26 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
 
         }
 
+        val rules_dialogue_test: Button = findViewById(R.id.openrules)
+        rules_dialogue_test.setOnClickListener {
+            // Do something in response to button click
+
+            //  Thread().run {
+            //allGameObjects.INSTANCE.processHandler!!.decreaseSize()
+
+           // FragmentManager fragMan = getFragmentManager()
+            val dialog = RulesDialogue()
+
+            dialog.show(fragmentManager, "missiles")
+
+
+            //  }
+
+            //  allGameObjects.INSTANCE.processHandler!!.decreaseSize()
+
+        }
+
+
 
 
         mScaleDetector = ScaleGestureDetector(this, ScaleListener())
@@ -255,7 +277,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                     val left = mGLView!!.left
                     val top = mGLView!!.top
                     allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX(), ev.getY())
-                    //allGameObjects.INSTANCE.processHandler!!.splat_on=true
+
                 }
 
 
@@ -268,7 +290,7 @@ class MainActivity : Activity(), OnScaleGestureListener /*,Observer */ {
                     val left = mGLView!!.left
                     val top = mGLView!!.top
                     allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX() , ev.getY())
-                   // allGameObjects.INSTANCE.processHandler!!.splat_on=true
+
                 }
 
             }
