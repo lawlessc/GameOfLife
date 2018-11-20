@@ -54,6 +54,7 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
 
 
 
+
     private var mScaleDetector: ScaleGestureDetector? = null
     private var tapdetection: GestureDetector? = null
 

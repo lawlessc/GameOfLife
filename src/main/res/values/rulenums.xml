@@ -4,26 +4,26 @@
 
     <string-array name="rulenumbers">
         <!--survival-->
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
+        <item>0s</item>
+        <item>1s</item>
+        <item>2s</item>
+        <item>3s</item>
+        <item>4s</item>
+        <item>5s</item>
+        <item>6s</item>
+        <item>7s</item>
+        <item>8s</item>
 
         <!--birth rules-->
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-        <item>4</item>
-        <item>5</item>
-        <item>6</item>
-        <item>7</item>
-        <item>8</item>
+        <item>0b</item>
+        <item>1b</item>
+        <item>2b</item>
+        <item>3b</item>
+        <item>4b</item>
+        <item>5b</item>
+        <item>6b</item>
+        <item>7b</item>
+        <item>8b</item>
 
     </string-array>
 

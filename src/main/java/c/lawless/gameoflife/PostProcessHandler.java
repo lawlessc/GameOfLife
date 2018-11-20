@@ -3,6 +3,7 @@ package c.lawless.gameoflife;
 import android.content.res.Resources;
 import c.lawless.gameoflife.enumerations.ColorSchemes;
 import c.lawless.gameoflife.enumerations.GridSizes;
+import c.lawless.gameoflife.enumerations.Rules;
 import com.threed.jpct.*;
 
 
@@ -82,6 +83,8 @@ public class PostProcessHandler {
     int ScreenHeight;
     int GridWidth;
     int GridHeight;
+
+     Rules rules = new Rules();
 
 
     public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main) {
