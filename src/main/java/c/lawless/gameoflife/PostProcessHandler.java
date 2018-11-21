@@ -73,16 +73,10 @@ public class PostProcessHandler {
     boolean clear_grid = false;
     boolean do_resize=false;
 
-    public int size_modifier;
-    public int size_level = 1;
+
 
 
     int colour_mode=0;
-
-//    int ScreenWidth;
-//    int ScreenHeight;
-//    int GridWidth;
-//    int GridHeight;
 
      Rules rules = new Rules();
 
@@ -90,13 +84,13 @@ public class PostProcessHandler {
     public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main) {
     fb.freeMemory();
     FB= fb;
-    size_modifier = 1;
+        GridSizes.size_modifier = 1;
 
     GridSizes.ScreenHeight = FB.getHeight();
     GridSizes.ScreenWidth = FB.getWidth();
 
-    GridSizes.GridHeight = FB.getHeight()/size_modifier;
-    GridSizes.GridWidth = FB.getWidth()/  size_modifier;
+    GridSizes.GridHeight = FB.getHeight()/GridSizes.size_modifier;
+    GridSizes.GridWidth = FB.getWidth()/  GridSizes.size_modifier;
     loadShaders(res);
     setUpCameras();//worlds
     setupTextures();
@@ -471,11 +465,11 @@ public class PostProcessHandler {
 
     public void increaseSize()
     {
-        size_level--;
+        GridSizes.size_level--;
 
-                if(size_level < 1)
+                if(GridSizes.size_level < 1)
                 {
-                    size_level=1;
+                    GridSizes.size_level=1;
                 }
                 else
                 {
@@ -491,11 +485,11 @@ public class PostProcessHandler {
     {
 
 
-        size_level++;
+        GridSizes.size_level++;
 
-        if(size_level > 8)
+        if(GridSizes.size_level > 8)
         {
-            size_level=8;
+            GridSizes.size_level=8;
         }
         else
         {
@@ -511,33 +505,32 @@ public class PostProcessHandler {
     public void setSize()
     {
 
-        switch(size_level) {
+        switch(GridSizes.size_level) {
             case 1:
-                size_modifier= GridSizes.screenResolutionSize;
+                GridSizes.size_modifier= GridSizes.screenResolutionSize;
                 break;
             case 2:
-                size_modifier= GridSizes.half;
+                GridSizes.size_modifier= GridSizes.half;
                 break;
             case 3:
-                size_modifier= GridSizes.quarter;
+                GridSizes.size_modifier= GridSizes.quarter;
                 break;
             case 4:
-                size_modifier= GridSizes.eight;
+                GridSizes.size_modifier= GridSizes.eight;
                 break;
             case 5:
-                size_modifier= GridSizes.sixtieenth;
+                GridSizes.size_modifier= GridSizes.sixtieenth;
                 break;
             case 6:
-                size_modifier= GridSizes.thirtysecond;
+                GridSizes.size_modifier= GridSizes.thirtysecond;
                 break;
             case 7:
-                size_modifier= GridSizes.sixtyfourth;
+                GridSizes.size_modifier= GridSizes.sixtyfourth;
                 break;
             case 8:
-                size_modifier= GridSizes.smallest;
+                GridSizes.size_modifier= GridSizes.smallest;
                 break;
         }
-      //  resizeGrid();
     }
 
 
@@ -545,8 +538,8 @@ public class PostProcessHandler {
     public void resizeGrid()
     {
 
-        GridSizes.GridHeight = GridSizes.ScreenHeight / size_modifier;
-        GridSizes.GridWidth = GridSizes.ScreenWidth  /  size_modifier;
+        GridSizes.GridHeight = GridSizes.ScreenHeight / GridSizes.size_modifier;
+        GridSizes.GridWidth = GridSizes.ScreenWidth  /  GridSizes.size_modifier;
         replaceTextures();
 
 
@@ -606,9 +599,9 @@ public class PostProcessHandler {
 
     public void setSplatPos(float x , float y)
     {
-        y = frame_one.getHeight() -(y/size_modifier);
+        y = frame_one.getHeight() -(y/GridSizes.size_modifier);
 
-        x = x/size_modifier;
+        x = x/GridSizes.size_modifier;
         //x =  frame_one.getWidth()/x;
         //        x= ((frame_one.getWidth()) +(x/size_modifier));
 //        x= 1f-x;

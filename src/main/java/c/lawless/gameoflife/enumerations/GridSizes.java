@@ -16,4 +16,8 @@ public class GridSizes {
     public static int ScreenHeight;
     public static int GridWidth;
     public static  int GridHeight;
+
+
+    public static  int size_modifier;
+    public static  int size_level = 1;
 }
