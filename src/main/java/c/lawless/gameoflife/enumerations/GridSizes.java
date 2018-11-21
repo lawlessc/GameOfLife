@@ -10,4 +10,10 @@ public class GridSizes {
     public static final int quarter= 4;
     public static final int half= 2;
     public static final int screenResolutionSize= 1;
+
+
+    public static  int ScreenWidth;
+    public static int ScreenHeight;
+    public static int GridWidth;
+    public static  int GridHeight;
 }

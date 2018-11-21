@@ -79,10 +79,10 @@ public class PostProcessHandler {
 
     int colour_mode=0;
 
-    int ScreenWidth;
-    int ScreenHeight;
-    int GridWidth;
-    int GridHeight;
+//    int ScreenWidth;
+//    int ScreenHeight;
+//    int GridWidth;
+//    int GridHeight;
 
      Rules rules = new Rules();
 
@@ -92,11 +92,11 @@ public class PostProcessHandler {
     FB= fb;
     size_modifier = 1;
 
-    ScreenHeight = FB.getHeight();
-    ScreenWidth = FB.getWidth();
+    GridSizes.ScreenHeight = FB.getHeight();
+    GridSizes.ScreenWidth = FB.getWidth();
 
-    GridHeight = FB.getHeight()/size_modifier;
-    GridWidth = FB.getWidth()/  size_modifier;
+    GridSizes.GridHeight = FB.getHeight()/size_modifier;
+    GridSizes.GridWidth = FB.getWidth()/  size_modifier;
     loadShaders(res);
     setUpCameras();//worlds
     setupTextures();
@@ -104,11 +104,11 @@ public class PostProcessHandler {
 
     // InverseSize = new SimpleVector(1.0f/ fb.getWidth() ,1.0f/ fb.getHeight() ,0);
 
-     InverseSizex = new SimpleVector(1.0f/ GridWidth ,0 ,0);
-     InverseSizey = new SimpleVector(0 ,1.0f/ GridHeight ,0);
+     InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
+     InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
 
-     splatRadius =   GridWidth /16.0f;
-     splatPos    =  new SimpleVector(  GridWidth / 2.0f, GridHeight /2.0f , 0);
+     splatRadius =   GridSizes.GridWidth /16.0f;
+     splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
      //AspectRatio = FB.getWidth()/FB.getHeight();
      setupObjects();
 
@@ -129,12 +129,12 @@ public class PostProcessHandler {
 
 
 
-     FB.resize(GridWidth,GridHeight);
+     FB.resize(GridSizes.GridWidth,GridSizes.GridHeight);
 
       fills_and_draws(FB);
       process();
 
-      FB.resize(ScreenWidth,ScreenHeight);
+      FB.resize(GridSizes.ScreenWidth,GridSizes.ScreenHeight);
       render_to_screen(FB);
 
 
@@ -367,20 +367,20 @@ public class PostProcessHandler {
     {
 
 
-        frame_one = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
+        frame_one = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         frame_one.setFiltering(textureFiltering);
         frame_one.setMipmap(textureMipMap);
         frame_one.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture("frameone", frame_one);
 
-        frame_two = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
+        frame_two = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         frame_two.setFiltering(textureFiltering);
         frame_two.setMipmap(textureMipMap);
         frame_two.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture("frametwo", frame_two);
 
 
-        splat_tex = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
+        splat_tex = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         splat_tex.setFiltering(textureFiltering);
         splat_tex.setMipmap(textureMipMap);
         splat_tex.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
@@ -398,7 +398,7 @@ public class PostProcessHandler {
 //        tm.unloadTexture(FB,frame_two);
 //        tm.unloadTexture(FB,splat_tex);
 
-        NPOTTexture frame_one_ = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
+        NPOTTexture frame_one_ = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         frame_one_.setFiltering(textureFiltering);
         frame_one_.setMipmap(textureMipMap);
         frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
@@ -406,7 +406,7 @@ public class PostProcessHandler {
         tm.replaceTexture("frameone", frame_one_);
 
 
-        NPOTTexture frame_two_ = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
+        NPOTTexture frame_two_ = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         frame_two_.setFiltering(textureFiltering);
         frame_two_.setMipmap(textureMipMap);
         frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
@@ -414,7 +414,7 @@ public class PostProcessHandler {
         tm.replaceTexture("frametwo", frame_two_);
 
 
-        NPOTTexture splat_tex_ = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
+        NPOTTexture splat_tex_ = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         splat_tex_.setFiltering(textureFiltering);
         splat_tex_.setMipmap(textureMipMap);
         splat_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
@@ -545,16 +545,16 @@ public class PostProcessHandler {
     public void resizeGrid()
     {
 
-        GridHeight = ScreenHeight / size_modifier;
-        GridWidth = ScreenWidth  /  size_modifier;
+        GridSizes.GridHeight = GridSizes.ScreenHeight / size_modifier;
+        GridSizes.GridWidth = GridSizes.ScreenWidth  /  size_modifier;
         replaceTextures();
 
 
-        InverseSizex = new SimpleVector(1.0f/ GridWidth ,0 ,0);
-        InverseSizey = new SimpleVector(0 ,1.0f/ GridHeight ,0);
+        InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
+        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
 
-        splatRadius =   GridWidth /16.0f;
-        splatPos    =  new SimpleVector(  GridWidth / 2.0f, GridHeight /2.0f , 0);
+        splatRadius =   GridSizes.GridWidth /16.0f;
+        splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
 
 
 //        TextureInfo one  =  new TextureInfo(TextureManager.getInstance().getTextureID("frameone"));
