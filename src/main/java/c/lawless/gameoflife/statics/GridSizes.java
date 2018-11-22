@@ -1,4 +1,4 @@
-package c.lawless.gameoflife.enumerations;
+package c.lawless.gameoflife.statics;
 
 public class GridSizes {
     //8 sizes

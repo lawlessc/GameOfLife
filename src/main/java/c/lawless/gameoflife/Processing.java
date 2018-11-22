@@ -1,5 +1,6 @@
 package c.lawless.gameoflife;
 
+import c.lawless.gameoflife.statics.GridSizes;
 import com.threed.jpct.*;
 
 public class Processing {
@@ -23,9 +24,6 @@ public class Processing {
     public Object3D fameObjTwo = null;
     public World displayWorld;
 
-
-    int GridWidth;
-    int GridHeight;
 
 
     public Processing(FrameBuffer fb, World world, GLSLShader gof_shader, IRenderHook hook)
@@ -59,13 +57,13 @@ public class Processing {
         displayWorld.addObject(fameObjTwo);
         fameObjTwo.setVisibility(false);
 
-        frame_one = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
+        frame_one = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         frame_one.setFiltering(textureFiltering);
         frame_one.setMipmap(textureMipMap);
         frame_one.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture("frameone", frame_one);
 
-        frame_two = new NPOTTexture(GridWidth , GridHeight, RGBColor.BLACK);
+        frame_two = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         frame_two.setFiltering(textureFiltering);
         frame_two.setMipmap(textureMipMap);
         frame_two.setTextureCompression(textureCompression);// texture compression eliminates the artifacts

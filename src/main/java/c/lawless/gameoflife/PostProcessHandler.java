@@ -1,9 +1,9 @@
 package c.lawless.gameoflife;
 
 import android.content.res.Resources;
-import c.lawless.gameoflife.enumerations.ColorSchemes;
-import c.lawless.gameoflife.enumerations.GridSizes;
-import c.lawless.gameoflife.enumerations.Rules;
+import c.lawless.gameoflife.statics.ColorSchemes;
+import c.lawless.gameoflife.statics.GridSizes;
+import c.lawless.gameoflife.statics.Rules;
 import com.threed.jpct.*;
 
 
