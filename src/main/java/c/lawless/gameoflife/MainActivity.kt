@@ -41,7 +41,7 @@ import javax.microedition.khronos.opengles.GL10
  */
 class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */ {
 
-    private var master: MainActivity? = null
+     var master: MainActivity? = null
     private var mGLView: GLSurfaceView? = null
     private var renderer: MyRenderer? = null
     private var fb: FrameBuffer? = null
@@ -118,6 +118,7 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
             Config.maxPolysVisible = 50
             Config.farPlane = 10f
             Config.nearPlane = 0f
+            mGLView!!.setPreserveEGLContextOnPause(true)
            // Config.glDebugLevel=1
             //Config.maxTextureLayers = 3
 
@@ -216,9 +217,6 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
 
         }
 
-
-
-
         mScaleDetector = ScaleGestureDetector(this, ScaleListener())
         tapdetection = GestureDetector(this, TapListener())
         // master = this;
@@ -226,16 +224,11 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
 
 
     override fun onPause() {
-        isActionPaused = true
-        super.onPause()
         mGLView!!.onPause()
+        super.onPause()
     }
 
     override fun onResume() {
-        //		if(allGameObjects.INSTANCE.isActionPaused)
-        //		{
-        //			copy(master);
-        //		}
         super.onResume()
         mGLView!!.onResume()
     }
