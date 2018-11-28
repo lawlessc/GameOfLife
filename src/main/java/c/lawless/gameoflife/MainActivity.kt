@@ -1,5 +1,6 @@
 package c.lawless.gameoflife
 
+import android.annotation.SuppressLint
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.app.Activity
@@ -39,7 +40,7 @@ import javax.microedition.khronos.opengles.GL10
 /**
  * @author Christopher Lawless
  */
-class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */ {
+class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observer */ {
 
      var master: MainActivity? = null
     private var mGLView: GLSurfaceView? = null
@@ -55,8 +56,8 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
 
 
 
-    private var mScaleDetector: ScaleGestureDetector? = null
-    private var tapdetection: GestureDetector? = null
+   // private var mScaleDetector: ScaleGestureDetector? = null
+    //private var tapdetection: GestureDetector? = null
 
     //private Texture font = null;
     private var texturesLoaded: Boolean? = false
@@ -69,6 +70,7 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
     //////////////////////////////////This needs to be seperated from the graphical stuff above somehow.
 
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
 
         Logger.log("onCreate")
@@ -217,26 +219,71 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
 
         }
 
-        mScaleDetector = ScaleGestureDetector(this, ScaleListener())
-        tapdetection = GestureDetector(this, TapListener())
+      //  mScaleDetector = ScaleGestureDetector(this, ScaleListener())
+        //tapdetection = GestureDetector(this, TapListener())
         // master = this;
+
+            mGLView!!.setOnTouchListener(View.OnTouchListener { view, motionEvent ->
+              //  tapdetection!!.onTouchEvent(ev)
+
+                val viewX =  motionEvent.x -view!!.left
+                val viewY =  motionEvent.y -view!!.top
+
+
+
+                when (motionEvent.action){
+                     MotionEvent.ACTION_DOWN -> {
+
+                         Thread().run {
+                             allGameObjects.INSTANCE.processHandler!!.setSplatPos(viewX, viewY)
+
+                         }
+
+
+
+                     }
+
+                     MotionEvent.ACTION_MOVE -> {
+
+                         Thread().run {
+                             allGameObjects.INSTANCE.processHandler!!.setSplatPos(viewX, viewY)
+
+                         }
+
+                     }
+                     MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+
+                         Thread().run {
+                             allGameObjects.INSTANCE.processHandler!!.splat_on = false
+                         }
+                     }
+                     MotionEvent.ACTION_POINTER_UP -> {
+
+
+                         Thread().run {
+                             allGameObjects.INSTANCE.processHandler!!.splat_on = false
+                         }
+
+                     }
+                 }
+              return@OnTouchListener true
+            })
+
+
+
+
+
+
+
+
+
+
     }
 
 
-    override fun onPause() {
-        mGLView!!.onPause()
-        super.onPause()
-    }
 
-    override fun onResume() {
-        super.onResume()
-        mGLView!!.onResume()
-    }
 
-    override fun onStop() {
-        Logger.log("onStop")
-        super.onStop()
-    }
+
 
     private fun copy(src: Any) {
         try {
@@ -254,57 +301,57 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
 
    // private var mActivePointerId = INVALID_POINTER_ID
 
-    override fun onTouchEvent(ev: MotionEvent): Boolean {
-        mScaleDetector!!.onTouchEvent(ev)
-        tapdetection!!.onTouchEvent(ev)
-
-
-      // val sizemod = allGameObjects.INSTANCE.processHandler!!.size_modifier
-
-
-        val action = MotionEventCompat.getActionMasked(ev)
-
-        when (action) {
-            MotionEvent.ACTION_DOWN -> {
-
-                                Thread().run {
-                    val left = mGLView!!.left
-                    val top = mGLView!!.top
-                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX(), ev.getY())
-
-                }
-
-
-
-            }
-
-            MotionEvent.ACTION_MOVE -> {
-
-                Thread().run {
-                    val left = mGLView!!.left
-                    val top = mGLView!!.top
-                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(ev.getX() , ev.getY())
-
-                }
-
-            }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-
-                Thread().run {
-                    allGameObjects.INSTANCE.processHandler!!.splat_on = false
-                }
-            }
-            MotionEvent.ACTION_POINTER_UP -> {
-
-
-                Thread().run {
-                    allGameObjects.INSTANCE.processHandler!!.splat_on = false
-                }
-
-            }
-        }
-        return true
-    }
+//    override fun onTouchEvent(ev: MotionEvent): Boolean {
+//     //   mScaleDetector!!.onTouchEvent(ev)
+//        tapdetection!!.onTouchEvent(ev)
+//
+//
+//
+//        val viewX =  ev.rawX -v!!.left
+//        val viewY =  ev.rawY -v!!.top
+//
+//        // val sizemod = allGameObjects.INSTANCE.processHandler!!.size_modifier
+//
+//
+//        val action = MotionEventCompat.getActionMasked(ev)
+//
+//        when (action) {
+//            MotionEvent.ACTION_DOWN -> {
+//
+//                                Thread().run {
+//                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(viewX, viewY)
+//
+//                }
+//
+//
+//
+//            }
+//
+//            MotionEvent.ACTION_MOVE -> {
+//
+//                Thread().run {
+//                    allGameObjects.INSTANCE.processHandler!!.setSplatPos(viewX, viewY)
+//
+//                }
+//
+//            }
+//            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+//
+//                Thread().run {
+//                    allGameObjects.INSTANCE.processHandler!!.splat_on = false
+//                }
+//            }
+//            MotionEvent.ACTION_POINTER_UP -> {
+//
+//
+//                Thread().run {
+//                    allGameObjects.INSTANCE.processHandler!!.splat_on = false
+//                }
+//
+//            }
+//        }
+//        return true
+//    }
 
 
     internal inner class MyRenderer : GLSurfaceView.Renderer {
@@ -348,19 +395,7 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
     }
 
 
-    override fun onScale(detector: ScaleGestureDetector): Boolean {
-        return true
-    }
 
-    override fun onScaleBegin(detector: ScaleGestureDetector): Boolean {
-        // TODO Auto-generated method stub
-        return true
-    }
-
-
-    override fun onScaleEnd(detector: ScaleGestureDetector) {
-        // TODO Auto-generated method stub
-    }
 
 
     private inner class ScaleListener : ScaleGestureDetector.SimpleOnScaleGestureListener() {
@@ -372,68 +407,68 @@ class MainActivity : AppCompatActivity (), OnScaleGestureListener /*,Observer */
 
 
 
-    private inner class TapListener : OnGestureListener, GestureDetector.OnDoubleTapListener {
-
-        override fun onDown(e: MotionEvent): Boolean {
-            // TODO Auto-generated method stub
-            return false
-        }
-
-
-
-        override fun onFling(
-            e1: MotionEvent, e2: MotionEvent, velocityX: Float,
-            velocityY: Float
-        ): Boolean {
-            return false
-        }
-
-        override fun onLongPress(e: MotionEvent) {
-            // TODO Auto-generated method stub
-        }
-
-        override fun onScroll(
-            e1: MotionEvent, e2: MotionEvent, distanceX: Float,
-            distanceY: Float
-        ): Boolean {
-            // TODO Auto-generated method stub
-            return false
-        }
-
-        override fun onShowPress(e: MotionEvent) {
-
-            // TODO Auto-generated method stub
-            //allGameObjects.INSTANCE.processHandler.setSplatPos(e.getX() , e.getY());
-        }
-
-        override fun onSingleTapUp(e: MotionEvent): Boolean {
-
-            allGameObjects.INSTANCE.processHandler!!.splat_on=false
-
-            // TODO Auto-generated method stub
-            return false
-        }
-
-        override fun onDoubleTap(e: MotionEvent): Boolean {
-            val left = mGLView!!.left
-            val top = mGLView!!.top
-
-            return false
-        }
-
-        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
-            val left = mGLView!!.left
-            val top = mGLView!!.top
-            return false
-        }
-
-        override fun onDoubleTapEvent(e: MotionEvent): Boolean {
-            ///DONT USE THIS EVER!
-            //IT FIRES FAR TOO MANY TIMES ON EACH PRESS, WILL FUCK UP YOUR DAY.
-            return false
-        }
-
-    }
+//    private inner class TapListener : OnGestureListener, GestureDetector.OnDoubleTapListener {
+//
+//        override fun onDown(e: MotionEvent): Boolean {
+//            // TODO Auto-generated method stub
+//            return false
+//        }
+//
+//
+//
+//        override fun onFling(
+//            e1: MotionEvent, e2: MotionEvent, velocityX: Float,
+//            velocityY: Float
+//        ): Boolean {
+//            return false
+//        }
+//
+//        override fun onLongPress(e: MotionEvent) {
+//            // TODO Auto-generated method stub
+//        }
+//
+//        override fun onScroll(
+//            e1: MotionEvent, e2: MotionEvent, distanceX: Float,
+//            distanceY: Float
+//        ): Boolean {
+//            // TODO Auto-generated method stub
+//            return false
+//        }
+//
+//        override fun onShowPress(e: MotionEvent) {
+//
+//            // TODO Auto-generated method stub
+//            //allGameObjects.INSTANCE.processHandler.setSplatPos(e.getX() , e.getY());
+//        }
+//
+//        override fun onSingleTapUp(e: MotionEvent): Boolean {
+//
+//            allGameObjects.INSTANCE.processHandler!!.splat_on=false
+//
+//            // TODO Auto-generated method stub
+//            return false
+//        }
+//
+//        override fun onDoubleTap(e: MotionEvent): Boolean {
+//            val left = mGLView!!.left
+//            val top = mGLView!!.top
+//
+//            return false
+//        }
+//
+//        override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+//            val left = mGLView!!.left
+//            val top = mGLView!!.top
+//            return false
+//        }
+//
+//        override fun onDoubleTapEvent(e: MotionEvent): Boolean {
+//            ///DONT USE THIS EVER!
+//            //IT FIRES FAR TOO MANY TIMES ON EACH PRESS, WILL FUCK UP YOUR DAY.
+//            return false
+//        }
+//
+//    }
 
 
 }
