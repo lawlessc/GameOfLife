@@ -1,4 +1,5 @@
-package c.lawless.gameoflife
+package c.lawless.gameoflife.RenderHooks
+import c.lawless.gameoflife.PostProcessHandler
 import com.threed.jpct.GLSLShader
 import com.threed.jpct.IRenderHook
 import com.threed.jpct.Object3D

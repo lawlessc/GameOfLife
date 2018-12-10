@@ -1,5 +1,6 @@
-package c.lawless.gameoflife;
+package c.lawless.gameoflife.RenderHooks;
 
+import c.lawless.gameoflife.PostProcessHandler;
 import com.threed.jpct.GLSLShader;
 import com.threed.jpct.IRenderHook;
 import com.threed.jpct.Object3D;
@@ -12,7 +13,7 @@ import com.threed.jpct.SimpleVector;
  */
 public class SplatHook implements IRenderHook {
 
-    PostProcessHandler parent;
+    public PostProcessHandler parent;
     GLSLShader splatshade;
     SimpleVector fillcol = new SimpleVector(1,1,1);
 

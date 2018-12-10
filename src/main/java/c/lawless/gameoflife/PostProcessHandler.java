@@ -1,9 +1,12 @@
 package c.lawless.gameoflife;
 
 import android.content.res.Resources;
+import c.lawless.gameoflife.RenderHooks.MainRender_hook;
+import c.lawless.gameoflife.RenderHooks.SplatHook;
 import c.lawless.gameoflife.statics.ColorSchemes;
 import c.lawless.gameoflife.statics.GridSizes;
 import c.lawless.gameoflife.statics.Rules;
+import c.lawless.gameoflife.statics.TextureNames;
 import com.threed.jpct.*;
 
 
@@ -37,7 +40,7 @@ public class PostProcessHandler {
     public GLSLShader draw_shader;
 
     GOLRenderHook  GOF_Hook;
-    SplatHook  Splat_Hook;
+    SplatHook Splat_Hook;
     MainRender_hook render_hook;
 
     public Object3D  random_obj = null;
@@ -63,10 +66,10 @@ public class PostProcessHandler {
     SimpleVector InverseSizex;
     SimpleVector InverseSizey;
 
-    SimpleVector splatPos;
+    public SimpleVector splatPos;
     //float AspectRatio;
-    float splatRadius;
-    boolean splat_on=false;
+    public  float splatRadius;
+    public boolean splat_on=false;
    // boolean random_spray=false;
 
     boolean random_fill = false;
@@ -195,6 +198,14 @@ public class PostProcessHandler {
             render_to_screen_obj_one.setVisibility(false);
         }
 
+
+    }
+
+
+
+    public void save_Frame(FrameBuffer fb) {
+
+        //TODO still have to create the save texture on start up,
 
     }
 

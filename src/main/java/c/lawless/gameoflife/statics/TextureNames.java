@@ -7,5 +7,7 @@ public class TextureNames {
     public static String splatt = "frametwo";
     public static String gridstore = "gridstore";
 
+    public static String savetexture = "savetexture";
+
 
 }

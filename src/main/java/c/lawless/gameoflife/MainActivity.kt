@@ -19,6 +19,7 @@ import android.view.ScaleGestureDetector.OnScaleGestureListener
 import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
+import c.lawless.gameoflife.StorageStuff.ObjectBox
 
 import com.threed.jpct.Camera
 import com.threed.jpct.Config
@@ -30,6 +31,7 @@ import com.threed.jpct.Texture
 import com.threed.jpct.World
 import com.threed.jpct.util.AAConfigChooser
 import com.threed.jpct.util.MemoryHelper
+import io.objectbox.BoxStore
 
 import java.lang.reflect.Field
 
@@ -42,16 +44,21 @@ import javax.microedition.khronos.opengles.GL10
  */
 class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observer */ {
 
-     var master: MainActivity? = null
+    var master: MainActivity? = null
     private var mGLView: GLSurfaceView? = null
     private var renderer: MyRenderer? = null
     private var fb: FrameBuffer? = null
+
+
+  //  public var boxStore: BoxStore? =null;
 
     internal var MS_PER_UPDATE: Long = 16
 
     var previous: Long = 0
     var current: Long = 0
     var lag: Long = 0
+
+
 
 
 
@@ -72,6 +79,16 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // do this once, for example in your Application class
+       // boxStore = MyObjectBox.builder().androidContext(App.this).build();
+
+        // using ObjectBox Kotlin extension functions (https://docs.objectbox.io/kotlin-support)
+//        notesBox = ObjectBox.boxStore.boxFor()
+//
+//        // query all notes, sorted a-z by their text (https://docs.objectbox.io/queries)
+//        notesQuery = notesBox.query {
+//            order(Note_.text)
 
         Logger.log("onCreate")
         //Logger.setLogLevel(Logger.LL_DEBUG);
@@ -94,6 +111,8 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             //This Sets Renderer , I may want to seperate these classes!
             setContentView(R.layout.activity_main) //or whatever the layout you want to use
             mGLView = findViewById<View>(R.id.glsurfaceview1) as GLSurfaceView
+
+            ObjectBox.build(this.baseContext)
 
 
             //mGLView = new GLSurfaceView(getApplication());
@@ -228,6 +247,7 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
 
                 val viewX =  motionEvent.x -view!!.left
                 val viewY =  motionEvent.y -view!!.top
+
 
 
 
