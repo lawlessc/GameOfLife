@@ -20,7 +20,7 @@ public class GOFSave {
     int  size;
 
 
-    Bitmap savedgImage;
+  //  Bitmap savedgImage;
    byte[] savedImage;
 
 

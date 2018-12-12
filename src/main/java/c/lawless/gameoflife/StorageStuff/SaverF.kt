@@ -12,16 +12,20 @@ import java.nio.IntBuffer
 fun frameSaver(fb :FrameBuffer ,world: World)
 {
 
- //var texture_to_save=  TextureManager.getInstance().getTexture(TextureNames.frameone)
 
 
+    //We render to the save texture here
     fb.setRenderTarget(TextureManager.getInstance().getTexture(TextureNames.savetexture))
     world.renderScene(fb)
     world.draw(fb)
     fb.display()
     fb.removeRenderTarget()
 
-    var bitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
+    //retrieve rendered to texture
+    var texture_to_save=  TextureManager.getInstance().getTexture(TextureNames.savetexture)
+
+
+    var bitmap = Bitmap.createBitmap(texture_to_save.width, texture_to_save.height, Bitmap.Config.ARGB_8888)
     var vec= fb.getPixels()
     bitmap.copyPixelsFromBuffer(IntBuffer.wrap(vec));
 
@@ -32,7 +36,7 @@ fun frameSaver(fb :FrameBuffer ,world: World)
     bitmap.recycle()
 
     //Get ID and name etc here then save object to box.
- //   saveObj = GOFSave()
+    saveObj = GOFSave()
 
 
 }
