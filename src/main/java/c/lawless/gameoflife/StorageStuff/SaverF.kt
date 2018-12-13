@@ -1,10 +1,13 @@
 package c.lawless.gameoflife.StorageStuff
 
 import android.graphics.Bitmap
+import c.lawless.gameoflife.StorageStuff.ObjectBox.boxStore
+import c.lawless.gameoflife.statics.GridSizes
 import c.lawless.gameoflife.statics.TextureNames
 import com.threed.jpct.FrameBuffer
 import com.threed.jpct.TextureManager
 import com.threed.jpct.World
+import io.objectbox.kotlin.boxFor
 import java.io.ByteArrayOutputStream
 import java.nio.IntBuffer
 
@@ -35,13 +38,9 @@ fun frameSaver(fb :FrameBuffer ,world: World)
     val byteArray = stream.toByteArray()
     bitmap.recycle()
 
-    //Get ID and name etc here then save object to box.
-    saveObj = GOFSave()
 
 
+    val box = boxStore.boxFor<GOFSave>()
+    box.put(GOFSave(0, java.util.Calendar.getInstance().toString(), GridSizes.size_level, byteArray))
 }
 
-fun store(fb :FrameBuffer, world: World) {
-
-
-}
