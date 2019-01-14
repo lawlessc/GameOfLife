@@ -3,6 +3,7 @@ package c.lawless.gameoflife;
 import android.content.res.Resources;
 import c.lawless.gameoflife.RenderHooks.MainRender_hook;
 import c.lawless.gameoflife.RenderHooks.SplatHook;
+import c.lawless.gameoflife.StorageStuff.SaverFKt;
 import c.lawless.gameoflife.statics.ColorSchemes;
 import c.lawless.gameoflife.statics.GridSizes;
 import c.lawless.gameoflife.statics.Rules;
@@ -75,6 +76,7 @@ public class PostProcessHandler {
     boolean random_fill = false;
     boolean clear_grid = false;
     boolean do_resize=false;
+    boolean save=false;
 
 
 
@@ -114,8 +116,10 @@ public class PostProcessHandler {
     }
 
 
-    public void update() {
 
+
+
+    public void update() {
 
         if(do_resize)
         {
@@ -124,8 +128,6 @@ public class PostProcessHandler {
             do_resize = false;
         }
 
-
-
      FB.resize(GridSizes.GridWidth,GridSizes.GridHeight);
 
       fills_and_draws(FB);
@@ -133,10 +135,6 @@ public class PostProcessHandler {
 
       FB.resize(GridSizes.ScreenWidth,GridSizes.ScreenHeight);
       render_to_screen(FB);
-
-
-
-
 
         switcher = !switcher;
     }
@@ -173,6 +171,7 @@ public class PostProcessHandler {
 
 
 
+
     public void render_to_screen(FrameBuffer fb)
     {
         if(switcher) {
@@ -206,6 +205,12 @@ public class PostProcessHandler {
     public void save_Frame(FrameBuffer fb) {
 
         //TODO still have to create the save texture on start up,
+
+        if(save) {
+
+            SaverFKt.frameSaver(fb,displayWorld);
+        }
+
 
     }
 
