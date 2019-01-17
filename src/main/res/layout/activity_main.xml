@@ -1,87 +1,105 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
+              xmlns:app="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:orientation="vertical"
               xmlns:tools="http://schemas.android.com/tools"
                   android:id= "@+id/linearlayout1">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 android:id="@+id/graphics_frameLayout1"
-                 android:layout_width="fill_parent"
-                 android:layout_height="fill_parent" >
+    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 android:id="@+id/graphics_frameLayout1"
+                                                 android:layout_width="fill_parent"
+                                                 android:layout_height="fill_parent">
 
 
         <android.opengl.GLSurfaceView
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent" android:layout_gravity="center" android:id="@+id/glsurfaceview1">
+                android:layout_height="fill_parent"
+                android:id="@+id/glsurfaceview1"
+               app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
 
         </android.opengl.GLSurfaceView>
 
 
-
         <ImageButton
-        android:id="@+id/clear"
-        android:layout_width="106dp"
-        android:layout_height="99dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_gravity="top|left"
-        android:background="@drawable/cleaningc"/>
+                android:id="@+id/clear"
+                android:layout_width="106dp"
+                android:layout_height="99dp"
+                android:background="@drawable/cleaningc"/>
 
 
-
-
-        <Button
-                android:text="random"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/ranom_fill"
-                android:layout_gravity="top|right"/>
         <Button
                 android:text="pen pixel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/pen2"
-                android:layout_gravity="left|center_vertical"/>
+                android:layout_gravity="left|center_vertical"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="120dp"
+                app:layout_constraintTop_toTopOf="parent"/>
         <Button
                 android:text="Pause"
 
                 android:layout_width="141dp"
                 android:layout_height="wrap_content" android:id="@+id/pause"
-                android:layout_gravity="bottom|start"/>
+                android:layout_gravity="bottom|start"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
         <Button
                 android:text="Colour"
                 android:layout_width="135dp"
                 android:layout_height="wrap_content" android:id="@+id/colourpicker"
-                android:layout_gravity="bottom|end"/>
+                android:layout_gravity="bottom|end"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/glsurfaceview1" android:layout_marginTop="248dp"/>
         <Button
                 android:text="pen wide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/pen"
-                android:layout_gravity="right|center_vertical"/>
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginTop="140dp"
+                app:layout_constraintTop_toTopOf="@+id/glsurfaceview1" android:layout_marginStart="280dp"
+                app:layout_constraintStart_toStartOf="@+id/glsurfaceview1"/>
         <Button
                 android:text="rules"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:id="@+id/openrules"
-                android:layout_gravity="center_vertical|center_horizontal|center"/>
+                android:layout_height="45dp" android:id="@+id/openrules"
+                android:layout_gravity="center_vertical|center_horizontal|center"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="332dp" app:layout_constraintTop_toTopOf="@+id/glsurfaceview1"/>
         <Button
                 android:text="+"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/increasesize"
-                android:layout_gravity="top|center_horizontal"/>
+                android:layout_gravity="top|center_horizontal"
+                android:layout_marginEnd="28dp" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="48dp"
+                app:layout_constraintTop_toTopOf="parent"/>
         <Button
                 android:text="-"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/decreasesize"
-                android:layout_gravity="bottom|center_horizontal"/>
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginEnd="36dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="156dp"
+                app:layout_constraintBottom_toBottomOf="parent"/>
 
         <Button
                 android:text="Save"
-                android:layout_width="166dp"
-                android:layout_height="102dp" android:id="@+id/save"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_width="124dp"
+                android:layout_height="57dp" android:id="@+id/save"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        <Button
+                android:text="Random"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/ranom_fill" android:layout_marginTop="200dp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+        />
 
 
-    </FrameLayout>
+    </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>

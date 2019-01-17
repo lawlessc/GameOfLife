@@ -1,6 +1,7 @@
 package c.lawless.gameoflife.StorageStuff
 
 import android.graphics.Bitmap
+import c.lawless.gameoflife.MainActivity
 import c.lawless.gameoflife.StorageStuff.ObjectBox.boxStore
 import c.lawless.gameoflife.statics.GridSizes
 import c.lawless.gameoflife.statics.TextureNames
@@ -42,5 +43,7 @@ fun frameSaver(fb :FrameBuffer ,world: World)
 
     val box = boxStore.boxFor<GOFSave>()
     box.put(GOFSave(0, java.util.Calendar.getInstance().toString(), GridSizes.size_level, byteArray))
+
+
 }
 

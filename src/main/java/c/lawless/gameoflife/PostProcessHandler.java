@@ -76,7 +76,7 @@ public class PostProcessHandler {
     boolean random_fill = false;
     boolean clear_grid = false;
     boolean do_resize=false;
-    boolean save=false;
+    public boolean save=false;
 
 
 
@@ -209,6 +209,8 @@ public class PostProcessHandler {
         if(save) {
 
             SaverFKt.frameSaver(fb,displayWorld);
+
+            save= false;
         }
 
 
