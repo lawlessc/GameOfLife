@@ -5,8 +5,8 @@
               xmlns:tools="http://schemas.android.com/tools"
                   android:id= "@+id/linearlayout1">
 
-    <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                                 android:id="@+id/graphics_frameLayout1"
+    <android.support.constraint.ConstraintLayout
+            android:id="@+id/graphics_frameLayout1"
                                                  android:layout_width="fill_parent"
                                                  android:layout_height="fill_parent">
 
@@ -15,8 +15,9 @@
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:id="@+id/glsurfaceview1"
-               app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="0dp" app:layout_constraintVertical_bias="0.0">
 
 
         </android.opengl.GLSurfaceView>
@@ -26,7 +27,8 @@
                 android:id="@+id/clear"
                 android:layout_width="106dp"
                 android:layout_height="99dp"
-                android:background="@drawable/cleaningc"/>
+
+                android:background="@drawable/cleaningc" tools:ignore="MissingConstraints"/>
 
 
         <Button
@@ -88,6 +90,14 @@
                 android:text="Save"
                 android:layout_width="124dp"
                 android:layout_height="57dp" android:id="@+id/save"
+                android:layout_gravity="center_horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="128dp"/>
+        <Button
+                android:text="load"
+                android:layout_width="124dp"
+                android:layout_height="57dp" android:id="@+id/load"
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>

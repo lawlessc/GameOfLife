@@ -127,8 +127,8 @@ fun frameTestLoader(fb :FrameBuffer ,world: World)
 
     image.allocationByteCount
 
-    var tex: NPOTTexture;
-    tex = Texture(image) as NPOTTexture;//very good ods this will fail if texture is not square
+
+    var tex = Texture(image) as NPOTTexture;//very good ods this will fail if texture is not square
                                         //consider changing to a a square framebuffer for all processing
                                        //display can still be in screen size
 
