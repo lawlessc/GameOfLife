@@ -234,6 +234,20 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
         }
 
 
+        val loadTestbutton: Button = findViewById(R.id.save)
+        savebutton.setOnClickListener {
+            // Do something in response to button click
+
+            //  Thread().run {
+            allGameObjects.INSTANCE.processHandler!!.loadTest = true;
+            //  }
+
+            //  allGameObjects.INSTANCE.processHandler!!.decreaseSize()
+
+        }
+
+
+
         val rules_dialogue_test: Button = findViewById(R.id.openrules)
         rules_dialogue_test.setOnClickListener {
             // Do something in response to button click

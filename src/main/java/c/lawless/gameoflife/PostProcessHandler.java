@@ -79,6 +79,7 @@ public class PostProcessHandler {
     boolean clear_grid = false;
     boolean do_resize=false;
     public boolean save=false;
+    public boolean loadTest=false;
 
 
 
@@ -137,6 +138,7 @@ public class PostProcessHandler {
 
       FB.resize(GridSizes.ScreenWidth,GridSizes.ScreenHeight);
       save_Frame(FB);
+      load__test_Frame(FB);
       render_to_screen(FB);
 
         switcher = !switcher;
@@ -218,6 +220,22 @@ public class PostProcessHandler {
 
 
     }
+
+
+    public void load__test_Frame(FrameBuffer fb) {
+
+        //TODO still have to create the save texture on start up,
+
+        if(loadTest) {
+
+            SaverFKt.frameTestLoader(fb,displayWorld);
+
+            loadTest= false;
+        }
+
+
+    }
+
 
 
     public void fills_and_draws(FrameBuffer fb)
