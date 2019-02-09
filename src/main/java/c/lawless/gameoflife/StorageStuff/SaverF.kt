@@ -119,7 +119,7 @@ fun frameTestLoader(fb :FrameBuffer ,world: World)
     //box.put(GOFSave(0, "testname", GridSizes.size_level, byteArray))
 
 
-   val  savefile = box.get(0)
+   val  savefile = box.get(1)
    val byteArray= savefile.savedImage
 
 

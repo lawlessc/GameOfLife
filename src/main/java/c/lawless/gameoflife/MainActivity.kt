@@ -234,8 +234,8 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
         }
 
 
-        val loadTestbutton: Button = findViewById(R.id.save)
-        savebutton.setOnClickListener {
+        val loadTestbutton: Button = findViewById(R.id.load)
+        loadTestbutton.setOnClickListener {
             // Do something in response to button click
 
             //  Thread().run {
