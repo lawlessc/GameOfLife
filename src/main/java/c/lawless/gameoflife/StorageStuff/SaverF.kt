@@ -10,6 +10,7 @@ import java.io.ByteArrayOutputStream
 import java.nio.IntBuffer
 import android.graphics.BitmapFactory
 import com.threed.jpct.*
+import com.threed.jpct.util.BitmapHelper
 
 
 /*Christopher Lawless 2018/2019 */
@@ -127,23 +128,29 @@ fun frameTestLoader(fb :FrameBuffer ,world: World)
 
     image.allocationByteCount
 
+    //problem textures must be square
+//    if(image.width > image.height )
+////    {
+////
+////        val image_1 =Bitmap.createBitmap(image,0,0 , image.width/2,image.height)
+////
+////    }
 
-    var tex = Texture(image) as NPOTTexture;//very good ods this will fail if texture is not square
+   // BitmapHelper.
+
+  //  NPOTTexture(image);
+
+    var tex = Texture(image) ;//very good ods this will fail if texture is not square
                                         //consider changing to a a square framebuffer for all processing
                                        //display can still be in screen size
-
-
     //todo when file is loaded all textures in Process handler to tbe resized
-
-
-
 
 }
 
 
 
 
-fun doBlit(fb: FrameBuffer, tex : NPOTTexture) {
+fun doBlit(fb: FrameBuffer, tex : Texture) {
 
     fb.resize(tex.getWidth(), tex.getHeight())
     fb.blit(
@@ -153,3 +160,5 @@ fun doBlit(fb: FrameBuffer, tex : NPOTTexture) {
 
 
 }
+
+
