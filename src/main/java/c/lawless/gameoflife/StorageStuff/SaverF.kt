@@ -11,6 +11,7 @@ import java.nio.IntBuffer
 import android.graphics.BitmapFactory
 import com.threed.jpct.*
 import com.threed.jpct.util.BitmapHelper
+import java.nio.ByteBuffer
 
 
 /*Christopher Lawless 2018/2019 */
@@ -46,7 +47,7 @@ fun frameSaver(fb :FrameBuffer ,world: World)
 
     //Save the byte array to a boxstore , useing current date time as a filename.
     val box = boxStore.boxFor<GOFSave>()
-    box.put(GOFSave(0, java.util.Calendar.getInstance().toString(), GridSizes.size_level, byteArray))
+    box.put(GOFSave(0, java.util.Calendar.getInstance().toString(), GridSizes.size_level, byteArray, texture_to_save.width, texture_to_save.height))
 
 
 }
@@ -72,6 +73,7 @@ fun frameTestSaver(fb :FrameBuffer ,world: World)
     bitmap.copyPixelsFromBuffer(IntBuffer.wrap(vec));
 
 
+   // texture_to_save
     //Convert the bitmap to a byte array
     val stream = ByteArrayOutputStream()
     bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
@@ -81,7 +83,7 @@ fun frameTestSaver(fb :FrameBuffer ,world: World)
 
     //Save the byte array to a boxstore , useing current date time as a filename.
     val box = boxStore.boxFor<GOFSave>()
-    box.put(GOFSave(0, "test", GridSizes.size_level, byteArray))
+    box.put(GOFSave(0, "test", GridSizes.size_level, byteArray, texture_to_save.width, texture_to_save.height))
 
 
 }
@@ -124,27 +126,25 @@ fun frameTestLoader(fb :FrameBuffer ,world: World)
    val byteArray= savefile.savedImage
 
 
-    val image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    //val image = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
 
-    image.allocationByteCount
+   // image.allocationByteCount
 
-    //problem textures must be square
-//    if(image.width > image.height )
-////    {
-////
-////        val image_1 =Bitmap.createBitmap(image,0,0 , image.width/2,image.height)
-////
-////    }
 
-   // BitmapHelper.
 
-  //  NPOTTexture(image);
+    var tex = NPOTTexture(savefile.width,savefile.height, RGBColor.BLUE)
 
-    var tex = Texture(image) ;//very good ods this will fail if texture is not square
+
+
+    //if this works i'll cry
+ //   ByteBuffer.
+    tex.overrideTexelData(ByteBuffer.wrap(byteArray))
+
+    ;//very good ods this will fail if texture is not square
                                         //consider changing to a a square framebuffer for all processing
                                        //display can still be in screen size
     //todo when file is loaded all textures in Process handler to tbe resized
-
+   doBlit(fb,tex);
 }
 
 

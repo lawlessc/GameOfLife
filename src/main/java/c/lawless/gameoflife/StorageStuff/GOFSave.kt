@@ -9,7 +9,10 @@ import io.objectbox.annotation.Id
 @Entity class GOFSave(@Id var id: Long =0,
                        var saveName: String,
                        var size: Int,
-                       var savedImage: ByteArray)
+                       var savedImage: ByteArray,
+                       var width: Int,
+                        var height: Int
+)
 
 
 
