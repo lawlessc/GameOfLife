@@ -138,7 +138,7 @@ public class PostProcessHandler {
 
       FB.resize(GridSizes.ScreenWidth,GridSizes.ScreenHeight);
       save_Frame(FB);
-      load__test_Frame(FB);
+      //load__test_Frame(FB);
       render_to_screen(FB);
 
         switcher = !switcher;
@@ -152,10 +152,14 @@ public class PostProcessHandler {
             fameObjOne.setVisibility(true);
             FB.clear();
             displayWorld.renderScene(FB);
+
             displayWorld.draw(FB);
+            load__test_Frame(FB);
             FB.display();
             fameObjOne.setVisibility(false);
+
             FB.removeRenderTarget();
+            //load__test_Frame(FB);
 
 
         }
@@ -167,10 +171,14 @@ public class PostProcessHandler {
             fameObjTwo.setVisibility(true);
             FB.clear();
             displayWorld.renderScene(FB);
+
             displayWorld.draw(FB);
+            load__test_Frame(FB);
             FB.display();
             fameObjTwo.setVisibility(false);
+
             FB.removeRenderTarget();
+
         }
     }
 
@@ -229,7 +237,7 @@ public class PostProcessHandler {
         if(loadTest) {
 
             SaverFKt.frameTestLoader(fb,displayWorld);
-
+            fb.display();
             loadTest= false;
         }
 
