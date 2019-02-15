@@ -134,7 +134,11 @@ public class PostProcessHandler {
      FB.resize(GridSizes.GridWidth,GridSizes.GridHeight);
 
       fills_and_draws(FB);
+      load__test_Frame(FB);
+
       process();
+
+
 
       FB.resize(GridSizes.ScreenWidth,GridSizes.ScreenHeight);
       save_Frame(FB);
@@ -146,6 +150,9 @@ public class PostProcessHandler {
 
     public void process()
     {
+
+
+
         if(switcher) {
 
             FB.setRenderTarget(frame_two);
@@ -154,7 +161,7 @@ public class PostProcessHandler {
             displayWorld.renderScene(FB);
 
             displayWorld.draw(FB);
-            load__test_Frame(FB);
+
             FB.display();
             fameObjOne.setVisibility(false);
 
@@ -173,11 +180,13 @@ public class PostProcessHandler {
             displayWorld.renderScene(FB);
 
             displayWorld.draw(FB);
-            load__test_Frame(FB);
+
             FB.display();
             fameObjTwo.setVisibility(false);
 
             FB.removeRenderTarget();
+
+       //     load__test_Frame(FB);
 
         }
     }
@@ -236,8 +245,30 @@ public class PostProcessHandler {
 
         if(loadTest) {
 
+//            fb.clear();
+//            fb.setRenderTarget(frame_one);
+//            fb.clear();
+//            SaverFKt.frameTestLoader(fb,displayWorld);
+//            //fb.display();
+//            fb.removeRenderTarget();
+//
+//            fb.setRenderTarget(frame_two);
+//            fb.clear();
+//            SaverFKt.frameTestLoader(fb,displayWorld);
+//            //fb.display();
+//            fb.removeRenderTarget();
+
+            fb.setRenderTarget(splat_tex);
+            draw_obj_one.setVisibility(true);
+            fb.clear();
+            displayWorld.renderScene(fb);
+            displayWorld.draw(fb);
             SaverFKt.frameTestLoader(fb,displayWorld);
             fb.display();
+            draw_obj_one.setVisibility(false);
+            fb.removeRenderTarget();
+
+
             loadTest= false;
         }
 
