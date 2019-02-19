@@ -22,7 +22,7 @@ public class PostProcessHandler {
 
     TextureManager tm = TextureManager.getInstance();
 
-    Boolean textureCompression= true;
+    Boolean textureCompression= false;//Setting this true will cause loading of saves to fail.
     Boolean textureFiltering= false;
     Boolean textureMipMap= false;
     Boolean setGLFiltering=false;
@@ -134,7 +134,7 @@ public class PostProcessHandler {
      FB.resize(GridSizes.GridWidth,GridSizes.GridHeight);
 
       fills_and_draws(FB);
-      load__test_Frame(FB);
+     // load__test_Frame(FB);
 
       process();
 
@@ -186,6 +186,8 @@ public class PostProcessHandler {
 
             FB.removeRenderTarget();
 
+            load__test_Frame(FB);
+
        //     load__test_Frame(FB);
 
         }
@@ -225,51 +227,52 @@ public class PostProcessHandler {
 
 
     public void save_Frame(FrameBuffer fb) {
-
-        //TODO still have to create the save texture on start up,
-
         if(save) {
-
             SaverFKt.frameSaver(fb,displayWorld);
-
             save= false;
         }
-
-
     }
 
 
     public void load__test_Frame(FrameBuffer fb) {
 
-        //TODO still have to create the save texture on start up,
+
 
         if(loadTest) {
 
-//            fb.clear();
-//            fb.setRenderTarget(frame_one);
-//            fb.clear();
-//            SaverFKt.frameTestLoader(fb,displayWorld);
-//            //fb.display();
-//            fb.removeRenderTarget();
-//
-//            fb.setRenderTarget(frame_two);
-//            fb.clear();
-//            SaverFKt.frameTestLoader(fb,displayWorld);
-//            //fb.display();
-//            fb.removeRenderTarget();
 
-            fb.setRenderTarget(splat_tex);
-            draw_obj_one.setVisibility(true);
-            fb.clear();
-            displayWorld.renderScene(fb);
-            displayWorld.draw(fb);
+
+            FB.setRenderTarget(frame_one);
+            fameObjTwo.setVisibility(true);
+            FB.clear();
+            displayWorld.renderScene(FB);
+
+            displayWorld.draw(FB);
             SaverFKt.frameTestLoader(fb,displayWorld);
-            fb.display();
-            draw_obj_one.setVisibility(false);
-            fb.removeRenderTarget();
+
+            FB.display();
+            fameObjTwo.setVisibility(false);
+
+            FB.removeRenderTarget();
+
+
+
+//            fb.setRenderTarget(r);
+//            draw_obj_one.setVisibility(true);
+//            fb.clear();
+//
+//            displayWorld.renderScene(fb);
+//            displayWorld.draw(fb);
+//
+//            SaverFKt.frameTestLoader(fb,displayWorld);
+//
+//            fb.display();
+//            draw_obj_one.setVisibility(false);
+//            fb.removeRenderTarget();
 
 
             loadTest= false;
+          //  splat_on=true;
         }
 
 

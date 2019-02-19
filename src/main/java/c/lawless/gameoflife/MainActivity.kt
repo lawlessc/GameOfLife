@@ -126,13 +126,13 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             mGLView!!.setRenderer(renderer)
 
             Texture.defaultToMipmapping(false)
-            Texture.defaultTo4bpp(false)
+            Texture.defaultTo4bpp(true)
             Texture.defaultToKeepPixels(true)
 
 
             Config.unloadImmediately = false
             Config.reuseTextureBuffers=true
-            Config.maxLights=1;
+            Config.maxLights=0;
             // Config.
 
 
@@ -140,6 +140,7 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             Config.farPlane = 10f
             Config.nearPlane = 0f
             mGLView!!.setPreserveEGLContextOnPause(true)
+            //Config.
            // Config.glDebugLevel=1
             //Config.maxTextureLayers = 3
 
