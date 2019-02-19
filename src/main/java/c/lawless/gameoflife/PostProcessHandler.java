@@ -188,7 +188,7 @@ public class PostProcessHandler {
 
             load__test_Frame(FB);
 
-       //     load__test_Frame(FB);
+
 
         }
     }
@@ -224,8 +224,6 @@ public class PostProcessHandler {
 
     }
 
-
-
     public void save_Frame(FrameBuffer fb) {
         if(save) {
             SaverFKt.frameSaver(fb,displayWorld);
@@ -233,15 +231,9 @@ public class PostProcessHandler {
         }
     }
 
-
     public void load__test_Frame(FrameBuffer fb) {
 
-
-
         if(loadTest) {
-
-
-
             FB.setRenderTarget(frame_one);
             fameObjTwo.setVisibility(true);
             FB.clear();
@@ -254,25 +246,7 @@ public class PostProcessHandler {
             fameObjTwo.setVisibility(false);
 
             FB.removeRenderTarget();
-
-
-
-//            fb.setRenderTarget(r);
-//            draw_obj_one.setVisibility(true);
-//            fb.clear();
-//
-//            displayWorld.renderScene(fb);
-//            displayWorld.draw(fb);
-//
-//            SaverFKt.frameTestLoader(fb,displayWorld);
-//
-//            fb.display();
-//            draw_obj_one.setVisibility(false);
-//            fb.removeRenderTarget();
-
-
             loadTest= false;
-          //  splat_on=true;
         }
 
 
@@ -282,9 +256,6 @@ public class PostProcessHandler {
 
     public void fills_and_draws(FrameBuffer fb)
     {
-
-
-
         fb.setRenderTarget(splat_tex);
         draw_obj_one.setVisibility(true);
         fb.clear();
@@ -294,11 +265,7 @@ public class PostProcessHandler {
         draw_obj_one.setVisibility(false);
         fb.removeRenderTarget();
 
-
-
-
         if(switcher) {
-
 
             if(random_fill)
             {
@@ -324,10 +291,6 @@ public class PostProcessHandler {
                 fb.removeRenderTarget();
                 clear_grid=false;
             }
-
-
-
-
         }
         else
         {
@@ -362,12 +325,9 @@ public class PostProcessHandler {
 
     public void setupObjects()
     {
-
         GOF_Hook = new GOLRenderHook(this,GOF_shader);
         Splat_Hook = new SplatHook(this, draw_shader);
         render_hook = new MainRender_hook(this, render_shader);
-
-
 
         draw_obj_one = Primitives.getPlane(4,10);
         draw_obj_one.setOrigin(new SimpleVector(0.01, 0, 0));
@@ -440,8 +400,6 @@ public class PostProcessHandler {
 
     public void setupTextures()
     {
-
-
         frame_one = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
         frame_one.setFiltering(textureFiltering);
         frame_one.setMipmap(textureMipMap);
@@ -467,15 +425,11 @@ public class PostProcessHandler {
         save_tex.setMipmap(textureMipMap);
         save_tex.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture(TextureNames.savetexture, save_tex);
-
     }
 
 
     public void replaceTextures()
     {
-
-
-
 //        tm.unloadTexture(FB,frame_one);
 //        tm.unloadTexture(FB,frame_two);
 //        tm.unloadTexture(FB,splat_tex);
@@ -512,24 +466,15 @@ public class PostProcessHandler {
         tm.replaceTexture(TextureNames.savetexture, save_tex_);
 
 
-
-
-
-
         frame_one= frame_one_;
         frame_two= frame_two_;
         splat_tex= splat_tex_;
         save_tex= save_tex_;
 
 
-      // setupTextures();
-
-
         FB.flush();
         FB.freeMemory();
         System.gc();
-
-
     }
 
 
@@ -548,7 +493,6 @@ public class PostProcessHandler {
         String FragmentShader =   Loader.loadTextFile(res.openRawResource(R.raw.gof_frag));
         GOF_shader = new GLSLShader(vertexShader,FragmentShader);
 
-
         String vertexShaderr =   Loader.loadTextFile(res.openRawResource(R.raw.gof_vertex));
         String FragmentShaderr =   Loader.loadTextFile(res.openRawResource(R.raw.random_frag));
         random_shader = new GLSLShader(vertexShaderr,FragmentShaderr);
@@ -559,7 +503,6 @@ public class PostProcessHandler {
 
         draw_shader = new GLSLShader(Loader.loadTextFile(res.openRawResource(R.raw.gof_vertex))
             ,Loader.loadTextFile(res.openRawResource(R.raw.splat_frag)) );
-
     }
 
 
@@ -585,7 +528,6 @@ public class PostProcessHandler {
     public void decreaseSize()
     {
 
-
         GridSizes.size_level++;
 
         if(GridSizes.size_level > 8)
@@ -597,8 +539,6 @@ public class PostProcessHandler {
             setSize();
             do_resize= true;
         }
-
-
 
     }
 
@@ -643,7 +583,6 @@ public class PostProcessHandler {
         GridSizes.GridWidth = GridSizes.ScreenWidth  /  GridSizes.size_modifier;
         replaceTextures();
 
-
         InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
         InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
 
@@ -662,8 +601,6 @@ public class PostProcessHandler {
 //        render_to_screen_obj_two.setTexture("frametwo");
 
 
-
-
         FB.setRenderTarget(frame_one);
         FB.clear();
         FB.clear(RGBColor.BLACK);
@@ -671,7 +608,6 @@ public class PostProcessHandler {
         displayWorld.draw(FB);
         FB.display();
         FB.removeRenderTarget();
-
     }
 
 

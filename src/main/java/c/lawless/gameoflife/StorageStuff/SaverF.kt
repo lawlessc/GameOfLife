@@ -70,11 +70,9 @@ fun frameSaver(fb :FrameBuffer ,world: World)
 
 fun frameTestLoader(fb :FrameBuffer ,world: World)
 {
-    //Save the byte array to a boxstore , useing current date time as a filename.
    val box = boxStore.boxFor<GOFSave>()
    val  savefile = box.get(1)
    val vec= savefile.savedImage
-
    val fin = convertBytestoIntegers(vec)
 
    doBlit(fb,fin,savefile.width, savefile.height);
@@ -85,17 +83,10 @@ fun frameTestLoader(fb :FrameBuffer ,world: World)
 
 fun doBlit(fb: FrameBuffer, tex : IntArray, width: Int, height: Int) {
 
-  //fb.b
-   // GL11.glEnable(GL11.GL_DEPTH_TEST)
-  //  GL11.
-
-
     fb.resize(width, height)
     fb.blit(tex ,width,height, 0, 0, 0,0,
         width, height,
         false)//if set to true the blit overlays the previous screen.
-
-
 }
 
 

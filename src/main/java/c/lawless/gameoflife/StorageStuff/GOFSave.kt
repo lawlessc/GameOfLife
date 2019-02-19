@@ -15,6 +15,8 @@ import io.objectbox.annotation.Id
 )
 
 
+//TODO remove size spec, replace with any spec
+
 
 //  val image: Bitmap
 //  get() = BitmapFactory.decodeByteArray(savedImage, 0, savedImage.size)
