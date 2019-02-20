@@ -16,7 +16,13 @@ import java.nio.ByteBuffer
 import java.io.DataOutputStream
 import java.nio.ByteOrder
 import java.nio.ByteOrder.BIG_ENDIAN
+import java.time.LocalDateTime
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 import javax.microedition.khronos.opengles.GL11
+import java.time.format.DateTimeFormatter.ISO_INSTANT
+
+
 
 
 /*Christopher Lawless 2018/2019 */
@@ -24,9 +30,6 @@ import javax.microedition.khronos.opengles.GL11
 
 fun frameSaver(fb :FrameBuffer ,world: World)
 {
-
-
-
     //We render to the save texture here
     fb.setRenderTarget(TextureManager.getInstance().getTexture(TextureNames.savetexture))
     world.renderScene(fb)
@@ -42,25 +45,22 @@ fun frameSaver(fb :FrameBuffer ,world: World)
     var vec= fb.getPixels()
 
    var byteArray=   convertIntegersToBytes(vec);
-//    bitmap.copyPixelsFromBuffer(IntBuffer.wrap(vec));
-//
-//
-//    //Convert the bitmap to a byte array
-//    val stream = ByteArrayOutputStream()
-//    //bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-//    val byteArray = stream.toByteArray()
-//    bitmap.recycle()
 
+
+    //We get date time for title, for now
+    val now = LocalDateTime.now()
+    val time_now = DateTimeFormatter.ISO_INSTANT.format(now.toInstant(ZoneOffset.UTC))
 
     //Save the byte array to a boxstore , useing current date time as a filename.
+
     val box = boxStore.boxFor<GOFSave>()
-    box.put(GOFSave(0, java.util.Calendar.getInstance().toString(),
+    box.put(GOFSave(0,
+
+        time_now,
         GridSizes.size_level,
         byteArray,
         texture_to_save.width,
         texture_to_save.height))
-    System.out.println("SAVER CALLED")
-
 }
 
 
@@ -79,6 +79,18 @@ fun frameTestLoader(fb :FrameBuffer ,world: World)
 }
 
 
+fun loadFile(id :Long):GOFSave
+{
+    val box = boxStore.boxFor<GOFSave>()
+    val  savefile = box.get(id)
+    return  savefile;
+}
+
+fun deleteAllFiles()
+{
+   boxStore.boxFor<GOFSave>().removeAll()
+}
+
 
 
 fun doBlit(fb: FrameBuffer, tex : IntArray, width: Int, height: Int) {
@@ -89,7 +101,7 @@ fun doBlit(fb: FrameBuffer, tex : IntArray, width: Int, height: Int) {
         false)//if set to true the blit overlays the previous screen.
 }
 
-
+//
 fun convertIntegersToBytes(integers: IntArray?): ByteArray? {
     if (integers != null) {
         val outputBytes = ByteArray(integers.size * 4)
@@ -112,9 +124,9 @@ fun convertIntegersToBytes(integers: IntArray?): ByteArray? {
     }
 }
 
+//Got from http://www.java2s.com/Tutorial/Java/0180__File/ConvertBytearraytoInt.htm
 fun convertBytestoIntegers( bytes : ByteArray? ): IntArray
 {
-
     val intBuf = ByteBuffer.wrap(bytes)
         .order(ByteOrder.LITTLE_ENDIAN)
         .asIntBuffer()

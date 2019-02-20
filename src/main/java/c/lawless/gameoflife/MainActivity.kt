@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.app.Activity
 import android.app.FragmentManager
 import android.content.Context
+import android.content.Intent
 import android.content.res.Resources
 import android.opengl.GLSurfaceView
 import android.support.v4.app.FragmentActivity
@@ -20,6 +21,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import c.lawless.gameoflife.StorageStuff.ObjectBox
+import c.lawless.gameoflife.StorageStuff.deleteAllFiles
+import c.lawless.gameoflife.StorageStuff.frameSaver
 
 import com.threed.jpct.Camera
 import com.threed.jpct.Config
@@ -224,27 +227,29 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
 
         val savebutton: Button = findViewById(R.id.save)
         savebutton.setOnClickListener {
-            // Do something in response to button click
 
-            //  Thread().run {
             allGameObjects.INSTANCE.processHandler!!.save = true;
-            //  }
 
-            //  allGameObjects.INSTANCE.processHandler!!.decreaseSize()
 
         }
 
 
         val loadTestbutton: Button = findViewById(R.id.load)
         loadTestbutton.setOnClickListener {
-            // Do something in response to button click
 
-            //  Thread().run {
             allGameObjects.INSTANCE.processHandler!!.loadTest = true;
-            //  }
 
-            //  allGameObjects.INSTANCE.processHandler!!.decreaseSize()
+        }
 
+        val loader: Button = findViewById(R.id.loader)
+        loader.setOnClickListener {
+            openLoader()
+        }
+
+        val deleteAll: Button = findViewById(R.id.delete_all)
+        deleteAll.setOnClickListener {
+
+            deleteAllFiles()
         }
 
 
@@ -318,13 +323,6 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
                  }
               return@OnTouchListener true
             })
-
-
-
-
-
-
-
 
 
 
@@ -454,7 +452,12 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
         }
     }
 
+fun openLoader()
+{
 
+    val intent = Intent(this,LoaderActivity::class.java)
+    startActivity(intent)
+}
 
 
 //    private inner class TapListener : OnGestureListener, GestureDetector.OnDoubleTapListener {

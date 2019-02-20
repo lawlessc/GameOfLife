@@ -48,6 +48,22 @@
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
         <Button
+                android:text="Loader"
+
+                android:layout_width="141dp"
+                android:layout_height="wrap_content" android:id="@+id/loader"
+                android:layout_gravity="bottom|start"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+                android:layout_marginBottom="156dp" app:layout_constraintBottom_toBottomOf="parent"/>
+        <Button
+                android:text="Delete All"
+
+                android:layout_width="141dp"
+                android:layout_height="wrap_content" android:id="@+id/delete_all"
+                android:layout_gravity="bottom|start"
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
+                android:layout_marginBottom="88dp" app:layout_constraintBottom_toBottomOf="parent"/>
+        <Button
                 android:text="Colour"
                 android:layout_width="135dp"
                 android:layout_height="wrap_content" android:id="@+id/colourpicker"
