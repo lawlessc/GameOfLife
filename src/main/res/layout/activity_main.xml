@@ -7,8 +7,8 @@
 
     <android.support.constraint.ConstraintLayout
             android:id="@+id/graphics_frameLayout1"
-                                                 android:layout_width="fill_parent"
-                                                 android:layout_height="fill_parent">
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent">
 
 
         <android.opengl.GLSurfaceView
@@ -53,8 +53,8 @@
                 android:layout_width="141dp"
                 android:layout_height="wrap_content" android:id="@+id/loader"
                 android:layout_gravity="bottom|start"
-                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="16dp"
-                android:layout_marginBottom="156dp" app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="280dp"
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
         <Button
                 android:text="Delete All"
 
@@ -110,13 +110,6 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="128dp"/>
-        <Button
-                android:text="load"
-                android:layout_width="124dp"
-                android:layout_height="57dp" android:id="@+id/load"
-                android:layout_gravity="center_horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
         <Button
                 android:text="Random"
                 android:layout_width="wrap_content"

@@ -17,7 +17,10 @@ object ObjectBox {
 
     fun build(context: Context) {
         // This is the minimal setup required on Android
-        boxStore = MyObjectBox.builder().androidContext(context.applicationContext).build()
+
+        if(::boxStore.isInitialized == false) {
+            boxStore = MyObjectBox.builder().androidContext(context.applicationContext).build()
+        }
 
 
         // Example how you could use a custom dir in "external storage"

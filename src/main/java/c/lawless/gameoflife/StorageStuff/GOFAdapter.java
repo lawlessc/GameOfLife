@@ -1,5 +1,7 @@
 package c.lawless.gameoflife.StorageStuff;
 
+import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
@@ -10,10 +12,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.content.Intent;
+import c.lawless.gameoflife.MainActivity;
 import c.lawless.gameoflife.R;
 
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 
 public class GOFAdapter extends RecyclerView.Adapter<GOFAdapter.Saveviewholder> {
     public ArrayList<GOFSave> data;
@@ -52,6 +59,7 @@ public class GOFAdapter extends RecyclerView.Adapter<GOFAdapter.Saveviewholder> 
 
         saveviewholder.saveTitle.setText(save.getSaveName());
         saveviewholder.saveImage.setImageBitmap(bitmap);
+        saveviewholder.save_id=i;
     }
 
     public static class Saveviewholder extends  RecyclerView.ViewHolder
@@ -59,6 +67,7 @@ public class GOFAdapter extends RecyclerView.Adapter<GOFAdapter.Saveviewholder> 
         CardView cardView;
         public ImageView saveImage;
         public TextView  saveTitle;
+        public int save_id;
 
         public Saveviewholder(@NonNull View itemView) {
             super(itemView);
@@ -66,7 +75,31 @@ public class GOFAdapter extends RecyclerView.Adapter<GOFAdapter.Saveviewholder> 
             cardView =  itemView.findViewById(R.id.save_cardview);
             saveImage = itemView.findViewById(R.id.save_image);
             saveTitle = itemView.findViewById(R.id.save_title);
+
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    // item clicked
+
+
+                    Intent intent = new Intent(v.getContext() ,MainActivity.class);
+                    intent.putExtra("save_id",save_id );
+                    intent.putExtra("loading",true);
+
+                    v.getContext().startActivity(intent);
+
+
+                }
+            });
+
+
+
         }
+
+
+
+
     }
 
     @Override

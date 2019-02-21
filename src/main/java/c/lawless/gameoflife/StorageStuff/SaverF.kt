@@ -68,11 +68,14 @@ fun frameSaver(fb :FrameBuffer ,world: World)
 
 
 
-fun frameTestLoader(fb :FrameBuffer ,world: World)
+fun frameTestLoader(fb :FrameBuffer ,id: Long)
 {
    val box = boxStore.boxFor<GOFSave>()
-   val  savefile = box.get(1)
+
+   val  savefile = box.get(id)
+
    val vec= savefile.savedImage
+
    val fin = convertBytestoIntegers(vec)
 
    doBlit(fb,fin,savefile.width, savefile.height);
@@ -101,7 +104,7 @@ fun doBlit(fb: FrameBuffer, tex : IntArray, width: Int, height: Int) {
         false)//if set to true the blit overlays the previous screen.
 }
 
-//
+//https://stackoverflow.com/questions/1086054/how-to-convert-int-to-byte
 fun convertIntegersToBytes(integers: IntArray?): ByteArray? {
     if (integers != null) {
         val outputBytes = ByteArray(integers.size * 4)

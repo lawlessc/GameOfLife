@@ -81,6 +81,7 @@ public class PostProcessHandler {
     public boolean save=false;
     public boolean loadTest=false;
 
+    Long toload;
 
 
 
@@ -115,6 +116,40 @@ public class PostProcessHandler {
      setupObjects();
 
     // displayWorld.compileAllObjects();
+
+    }
+
+
+    public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main, int id) {
+        fb.freeMemory();
+        FB= fb;
+        GridSizes.size_modifier = 1;
+
+        GridSizes.ScreenHeight = FB.getHeight();
+        GridSizes.ScreenWidth = FB.getWidth();
+
+        GridSizes.GridHeight = FB.getHeight()/GridSizes.size_modifier;
+        GridSizes.GridWidth = FB.getWidth()/  GridSizes.size_modifier;
+        loadShaders(res);
+        setUpCameras();//worlds
+        //we replace textures here to avoid errors.
+        replaceTextures();
+
+        this.main=main;
+
+        toload= Integer.toUnsignedLong(id+1);
+        loadTest = true;
+        // InverseSize = new SimpleVector(1.0f/ fb.getWidth() ,1.0f/ fb.getHeight() ,0);
+
+        InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
+        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
+
+        splatRadius =   GridSizes.GridWidth /16.0f;
+        splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
+        //AspectRatio = FB.getWidth()/FB.getHeight();
+        setupObjects();
+
+        // displayWorld.compileAllObjects();
 
     }
 
@@ -186,7 +221,7 @@ public class PostProcessHandler {
 
             FB.removeRenderTarget();
 
-            load__test_Frame(FB);
+            load__test_Frame(FB, toload);
 
 
 
@@ -231,7 +266,7 @@ public class PostProcessHandler {
         }
     }
 
-    public void load__test_Frame(FrameBuffer fb) {
+    public void load__test_Frame(FrameBuffer fb,Long id) {
 
         if(loadTest) {
             FB.setRenderTarget(frame_one);
@@ -240,7 +275,7 @@ public class PostProcessHandler {
             displayWorld.renderScene(FB);
 
             displayWorld.draw(FB);
-            SaverFKt.frameTestLoader(fb,displayWorld);
+            SaverFKt.frameTestLoader(fb,id);
 
             FB.display();
             fameObjTwo.setVisibility(false);

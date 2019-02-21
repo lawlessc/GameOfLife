@@ -61,6 +61,9 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
     var current: Long = 0
     var lag: Long = 0
 
+    var loadnew : Boolean= false;
+    var loadint :Int =0;
+
 
 
 
@@ -102,6 +105,18 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
         //Context baseContext= this.getBaseContext();
         //Resources res = getResources();
 
+
+
+
+
+
+
+      loadnew=  intent.getBooleanExtra("loading", false);
+      loadint = intent.getIntExtra("save_id", 0);
+
+
+
+
         if (master != null) {
             copy(master!!)
         }
@@ -116,15 +131,11 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             mGLView = findViewById<View>(R.id.glsurfaceview1) as GLSurfaceView
 
             ObjectBox.build(this.baseContext)
-
-
             //mGLView = new GLSurfaceView(getApplication());
             // Enable the OpenGL ES2.0 context
             mGLView!!.setEGLContextClientVersion(2)
             //
             //mGLView.setEGLConfigChooser(new AAConfigChooser(mGLView));
-
-
             renderer = MyRenderer()
             mGLView!!.setRenderer(renderer)
 
@@ -146,7 +157,6 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             //Config.
            // Config.glDebugLevel=1
             //Config.maxTextureLayers = 3
-
             //Config
            // Config.glDebugLevel
             //  Config.
@@ -171,8 +181,6 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             // Do something in response to button click
             isActionPaused = !isActionPaused!!
         }
-
-
 
         val big_pen_button: Button = findViewById(R.id.pen)
         big_pen_button.setOnClickListener {
@@ -204,8 +212,6 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
         val increase_size: Button = findViewById(R.id.increasesize)
         increase_size.setOnClickListener {
             // Do something in response to button click
-
-
          //   Thread().run {
                 allGameObjects.INSTANCE.processHandler!!.increaseSize()
          //   }
@@ -213,33 +219,15 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
         }
         val deccrease_size: Button = findViewById(R.id.decreasesize)
         deccrease_size.setOnClickListener {
-            // Do something in response to button click
-
-          //  Thread().run {
                 allGameObjects.INSTANCE.processHandler!!.decreaseSize()
-          //  }
-
-          //  allGameObjects.INSTANCE.processHandler!!.decreaseSize()
-
         }
-
 
 
         val savebutton: Button = findViewById(R.id.save)
         savebutton.setOnClickListener {
-
             allGameObjects.INSTANCE.processHandler!!.save = true;
-
-
         }
 
-
-        val loadTestbutton: Button = findViewById(R.id.load)
-        loadTestbutton.setOnClickListener {
-
-            allGameObjects.INSTANCE.processHandler!!.loadTest = true;
-
-        }
 
         val loader: Button = findViewById(R.id.loader)
         loader.setOnClickListener {
@@ -248,11 +236,8 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
 
         val deleteAll: Button = findViewById(R.id.delete_all)
         deleteAll.setOnClickListener {
-
             deleteAllFiles()
         }
-
-
 
         val rules_dialogue_test: Button = findViewById(R.id.openrules)
         rules_dialogue_test.setOnClickListener {
@@ -326,7 +311,7 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
 
 
 
-    }
+    }//END OFF ON CREATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 
 
@@ -420,7 +405,19 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
                 master = this@MainActivity
 
                 val res = resources
-                allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb, master)
+
+
+
+                if( loadnew )
+                {
+                    allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb, master, loadint);
+                }
+                else
+                {
+                    allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb, master)
+
+                }
+
 
                 current = System.currentTimeMillis()
                 lag = 0
