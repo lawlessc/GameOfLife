@@ -17,4 +17,3 @@ public class ColorSchemes {
     public static final SimpleVector game_pixel = new  SimpleVector(0,0,0);
 
 }
-

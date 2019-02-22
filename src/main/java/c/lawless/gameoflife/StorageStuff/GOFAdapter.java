@@ -59,7 +59,7 @@ public class GOFAdapter extends RecyclerView.Adapter<GOFAdapter.Saveviewholder> 
 
         saveviewholder.saveTitle.setText(save.getSaveName());
         saveviewholder.saveImage.setImageBitmap(bitmap);
-        saveviewholder.save_id=i;
+        saveviewholder.save_id=save.getId();
     }
 
     public static class Saveviewholder extends  RecyclerView.ViewHolder
@@ -67,7 +67,7 @@ public class GOFAdapter extends RecyclerView.Adapter<GOFAdapter.Saveviewholder> 
         CardView cardView;
         public ImageView saveImage;
         public TextView  saveTitle;
-        public int save_id;
+        public long save_id;
 
         public Saveviewholder(@NonNull View itemView) {
             super(itemView);

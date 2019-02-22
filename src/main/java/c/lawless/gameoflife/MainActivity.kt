@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
     var lag: Long = 0
 
     var loadnew : Boolean= false;
-    var loadint :Int =0;
+    var loadint :Long =0;
 
 
 
@@ -112,7 +112,7 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
 
 
       loadnew=  intent.getBooleanExtra("loading", false);
-      loadint = intent.getIntExtra("save_id", 0);
+      loadint = intent.getLongExtra("save_id", 0);
 
 
 

@@ -3,6 +3,7 @@ package c.lawless.gameoflife;
 import android.content.res.Resources;
 import c.lawless.gameoflife.RenderHooks.MainRender_hook;
 import c.lawless.gameoflife.RenderHooks.SplatHook;
+import c.lawless.gameoflife.StorageStuff.GOFSave;
 import c.lawless.gameoflife.StorageStuff.SaverFKt;
 import c.lawless.gameoflife.statics.ColorSchemes;
 import c.lawless.gameoflife.statics.GridSizes;
@@ -120,7 +121,7 @@ public class PostProcessHandler {
     }
 
 
-    public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main, int id) {
+    public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main, Long id) {
         fb.freeMemory();
         FB= fb;
         GridSizes.size_modifier = 1;
@@ -137,7 +138,7 @@ public class PostProcessHandler {
 
         this.main=main;
 
-        toload= Integer.toUnsignedLong(id+1);
+        toload= id;
         loadTest = true;
         // InverseSize = new SimpleVector(1.0f/ fb.getWidth() ,1.0f/ fb.getHeight() ,0);
 
@@ -173,11 +174,10 @@ public class PostProcessHandler {
 
       process();
 
-
+      save_Frame(FB);
 
       FB.resize(GridSizes.ScreenWidth,GridSizes.ScreenHeight);
-      save_Frame(FB);
-      //load__test_Frame(FB);
+
       render_to_screen(FB);
 
         switcher = !switcher;
@@ -261,22 +261,37 @@ public class PostProcessHandler {
 
     public void save_Frame(FrameBuffer fb) {
         if(save) {
-            SaverFKt.frameSaver(fb,displayWorld);
+ System.out.println("chris save frame "+ GridSizes.GridWidth +"and"+GridSizes.GridHeight);
+            SaverFKt.frameSaver(fb,GridSizes.GridWidth,GridSizes.GridHeight);
             save= false;
         }
     }
 
     public void load__test_Frame(FrameBuffer fb,Long id) {
 
+
+
         if(loadTest) {
+
+
+            GOFSave save=   SaverFKt.loadFile(id);
+            int[]  tex = SaverFKt.convertBytestoIntegers(save.getSavedImage());
+
+
+            resizeFromSave(save.getWidth(),save.getHeight());
+            System.out.println("SAVE WIDTH" + save.getWidth());
+
+
+
             FB.setRenderTarget(frame_one);
             fameObjTwo.setVisibility(true);
             FB.clear();
             displayWorld.renderScene(FB);
 
             displayWorld.draw(FB);
-            SaverFKt.frameTestLoader(fb,id);
-
+            //SaverFKt.frameTestLoader(fb,id);
+            blitLoad(fb,tex, save.getWidth(), save.getHeight());
+//TODO
             FB.display();
             fameObjTwo.setVisibility(false);
 
@@ -512,6 +527,55 @@ public class PostProcessHandler {
         System.gc();
     }
 
+    public void replaceTextures(int width, int height)
+    {
+//        tm.unloadTexture(FB,frame_one);
+//        tm.unloadTexture(FB,frame_two);
+//        tm.unloadTexture(FB,splat_tex);
+
+        NPOTTexture frame_one_ = new NPOTTexture(width , height, RGBColor.BLACK);
+        frame_one_.setFiltering(textureFiltering);
+        frame_one_.setMipmap(textureMipMap);
+        frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+        // frame_one_.add(frame_one,1f);
+        tm.replaceTexture("frameone", frame_one_);
+
+
+        NPOTTexture frame_two_ = new NPOTTexture(width , height, RGBColor.BLACK);
+        frame_two_.setFiltering(textureFiltering);
+        frame_two_.setMipmap(textureMipMap);
+        frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+        //  frame_two_.add(frame_two,1f);
+        tm.replaceTexture("frametwo", frame_two_);
+
+
+        NPOTTexture splat_tex_ = new NPOTTexture(width , height, RGBColor.BLACK);
+        splat_tex_.setFiltering(textureFiltering);
+        splat_tex_.setMipmap(textureMipMap);
+        splat_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+        // splat_tex_.add(splat_tex,1f);
+        tm.replaceTexture("splatt", splat_tex_);
+
+
+        NPOTTexture save_tex_ = new NPOTTexture(width, height, RGBColor.BLACK);
+        save_tex_.setFiltering(textureFiltering);
+        save_tex_.setMipmap(textureMipMap);
+        save_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+        // splat_tex_.add(splat_tex,1f);
+        tm.replaceTexture(TextureNames.savetexture, save_tex_);
+
+
+        frame_one= frame_one_;
+        frame_two= frame_two_;
+        splat_tex= splat_tex_;
+        save_tex= save_tex_;
+
+
+        FB.flush();
+        FB.freeMemory();
+        System.gc();
+    }
+
 
 
     public void setUpCameras()
@@ -625,15 +689,7 @@ public class PostProcessHandler {
         splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
 
 
-//        TextureInfo one  =  new TextureInfo(TextureManager.getInstance().getTextureID("frameone"));
-//        one.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
-//        fameObjOne.setTexture(one);
-//        TextureInfo two  =  new TextureInfo(TextureManager.getInstance().getTextureID("frametwo"));
-//        two.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
-//        fameObjTwo.setTexture(two);
-//
-//        render_to_screen_obj_one.setTexture("frameone");
-//        render_to_screen_obj_two.setTexture("frametwo");
+        FB.resize( GridSizes.GridWidth,GridSizes.GridHeight );
 
 
         FB.setRenderTarget(frame_one);
@@ -644,6 +700,34 @@ public class PostProcessHandler {
         FB.display();
         FB.removeRenderTarget();
     }
+
+
+    public void resizeFromSave(int width, int height)
+    {
+
+
+        GridSizes.GridWidth = width;
+        GridSizes.GridHeight = height;
+
+        replaceTextures(width,height);
+
+        InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
+        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
+
+        splatRadius =   GridSizes.GridWidth /16.0f;
+        splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
+
+        FB.resize( width,height);
+
+        FB.setRenderTarget(frame_one);
+        FB.clear();
+        FB.clear(RGBColor.BLACK);
+        displayWorld.renderScene(FB);
+        displayWorld.draw(FB);
+        FB.display();
+        FB.removeRenderTarget();
+    }
+
 
 
     public void changeColours()
@@ -680,4 +764,19 @@ public class PostProcessHandler {
         splatPos = new SimpleVector(x,y,0);
         splat_on=true;
     }
+
+
+    public void blitLoad(FrameBuffer fb, int[]  tex,int width, int height )
+    {
+
+        fb.resize(width, height);
+        fb.blit(tex ,width,height, 0, 0, 0,0,
+                width, height,
+                false);//if set to true the blit overlays the previous screen.
+
+
+    }
+
+
+
 }
