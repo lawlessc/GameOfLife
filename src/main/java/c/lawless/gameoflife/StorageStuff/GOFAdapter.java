@@ -50,7 +50,7 @@ public class GOFAdapter extends RecyclerView.Adapter<GOFAdapter.Saveviewholder> 
     public void onBindViewHolder(@NonNull final Saveviewholder saveviewholder, int i) {
 
       GOFSave  save =  data.get(i);
-        // You are using RGBA that's why Config is ARGB.8888
+        // using RGBA that's why Config is ARGB.8888
         Bitmap bitmap = Bitmap.createBitmap(save.getWidth(), save.getHeight(), Bitmap.Config.ARGB_8888);
         // vector is your int[] of ARGB
 

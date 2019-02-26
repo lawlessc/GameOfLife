@@ -31,14 +31,9 @@ import java.time.format.DateTimeFormatter.ISO_INSTANT
 fun frameSaver(fb :FrameBuffer, width: Int, height :Int)
 {
 
-    //create a bitmap of the image
-    //var bitmap = Bitmap.createBitmap(texture_to_save.width, texture_to_save.height, Bitmap.Config.ARGB_8888)
-    var vec= fb.getPixels()
-    //fb.g
-   // fb.ge
 
+   var vec= fb.getPixels()
    var byteArray=   convertIntegersToBytes(vec)
-
 
     println("chris bytearraysize " + byteArray!!.size )
     println("save width " + width )
@@ -47,12 +42,12 @@ fun frameSaver(fb :FrameBuffer, width: Int, height :Int)
 
 
     //We get date time for title, for now
-    val now = LocalDateTime.now()
-    val time_now = DateTimeFormatter.ISO_INSTANT.format(now.toInstant(ZoneOffset.UTC))
+    var now = LocalDateTime.now()
+    var time_now = DateTimeFormatter.ISO_INSTANT.format(now.toInstant(ZoneOffset.UTC))
 
     //Save the byte array to a boxstore , useing current date time as a filename.
 
-    val box = boxStore.boxFor<GOFSave>()
+    var box = boxStore.boxFor<GOFSave>()
     box.put(GOFSave(0, time_now, byteArray, width,height))
 }
 
@@ -60,8 +55,8 @@ fun frameSaver(fb :FrameBuffer, width: Int, height :Int)
 
 fun loadFile(id :Long):GOFSave
 {
-    val box = boxStore.boxFor<GOFSave>()
-    val savefile = box.get(id)
+    var box = boxStore.boxFor<GOFSave>()
+    var savefile = box.get(id)
 
 
     println("chID is " + id )
@@ -81,13 +76,6 @@ fun deleteAllFiles()
 
 
 
-//fun doBlit(fb: FrameBuffer, tex : IntArray, width: Int, height: Int) {
-//
-//    fb.resize(width, height)
-//    fb.blit(tex ,width,height, 0, 0, 0,0,
-//        width, height,
-//        false)//if set to true the blit overlays the previous screen.
-//}
 
 //https://stackoverflow.com/questions/1086054/how-to-convert-int-to-byte
 fun convertIntegersToBytes(integers: IntArray?): ByteArray? {

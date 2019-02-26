@@ -1,6 +1,6 @@
 package c.lawless.gameoflife.statics
 
-object GridSizes {
+ object GridSizes {
     //8 sizes
     val smallest = 128
     val sixtyfourth = 64

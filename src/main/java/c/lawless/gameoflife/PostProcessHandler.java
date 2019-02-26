@@ -58,10 +58,10 @@ public class PostProcessHandler {
     public Object3D  render_to_screen_obj_two = null;
 
 
-    public World processWorld;
+    //public World processWorld;
     public World displayWorld;
     public Camera displayCam = null;
-    public Camera processCam = null;
+    //public Camera processCam = null;
     FrameBuffer FB = null;
 
 
@@ -174,7 +174,7 @@ public class PostProcessHandler {
 
       process();
 
-        save_Frame(FB);
+       // save_Frame(FB);
 
 
 
@@ -202,7 +202,7 @@ public class PostProcessHandler {
 
             FB.display();
             fameObjOne.setVisibility(false);
-
+            save_Frame(FB);
             FB.removeRenderTarget();
         }
         else
@@ -216,7 +216,7 @@ public class PostProcessHandler {
 
             FB.display();
             fameObjTwo.setVisibility(false);
-
+            save_Frame(FB);
             FB.removeRenderTarget();
 
             load__test_Frame(FB, toload);
