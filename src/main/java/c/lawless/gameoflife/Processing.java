@@ -57,13 +57,13 @@ public class Processing {
         displayWorld.addObject(fameObjTwo);
         fameObjTwo.setVisibility(false);
 
-        frame_one = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+        frame_one = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         frame_one.setFiltering(textureFiltering);
         frame_one.setMipmap(textureMipMap);
         frame_one.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture("frameone", frame_one);
 
-        frame_two = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+        frame_two = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         frame_two.setFiltering(textureFiltering);
         frame_two.setMipmap(textureMipMap);
         frame_two.setTextureCompression(textureCompression);// texture compression eliminates the artifacts

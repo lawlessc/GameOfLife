@@ -94,13 +94,13 @@ public class PostProcessHandler {
     public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main) {
     fb.freeMemory();
     FB= fb;
-        GridSizes.size_modifier = 1;
+        GridSizes.INSTANCE.setSize_modifier(1);
 
-    GridSizes.ScreenHeight = FB.getHeight();
-    GridSizes.ScreenWidth = FB.getWidth();
+    GridSizes.INSTANCE.setScreenHeight(FB.getHeight());
+    GridSizes.INSTANCE.setScreenWidth(FB.getWidth());
 
-    GridSizes.GridHeight = FB.getHeight()/GridSizes.size_modifier;
-    GridSizes.GridWidth = FB.getWidth()/  GridSizes.size_modifier;
+    GridSizes.INSTANCE.setGridHeight(FB.getHeight() / GridSizes.INSTANCE.getSize_modifier());
+    GridSizes.INSTANCE.setGridWidth(FB.getWidth() / GridSizes.INSTANCE.getSize_modifier());
     loadShaders(res);
     setUpCameras();//worlds
     setupTextures();
@@ -108,11 +108,11 @@ public class PostProcessHandler {
 
     // InverseSize = new SimpleVector(1.0f/ fb.getWidth() ,1.0f/ fb.getHeight() ,0);
 
-     InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
-     InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
+     InverseSizex = new SimpleVector(1.0f/ GridSizes.INSTANCE.getGridWidth(),0 ,0);
+     InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.INSTANCE.getGridHeight(),0);
 
-     splatRadius =   GridSizes.GridWidth /16.0f;
-     splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
+     splatRadius =   GridSizes.INSTANCE.getGridWidth() /16.0f;
+     splatPos    =  new SimpleVector(  GridSizes.INSTANCE.getGridWidth() / 2.0f, GridSizes.INSTANCE.getGridHeight() /2.0f , 0);
      //AspectRatio = FB.getWidth()/FB.getHeight();
      setupObjects();
 
@@ -124,13 +124,13 @@ public class PostProcessHandler {
     public PostProcessHandler(Resources res, FrameBuffer fb, MainActivity main, Long id) {
         fb.freeMemory();
         FB= fb;
-        GridSizes.size_modifier = 1;
+        GridSizes.INSTANCE.setSize_modifier(1);
 
-        GridSizes.ScreenHeight = FB.getHeight();
-        GridSizes.ScreenWidth = FB.getWidth();
+        GridSizes.INSTANCE.setScreenHeight(FB.getHeight());
+        GridSizes.INSTANCE.setScreenWidth(FB.getWidth());
 
-        GridSizes.GridHeight = FB.getHeight()/GridSizes.size_modifier;
-        GridSizes.GridWidth = FB.getWidth()/  GridSizes.size_modifier;
+        GridSizes.INSTANCE.setGridHeight(FB.getHeight() / GridSizes.INSTANCE.getSize_modifier());
+        GridSizes.INSTANCE.setGridWidth(FB.getWidth() / GridSizes.INSTANCE.getSize_modifier());
         loadShaders(res);
         setUpCameras();//worlds
         //we replace textures here to avoid errors.
@@ -142,11 +142,11 @@ public class PostProcessHandler {
         loadTest = true;
         // InverseSize = new SimpleVector(1.0f/ fb.getWidth() ,1.0f/ fb.getHeight() ,0);
 
-        InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
-        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
+        InverseSizex = new SimpleVector(1.0f/ GridSizes.INSTANCE.getGridWidth(),0 ,0);
+        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.INSTANCE.getGridHeight(),0);
 
-        splatRadius =   GridSizes.GridWidth /16.0f;
-        splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
+        splatRadius =   GridSizes.INSTANCE.getGridWidth() /16.0f;
+        splatPos    =  new SimpleVector(  GridSizes.INSTANCE.getGridWidth() / 2.0f, GridSizes.INSTANCE.getGridHeight() /2.0f , 0);
         //AspectRatio = FB.getWidth()/FB.getHeight();
         setupObjects();
 
@@ -178,7 +178,7 @@ public class PostProcessHandler {
 
 
 
-      FB.resize(GridSizes.ScreenWidth,GridSizes.ScreenHeight);
+      FB.resize(GridSizes.INSTANCE.getScreenWidth(), GridSizes.INSTANCE.getScreenHeight());
 
 
       render_to_screen(FB);
@@ -258,9 +258,9 @@ public class PostProcessHandler {
 
     public void save_Frame(FrameBuffer fb) {
         if(save) {
- System.out.println("chris save frame "+ GridSizes.GridWidth +"and"+GridSizes.GridHeight);
- fb.resize(GridSizes.GridWidth,GridSizes.GridHeight);
-            SaverFKt.frameSaver(fb,GridSizes.GridWidth,GridSizes.GridHeight);
+ System.out.println("chris save frame "+ GridSizes.INSTANCE.getGridWidth() +"and"+ GridSizes.INSTANCE.getGridHeight());
+ fb.resize(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight());
+            SaverFKt.frameSaver(fb, GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight());
             save= false;
         }
     }
@@ -448,20 +448,20 @@ public class PostProcessHandler {
 
     public void setupTextures()
     {
-        frame_one = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+        frame_one = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         frame_one.setFiltering(textureFiltering);
         frame_one.setMipmap(textureMipMap);
         frame_one.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture("frameone", frame_one);
 
-        frame_two = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+        frame_two = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         frame_two.setFiltering(textureFiltering);
         frame_two.setMipmap(textureMipMap);
         frame_two.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.addTexture("frametwo", frame_two);
 
 
-        splat_tex = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+        splat_tex = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         splat_tex.setFiltering(textureFiltering);
         splat_tex.setMipmap(textureMipMap);
         splat_tex.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
@@ -482,7 +482,7 @@ public class PostProcessHandler {
 //        tm.unloadTexture(FB,frame_two);
 //        tm.unloadTexture(FB,splat_tex);
 
-        NPOTTexture frame_one_ = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+        NPOTTexture frame_one_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         frame_one_.setFiltering(textureFiltering);
         frame_one_.setMipmap(textureMipMap);
         frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
@@ -490,7 +490,7 @@ public class PostProcessHandler {
         tm.replaceTexture("frameone", frame_one_);
 
 
-        NPOTTexture frame_two_ = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+        NPOTTexture frame_two_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         frame_two_.setFiltering(textureFiltering);
         frame_two_.setMipmap(textureMipMap);
         frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
@@ -498,7 +498,7 @@ public class PostProcessHandler {
         tm.replaceTexture("frametwo", frame_two_);
 
 
-        NPOTTexture splat_tex_ = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+        NPOTTexture splat_tex_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         splat_tex_.setFiltering(textureFiltering);
         splat_tex_.setMipmap(textureMipMap);
         splat_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
@@ -606,11 +606,11 @@ public class PostProcessHandler {
 
     public void increaseSize()
     {
-        GridSizes.size_level--;
+        GridSizes.INSTANCE.setSize_level(GridSizes.INSTANCE.getSize_level() - 1);
 
-                if(GridSizes.size_level < 1)
+                if(GridSizes.INSTANCE.getSize_level() < 1)
                 {
-                    GridSizes.size_level=1;
+                    GridSizes.INSTANCE.setSize_level(1);
                 }
                 else
                 {
@@ -625,11 +625,11 @@ public class PostProcessHandler {
     public void decreaseSize()
     {
 
-        GridSizes.size_level++;
+        GridSizes.INSTANCE.setSize_level(GridSizes.INSTANCE.getSize_level() + 1);
 
-        if(GridSizes.size_level > 8)
+        if(GridSizes.INSTANCE.getSize_level() > 8)
         {
-            GridSizes.size_level=8;
+            GridSizes.INSTANCE.setSize_level(8);
         }
         else
         {
@@ -643,30 +643,30 @@ public class PostProcessHandler {
     public void setSize()
     {
 
-        switch(GridSizes.size_level) {
+        switch(GridSizes.INSTANCE.getSize_level()) {
             case 1:
-                GridSizes.size_modifier= GridSizes.screenResolutionSize;
+                GridSizes.INSTANCE.setSize_modifier(GridSizes.INSTANCE.getScreenResolutionSize());
                 break;
             case 2:
-                GridSizes.size_modifier= GridSizes.half;
+                GridSizes.INSTANCE.setSize_modifier(GridSizes.INSTANCE.getHalf());
                 break;
             case 3:
-                GridSizes.size_modifier= GridSizes.quarter;
+                GridSizes.INSTANCE.setSize_modifier(GridSizes.INSTANCE.getQuarter());
                 break;
             case 4:
-                GridSizes.size_modifier= GridSizes.eight;
+                GridSizes.INSTANCE.setSize_modifier(GridSizes.INSTANCE.getEight());
                 break;
             case 5:
-                GridSizes.size_modifier= GridSizes.sixtieenth;
+                GridSizes.INSTANCE.setSize_modifier(GridSizes.INSTANCE.getSixtieenth());
                 break;
             case 6:
-                GridSizes.size_modifier= GridSizes.thirtysecond;
+                GridSizes.INSTANCE.setSize_modifier(GridSizes.INSTANCE.getThirtysecond());
                 break;
             case 7:
-                GridSizes.size_modifier= GridSizes.sixtyfourth;
+                GridSizes.INSTANCE.setSize_modifier(GridSizes.INSTANCE.getSixtyfourth());
                 break;
             case 8:
-                GridSizes.size_modifier= GridSizes.smallest;
+                GridSizes.INSTANCE.setSize_modifier(GridSizes.INSTANCE.getSmallest());
                 break;
         }
     }
@@ -676,18 +676,18 @@ public class PostProcessHandler {
     public void resizeGrid()
     {
 
-        GridSizes.GridHeight = GridSizes.ScreenHeight / GridSizes.size_modifier;
-        GridSizes.GridWidth = GridSizes.ScreenWidth  /  GridSizes.size_modifier;
+        GridSizes.INSTANCE.setGridHeight(GridSizes.INSTANCE.getScreenHeight() / GridSizes.INSTANCE.getSize_modifier());
+        GridSizes.INSTANCE.setGridWidth(GridSizes.INSTANCE.getScreenWidth() / GridSizes.INSTANCE.getSize_modifier());
 
 
-        InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
-        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
+        InverseSizex = new SimpleVector(1.0f/ GridSizes.INSTANCE.getGridWidth(),0 ,0);
+        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.INSTANCE.getGridHeight(),0);
 
-        splatRadius =   GridSizes.GridWidth /16.0f;
-        splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
+        splatRadius =   GridSizes.INSTANCE.getGridWidth() /16.0f;
+        splatPos    =  new SimpleVector(  GridSizes.INSTANCE.getGridWidth() / 2.0f, GridSizes.INSTANCE.getGridHeight() /2.0f , 0);
 
 
-        FB.resize( GridSizes.GridWidth,GridSizes.GridHeight );
+        FB.resize(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight());
         replaceTextures();
 
 //        FB.setRenderTarget(frame_one);
@@ -704,16 +704,16 @@ public class PostProcessHandler {
     {
 
 
-        GridSizes.GridWidth = width;
-        GridSizes.GridHeight = height;
+        GridSizes.INSTANCE.setGridWidth(width);
+        GridSizes.INSTANCE.setGridHeight(height);
 
         replaceTextures(width,height);
 
-        InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
-        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
+        InverseSizex = new SimpleVector(1.0f/ GridSizes.INSTANCE.getGridWidth(),0 ,0);
+        InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.INSTANCE.getGridHeight(),0);
 
-        splatRadius =   GridSizes.GridWidth /16.0f;
-        splatPos    =  new SimpleVector(  GridSizes.GridWidth / 2.0f, GridSizes.GridHeight /2.0f , 0);
+        splatRadius =   GridSizes.INSTANCE.getGridWidth() /16.0f;
+        splatPos    =  new SimpleVector(  GridSizes.INSTANCE.getGridWidth() / 2.0f, GridSizes.INSTANCE.getGridHeight() /2.0f , 0);
 
         FB.resize( width,height);
 
@@ -753,9 +753,9 @@ public class PostProcessHandler {
 
     public void setSplatPos(float x , float y)
     {
-        y = frame_one.getHeight() -(y/GridSizes.size_modifier);
+        y = frame_one.getHeight() -(y/ GridSizes.INSTANCE.getSize_modifier());
 
-        x = x/GridSizes.size_modifier;
+        x = x/ GridSizes.INSTANCE.getSize_modifier();
         //x =  frame_one.getWidth()/x;
         //        x= ((frame_one.getWidth()) +(x/size_modifier));
 //        x= 1f-x;
