@@ -47,14 +47,19 @@
                 android:layout_gravity="bottom|start"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="8dp"
                 android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
-        <Button
-                android:text="Loader"
+        <ImageButton
 
-                android:layout_width="141dp"
-                android:layout_height="wrap_content" android:id="@+id/loader"
+
+                android:layout_width="106dp"
+                android:layout_height="99dp"
+
+                android:id="@+id/loader"
                 android:layout_gravity="bottom|start"
                 app:layout_constraintStart_toStartOf="parent" android:layout_marginStart="280dp"
-                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"/>
+                android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/noun_open_file" tools:ignore="MissingConstraints"
+        />
+
         <Button
                 android:text="Delete All"
 
@@ -102,14 +107,19 @@
                 app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="156dp"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <Button
-                android:text="Save"
-                android:layout_width="124dp"
-                android:layout_height="57dp" android:id="@+id/save"
+        <ImageButton
+
+                android:layout_width="106dp"
+                android:layout_height="99dp"
+
+                android:id="@+id/save"
                 android:layout_gravity="center_horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="128dp"/>
+                android:layout_marginEnd="128dp"
+                android:background="@drawable/noun_save"
+                tools:ignore="MissingConstraints"
+        />
         <Button
                 android:text="Random"
                 android:layout_width="wrap_content"

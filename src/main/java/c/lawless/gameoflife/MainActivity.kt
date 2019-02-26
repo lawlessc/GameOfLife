@@ -223,13 +223,13 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
         }
 
 
-        val savebutton: Button = findViewById(R.id.save)
+        val savebutton: ImageButton = findViewById(R.id.save)
         savebutton.setOnClickListener {
             allGameObjects.INSTANCE.processHandler!!.save = true;
         }
 
 
-        val loader: Button = findViewById(R.id.loader)
+        val loader: ImageButton = findViewById(R.id.loader)
         loader.setOnClickListener {
             openLoader()
         }
