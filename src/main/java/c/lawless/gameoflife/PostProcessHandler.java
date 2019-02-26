@@ -34,7 +34,7 @@ public class PostProcessHandler {
 
     public NPOTTexture splat_tex;
 
-    public NPOTTexture save_tex;//needs to exist
+    //public NPOTTexture save_tex;//needs to exist
 
 
     public GLSLShader GOF_shader;
@@ -167,16 +167,19 @@ public class PostProcessHandler {
             do_resize = false;
         }
 
-     FB.resize(GridSizes.GridWidth,GridSizes.GridHeight);
+
 
       fills_and_draws(FB);
-     // load__test_Frame(FB);
+
 
       process();
 
-      save_Frame(FB);
+        save_Frame(FB);
+
+
 
       FB.resize(GridSizes.ScreenWidth,GridSizes.ScreenHeight);
+
 
       render_to_screen(FB);
 
@@ -201,14 +204,9 @@ public class PostProcessHandler {
             fameObjOne.setVisibility(false);
 
             FB.removeRenderTarget();
-            //load__test_Frame(FB);
-
-
         }
         else
         {
-
-
             FB.setRenderTarget(frame_one);
             fameObjTwo.setVisibility(true);
             FB.clear();
@@ -223,9 +221,8 @@ public class PostProcessHandler {
 
             load__test_Frame(FB, toload);
 
-
-
         }
+
     }
 
 
@@ -262,6 +259,7 @@ public class PostProcessHandler {
     public void save_Frame(FrameBuffer fb) {
         if(save) {
  System.out.println("chris save frame "+ GridSizes.GridWidth +"and"+GridSizes.GridHeight);
+ fb.resize(GridSizes.GridWidth,GridSizes.GridHeight);
             SaverFKt.frameSaver(fb,GridSizes.GridWidth,GridSizes.GridHeight);
             save= false;
         }
@@ -470,11 +468,11 @@ public class PostProcessHandler {
         tm.addTexture("splatt", splat_tex);
 
 
-        save_tex = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
-        save_tex.setFiltering(textureFiltering);
-        save_tex.setMipmap(textureMipMap);
-        save_tex.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-        tm.addTexture(TextureNames.savetexture, save_tex);
+//        save_tex = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+//        save_tex.setFiltering(textureFiltering);
+//        save_tex.setMipmap(textureMipMap);
+//        save_tex.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//        tm.addTexture(TextureNames.savetexture, save_tex);
     }
 
 
@@ -508,18 +506,18 @@ public class PostProcessHandler {
         tm.replaceTexture("splatt", splat_tex_);
 
 
-        NPOTTexture save_tex_ = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
-        save_tex_.setFiltering(textureFiltering);
-        save_tex_.setMipmap(textureMipMap);
-        save_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-        // splat_tex_.add(splat_tex,1f);
-        tm.replaceTexture(TextureNames.savetexture, save_tex_);
+//        NPOTTexture save_tex_ = new NPOTTexture(GridSizes.GridWidth , GridSizes.GridHeight, RGBColor.BLACK);
+//        save_tex_.setFiltering(textureFiltering);
+//        save_tex_.setMipmap(textureMipMap);
+//        save_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//        // splat_tex_.add(splat_tex,1f);
+//        tm.replaceTexture(TextureNames.savetexture, save_tex_);
 
 
         frame_one= frame_one_;
         frame_two= frame_two_;
         splat_tex= splat_tex_;
-        save_tex= save_tex_;
+       // save_tex= save_tex_;
 
 
         FB.flush();
@@ -557,18 +555,18 @@ public class PostProcessHandler {
         tm.replaceTexture("splatt", splat_tex_);
 
 
-        NPOTTexture save_tex_ = new NPOTTexture(width, height, RGBColor.BLACK);
-        save_tex_.setFiltering(textureFiltering);
-        save_tex_.setMipmap(textureMipMap);
-        save_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-        // splat_tex_.add(splat_tex,1f);
-        tm.replaceTexture(TextureNames.savetexture, save_tex_);
+//        NPOTTexture save_tex_ = new NPOTTexture(width, height, RGBColor.BLACK);
+//        save_tex_.setFiltering(textureFiltering);
+//        save_tex_.setMipmap(textureMipMap);
+//        save_tex_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//        // splat_tex_.add(splat_tex,1f);
+//        tm.replaceTexture(TextureNames.savetexture, save_tex_);
 
 
         frame_one= frame_one_;
         frame_two= frame_two_;
         splat_tex= splat_tex_;
-        save_tex= save_tex_;
+      //  save_tex= save_tex_;
 
 
         FB.flush();
@@ -680,7 +678,7 @@ public class PostProcessHandler {
 
         GridSizes.GridHeight = GridSizes.ScreenHeight / GridSizes.size_modifier;
         GridSizes.GridWidth = GridSizes.ScreenWidth  /  GridSizes.size_modifier;
-        replaceTextures();
+
 
         InverseSizex = new SimpleVector(1.0f/ GridSizes.GridWidth ,0 ,0);
         InverseSizey = new SimpleVector(0 ,1.0f/ GridSizes.GridHeight ,0);
@@ -690,15 +688,15 @@ public class PostProcessHandler {
 
 
         FB.resize( GridSizes.GridWidth,GridSizes.GridHeight );
+        replaceTextures();
 
-
-        FB.setRenderTarget(frame_one);
-        FB.clear();
-        FB.clear(RGBColor.BLACK);
-        displayWorld.renderScene(FB);
-        displayWorld.draw(FB);
-        FB.display();
-        FB.removeRenderTarget();
+//        FB.setRenderTarget(frame_one);
+//        FB.clear();
+//        FB.clear(RGBColor.BLACK);
+//        displayWorld.renderScene(FB);
+//        displayWorld.draw(FB);
+//        FB.display();
+//        FB.removeRenderTarget();
     }
 
 
@@ -719,13 +717,13 @@ public class PostProcessHandler {
 
         FB.resize( width,height);
 
-        FB.setRenderTarget(frame_one);
-        FB.clear();
-        FB.clear(RGBColor.BLACK);
-        displayWorld.renderScene(FB);
-        displayWorld.draw(FB);
-        FB.display();
-        FB.removeRenderTarget();
+//        FB.setRenderTarget(frame_one);
+//        FB.clear();
+//        FB.clear(RGBColor.BLACK);
+//        displayWorld.renderScene(FB);
+//        displayWorld.draw(FB);
+//        FB.display();
+//        FB.removeRenderTarget();
     }
 
 
@@ -769,7 +767,7 @@ public class PostProcessHandler {
     public void blitLoad(FrameBuffer fb, int[]  tex,int width, int height )
     {
 
-        fb.resize(width, height);
+      //  fb.resize(width, height);
         fb.blit(tex ,width,height, 0, 0, 0,0,
                 width, height,
                 false);//if set to true the blit overlays the previous screen.

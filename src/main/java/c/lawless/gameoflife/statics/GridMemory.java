@@ -12,10 +12,10 @@ import com.threed.jpct.World;
 public class GridMemory {
 
 
-  /* not sure how well this will work as it isn't java awt image */
-  //  public static Image memory;
+    /* not sure how well this will work as it isn't java awt image */
+    //  public static Image memory;
 
-   // public NPOTTexture store;
+    // public NPOTTexture store;
 
 
     FrameBuffer fb ;
@@ -29,7 +29,7 @@ public class GridMemory {
     }
 
 
-   /*store image by rendering it to a texture */
+    /*store image by rendering it to a texture */
     public void store()
     {
         fb.setRenderTarget(TextureManager.getInstance().getTexture(TextureNames.gridstore));

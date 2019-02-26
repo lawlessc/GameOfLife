@@ -34,6 +34,8 @@ fun frameSaver(fb :FrameBuffer, width: Int, height :Int)
     //create a bitmap of the image
     //var bitmap = Bitmap.createBitmap(texture_to_save.width, texture_to_save.height, Bitmap.Config.ARGB_8888)
     var vec= fb.getPixels()
+    //fb.g
+   // fb.ge
 
    var byteArray=   convertIntegersToBytes(vec)
 
@@ -59,7 +61,7 @@ fun frameSaver(fb :FrameBuffer, width: Int, height :Int)
 fun loadFile(id :Long):GOFSave
 {
     val box = boxStore.boxFor<GOFSave>()
-    val  savefile = box.get(id)
+    val savefile = box.get(id)
 
 
     println("chID is " + id )
@@ -68,7 +70,7 @@ fun loadFile(id :Long):GOFSave
     println("load height " + savefile.height )
 
 
-    return  savefile;
+    return  savefile
 }
 
 fun deleteAllFiles()
@@ -79,13 +81,13 @@ fun deleteAllFiles()
 
 
 
-fun doBlit(fb: FrameBuffer, tex : IntArray, width: Int, height: Int) {
-
-    fb.resize(width, height)
-    fb.blit(tex ,width,height, 0, 0, 0,0,
-        width, height,
-        false)//if set to true the blit overlays the previous screen.
-}
+//fun doBlit(fb: FrameBuffer, tex : IntArray, width: Int, height: Int) {
+//
+//    fb.resize(width, height)
+//    fb.blit(tex ,width,height, 0, 0, 0,0,
+//        width, height,
+//        false)//if set to true the blit overlays the previous screen.
+//}
 
 //https://stackoverflow.com/questions/1086054/how-to-convert-int-to-byte
 fun convertIntegersToBytes(integers: IntArray?): ByteArray? {
