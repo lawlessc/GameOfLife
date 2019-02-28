@@ -36,7 +36,7 @@ public class Processing {
 
 
 
-    public Processing(FrameBuffer fb, World world)
+    public Processing(World world)
     {
        // this.GOF_shader= gof_shader;
         this.displayWorld= world;
@@ -51,7 +51,7 @@ public class Processing {
     }
 
 
-    public Processing(FrameBuffer fb, World world, long load_id)
+    public Processing(World world, long load_id)
     {
         //this.GOF_shader= gof_shader;
         this.displayWorld= world;
@@ -70,8 +70,6 @@ public class Processing {
     public void setupObjects(PostProcessHandler pp , GLSLShader GOF_shader)
     {
         GOF_Hook = new GOLRenderHook(pp,GOF_shader);
-
-
 
         fameObjOne = Primitives.getPlane(4,10);
         fameObjOne.setOrigin(new SimpleVector(0.01, 0, 0));
@@ -130,9 +128,7 @@ public class Processing {
             fameObjOne.setVisibility(true);
             FB.clear();
             displayWorld.renderScene(FB);
-
             displayWorld.draw(FB);
-
             FB.display();
             fameObjOne.setVisibility(false);
             save_Frame(FB);
@@ -144,14 +140,11 @@ public class Processing {
             fameObjTwo.setVisibility(true);
             FB.clear();
             displayWorld.renderScene(FB);
-
             displayWorld.draw(FB);
-
             FB.display();
             fameObjTwo.setVisibility(false);
             save_Frame(FB);
             FB.removeRenderTarget();
-
             load__test_Frame(FB, load_id);
 
         }
@@ -172,21 +165,13 @@ public class Processing {
             GOFSave save=   SaverFKt.loadFile(id);
             int[]  tex = SaverFKt.convertBytestoIntegers(save.getSavedImage());
 
-            //resizeFromSave(save.getWidth(),save.getHeight());
             replaceTextures(save.getWidth(),save.getHeight());
-            System.out.println("SAVE WIDTH" + save.getWidth());
-
-
-
             FB.setRenderTarget(frame_one);
             fameObjTwo.setVisibility(true);
             FB.clear();
             displayWorld.renderScene(FB);
-
             displayWorld.draw(FB);
-            //SaverFKt.frameTestLoader(fb,id);
             blitLoad(FB,tex, save.getWidth(), save.getHeight());
-//TODO
             FB.display();
             fameObjTwo.setVisibility(false);
 
@@ -194,11 +179,6 @@ public class Processing {
             loadTest= false;
         }
     }
-
-
-
-
-
 
 
 
@@ -211,21 +191,16 @@ public class Processing {
         frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.replaceTexture("frameone", frame_one_);
 
-
         NPOTTexture frame_two_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         frame_two_.setFiltering(textureFiltering);
         frame_two_.setMipmap(textureMipMap);
         frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
         tm.replaceTexture("frametwo", frame_two_);
 
-//        FB.flush();
-//        FB.freeMemory();
-//        System.gc();
     }
 
     public void replaceTextures(int width, int height)
     {
-
         NPOTTexture frame_one_ = new NPOTTexture(width , height, RGBColor.BLACK);
         frame_one_.setFiltering(textureFiltering);
         frame_one_.setMipmap(textureMipMap);
@@ -240,10 +215,6 @@ public class Processing {
 
         frame_one= frame_one_;
         frame_two= frame_two_;
-
-//        FB.flush();
-//        FB.freeMemory();
-//        System.gc();
     }
 
 
