@@ -1,6 +1,7 @@
 package c.lawless.gameoflife;
 
 import android.content.res.Resources;
+import c.lawless.gameoflife.RenderHooks.GOLRenderHook;
 import c.lawless.gameoflife.RenderHooks.MainRender_hook;
 import c.lawless.gameoflife.RenderHooks.SplatHook;
 import c.lawless.gameoflife.StorageStuff.GOFSave;
@@ -8,7 +9,6 @@ import c.lawless.gameoflife.StorageStuff.SaverFKt;
 import c.lawless.gameoflife.statics.ColorSchemes;
 import c.lawless.gameoflife.statics.GridSizes;
 import c.lawless.gameoflife.statics.Rules;
-import c.lawless.gameoflife.statics.TextureNames;
 import com.threed.jpct.*;
 
 
@@ -16,7 +16,7 @@ import com.threed.jpct.*;
  * Created by lawless on 12/10/2015.
  */
 public class PostProcessHandler {
-    MainActivity main ;
+    public MainActivity main ;
 
    // public NPOTTexture outPutTexture = null; //if not a null we output texture to this.
 
@@ -29,8 +29,8 @@ public class PostProcessHandler {
     Boolean setGLFiltering=false;
 
 
-    public NPOTTexture frame_one;//Textures for alternating frames.
-    public NPOTTexture frame_two;
+//    public NPOTTexture frame_one;//Textures for alternating frames.
+//    public NPOTTexture frame_two;
 
     public NPOTTexture splat_tex;
 
@@ -43,7 +43,7 @@ public class PostProcessHandler {
 
     public GLSLShader draw_shader;
 
-    GOLRenderHook  GOF_Hook;
+    GOLRenderHook GOF_Hook;
     SplatHook Splat_Hook;
     MainRender_hook render_hook;
 
@@ -51,8 +51,10 @@ public class PostProcessHandler {
     public Object3D  draw_obj_one = null;
 
 
-    public Object3D  fameObjOne = null;
-    public Object3D  fameObjTwo = null;
+//    public Object3D  fameObjOne = null;
+//    public Object3D  fameObjTwo = null;
+
+    Processing processing_;
 
     public Object3D  render_to_screen_obj_one = null;
     public Object3D  render_to_screen_obj_two = null;
@@ -67,8 +69,8 @@ public class PostProcessHandler {
 
     public  Boolean switcher= true;
 
-    SimpleVector InverseSizex;
-    SimpleVector InverseSizey;
+    public SimpleVector InverseSizex;
+    public SimpleVector InverseSizey;
 
     public SimpleVector splatPos;
     //float AspectRatio;
@@ -103,6 +105,9 @@ public class PostProcessHandler {
     GridSizes.INSTANCE.setGridWidth(FB.getWidth() / GridSizes.INSTANCE.getSize_modifier());
     loadShaders(res);
     setUpCameras();//worlds
+
+
+    processing_= new Processing(FB,displayWorld);
     setupTextures();
     this.main=main;
 
@@ -134,6 +139,7 @@ public class PostProcessHandler {
         loadShaders(res);
         setUpCameras();//worlds
         //we replace textures here to avoid errors.
+        processing_= new Processing(FB,displayWorld,id);
         replaceTextures();
 
         this.main=main;
@@ -190,38 +196,39 @@ public class PostProcessHandler {
     {
 
 
+        processing_.process(FB,switcher);
 
-        if(switcher) {
-
-            FB.setRenderTarget(frame_two);
-            fameObjOne.setVisibility(true);
-            FB.clear();
-            displayWorld.renderScene(FB);
-
-            displayWorld.draw(FB);
-
-            FB.display();
-            fameObjOne.setVisibility(false);
-            save_Frame(FB);
-            FB.removeRenderTarget();
-        }
-        else
-        {
-            FB.setRenderTarget(frame_one);
-            fameObjTwo.setVisibility(true);
-            FB.clear();
-            displayWorld.renderScene(FB);
-
-            displayWorld.draw(FB);
-
-            FB.display();
-            fameObjTwo.setVisibility(false);
-            save_Frame(FB);
-            FB.removeRenderTarget();
-
-            load__test_Frame(FB, toload);
-
-        }
+//        if(switcher) {
+//
+//            FB.setRenderTarget(processing_.frame_two);
+//            processing_.fameObjOne.setVisibility(true);
+//            FB.clear();
+//            displayWorld.renderScene(FB);
+//
+//            displayWorld.draw(FB);
+//
+//            FB.display();
+//            processing_.fameObjOne.setVisibility(false);
+//            save_Frame(FB);
+//            FB.removeRenderTarget();
+//        }
+//        else
+//        {
+//            FB.setRenderTarget(processing_.frame_one);
+//            processing_.fameObjTwo.setVisibility(true);
+//            FB.clear();
+//            displayWorld.renderScene(FB);
+//
+//            displayWorld.draw(FB);
+//
+//            FB.display();
+//            processing_.fameObjTwo.setVisibility(false);
+//            save_Frame(FB);
+//            FB.removeRenderTarget();
+//
+//            load__test_Frame(FB, toload);
+//
+//        }
 
     }
 
@@ -258,47 +265,49 @@ public class PostProcessHandler {
 
     public void save_Frame(FrameBuffer fb) {
         if(save) {
- System.out.println("chris save frame "+ GridSizes.INSTANCE.getGridWidth() +"and"+ GridSizes.INSTANCE.getGridHeight());
- fb.resize(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight());
-            SaverFKt.frameSaver(fb, GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight());
+
+// fb.resize(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight());
+//            SaverFKt.frameSaver(fb, GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight());
+
+            processing_.save=true;
             save= false;
         }
     }
 
-    public void load__test_Frame(FrameBuffer fb,Long id) {
-
-
-
-        if(loadTest) {
-
-
-            GOFSave save=   SaverFKt.loadFile(id);
-            int[]  tex = SaverFKt.convertBytestoIntegers(save.getSavedImage());
-
-
-            resizeFromSave(save.getWidth(),save.getHeight());
-            System.out.println("SAVE WIDTH" + save.getWidth());
-
-
-
-            FB.setRenderTarget(frame_one);
-            fameObjTwo.setVisibility(true);
-            FB.clear();
-            displayWorld.renderScene(FB);
-
-            displayWorld.draw(FB);
-            //SaverFKt.frameTestLoader(fb,id);
-            blitLoad(fb,tex, save.getWidth(), save.getHeight());
-//TODO
-            FB.display();
-            fameObjTwo.setVisibility(false);
-
-            FB.removeRenderTarget();
-            loadTest= false;
-        }
-
-
-    }
+//    public void load__test_Frame(FrameBuffer fb,Long id) {
+//
+//processing_.load__test_Frame(fb,id);
+//
+////        if(loadTest) {
+////
+////
+////            GOFSave save=   SaverFKt.loadFile(id);
+////            int[]  tex = SaverFKt.convertBytestoIntegers(save.getSavedImage());
+////
+////
+////            resizeFromSave(save.getWidth(),save.getHeight());
+////            System.out.println("SAVE WIDTH" + save.getWidth());
+////
+////
+////
+////            FB.setRenderTarget(processing_.frame_one);
+////            processing_.fameObjTwo.setVisibility(true);
+////            FB.clear();
+////            displayWorld.renderScene(FB);
+////
+////            displayWorld.draw(FB);
+////            //SaverFKt.frameTestLoader(fb,id);
+////            blitLoad(fb,tex, save.getWidth(), save.getHeight());
+//////TODO
+////            FB.display();
+////            processing_.fameObjTwo.setVisibility(false);
+////
+////            FB.removeRenderTarget();
+////            loadTest= false;
+////        }
+//
+//
+//    }
 
 
 
@@ -317,7 +326,7 @@ public class PostProcessHandler {
 
             if(random_fill)
             {
-                fb.setRenderTarget(frame_one);
+                fb.setRenderTarget(processing_.frame_one);
                 random_obj.setVisibility(true);
                 fb.clear();
                 displayWorld.renderScene(fb);
@@ -330,7 +339,7 @@ public class PostProcessHandler {
 
             if(clear_grid)
             {
-                fb.setRenderTarget(frame_one);
+                fb.setRenderTarget(processing_.frame_one);
                 fb.clear();
                 fb.clear(RGBColor.BLACK);
                 displayWorld.renderScene(fb);
@@ -344,7 +353,7 @@ public class PostProcessHandler {
         {
             if(random_fill)
             {
-                fb.setRenderTarget(frame_two);
+                fb.setRenderTarget(processing_.frame_two);
                 random_obj.setVisibility(true);
                 fb.clear();
                 displayWorld.renderScene(fb);
@@ -357,7 +366,7 @@ public class PostProcessHandler {
 
             if(clear_grid)
             {
-                fb.setRenderTarget(frame_two);
+                fb.setRenderTarget(processing_.frame_two);
                 fb.clear();
                 fb.clear(RGBColor.BLACK);
                 displayWorld.renderScene(fb);
@@ -396,30 +405,32 @@ public class PostProcessHandler {
         displayWorld.addObject(random_obj);
         random_obj.setVisibility(false);
 
-        fameObjOne = Primitives.getPlane(4,10);
-        fameObjOne.setOrigin(new SimpleVector(0.01, 0, 0));
-        fameObjOne.setRenderHook(GOF_Hook);
-        fameObjOne.setShader(GOF_shader);
-        TextureInfo one  =  new TextureInfo(TextureManager.getInstance().getTextureID("frameone"));
-        one.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
-        fameObjOne.setTexture(one);
-        fameObjOne.setCulling(false);
-        fameObjOne.compile();
-       // advectingObj.strip();
-        displayWorld.addObject(fameObjOne);
-        fameObjOne.setVisibility(false);
 
-        fameObjTwo = Primitives.getPlane(4,10);
-        fameObjTwo.setOrigin(new SimpleVector(0.01, 0, 0));
-        fameObjTwo.setRenderHook(GOF_Hook);
-        fameObjTwo.setShader(GOF_shader);
-        TextureInfo two  =  new TextureInfo(TextureManager.getInstance().getTextureID("frametwo"));
-        two.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
-        fameObjTwo.setTexture(two);
-        fameObjTwo.setCulling(false);
-        fameObjTwo.compile();
-        displayWorld.addObject(fameObjTwo);
-        fameObjTwo.setVisibility(false);
+        processing_.setupObjects(this,GOF_shader);
+//        fameObjOne = Primitives.getPlane(4,10);
+//        fameObjOne.setOrigin(new SimpleVector(0.01, 0, 0));
+//        fameObjOne.setRenderHook(GOF_Hook);
+//        fameObjOne.setShader(GOF_shader);
+//        TextureInfo one  =  new TextureInfo(TextureManager.getInstance().getTextureID("frameone"));
+//        one.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
+//        fameObjOne.setTexture(one);
+//        fameObjOne.setCulling(false);
+//        fameObjOne.compile();
+//       // advectingObj.strip();
+//        displayWorld.addObject(fameObjOne);
+//        fameObjOne.setVisibility(false);
+//
+//        fameObjTwo = Primitives.getPlane(4,10);
+//        fameObjTwo.setOrigin(new SimpleVector(0.01, 0, 0));
+//        fameObjTwo.setRenderHook(GOF_Hook);
+//        fameObjTwo.setShader(GOF_shader);
+//        TextureInfo two  =  new TextureInfo(TextureManager.getInstance().getTextureID("frametwo"));
+//        two.add(TextureManager.getInstance().getTextureID("splatt"), TextureInfo.MODE_ADD);
+//        fameObjTwo.setTexture(two);
+//        fameObjTwo.setCulling(false);
+//        fameObjTwo.compile();
+//        displayWorld.addObject(fameObjTwo);
+//        fameObjTwo.setVisibility(false);
 
 
         render_to_screen_obj_one = Primitives.getPlane(4,10);
@@ -448,18 +459,18 @@ public class PostProcessHandler {
 
     public void setupTextures()
     {
-        frame_one = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
-        frame_one.setFiltering(textureFiltering);
-        frame_one.setMipmap(textureMipMap);
-        frame_one.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-        tm.addTexture("frameone", frame_one);
-
-        frame_two = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
-        frame_two.setFiltering(textureFiltering);
-        frame_two.setMipmap(textureMipMap);
-        frame_two.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-        tm.addTexture("frametwo", frame_two);
-
+//        frame_one = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
+//        frame_one.setFiltering(textureFiltering);
+//        frame_one.setMipmap(textureMipMap);
+//        frame_one.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//        tm.addTexture("frameone", frame_one);
+//
+//        frame_two = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
+//        frame_two.setFiltering(textureFiltering);
+//        frame_two.setMipmap(textureMipMap);
+//        frame_two.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//        tm.addTexture("frametwo", frame_two);
+//        processing_.setupTextures();
 
         splat_tex = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
         splat_tex.setFiltering(textureFiltering);
@@ -476,20 +487,21 @@ public class PostProcessHandler {
 //        tm.unloadTexture(FB,frame_two);
 //        tm.unloadTexture(FB,splat_tex);
 
-        NPOTTexture frame_one_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
-        frame_one_.setFiltering(textureFiltering);
-        frame_one_.setMipmap(textureMipMap);
-        frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-       // frame_one_.add(frame_one,1f);
-        tm.replaceTexture("frameone", frame_one_);
-
-
-        NPOTTexture frame_two_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
-        frame_two_.setFiltering(textureFiltering);
-        frame_two_.setMipmap(textureMipMap);
-        frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-      //  frame_two_.add(frame_two,1f);
-        tm.replaceTexture("frametwo", frame_two_);
+//        NPOTTexture frame_one_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
+//        frame_one_.setFiltering(textureFiltering);
+//        frame_one_.setMipmap(textureMipMap);
+//        frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//       // frame_one_.add(frame_one,1f);
+//        tm.replaceTexture("frameone", frame_one_);
+//
+//
+//        NPOTTexture frame_two_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
+//        frame_two_.setFiltering(textureFiltering);
+//        frame_two_.setMipmap(textureMipMap);
+//        frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//      //  frame_two_.add(frame_two,1f);
+//        tm.replaceTexture("frametwo", frame_two_);
+ processing_.replaceTextures();
 
 
         NPOTTexture splat_tex_ = new NPOTTexture(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight(), RGBColor.BLACK);
@@ -501,9 +513,9 @@ public class PostProcessHandler {
 
 
 
-
-        frame_one= frame_one_;
-        frame_two= frame_two_;
+//
+//        frame_one= frame_one_;
+//        frame_two= frame_two_;
         splat_tex= splat_tex_;
 
 
@@ -519,20 +531,22 @@ public class PostProcessHandler {
 //        tm.unloadTexture(FB,frame_two);
 //        tm.unloadTexture(FB,splat_tex);
 
-        NPOTTexture frame_one_ = new NPOTTexture(width , height, RGBColor.BLACK);
-        frame_one_.setFiltering(textureFiltering);
-        frame_one_.setMipmap(textureMipMap);
-        frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-        // frame_one_.add(frame_one,1f);
-        tm.replaceTexture("frameone", frame_one_);
+//        NPOTTexture frame_one_ = new NPOTTexture(width , height, RGBColor.BLACK);
+//        frame_one_.setFiltering(textureFiltering);
+//        frame_one_.setMipmap(textureMipMap);
+//        frame_one_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//        // frame_one_.add(frame_one,1f);
+//        tm.replaceTexture("frameone", frame_one_);
+//
+//
+//        NPOTTexture frame_two_ = new NPOTTexture(width , height, RGBColor.BLACK);
+//        frame_two_.setFiltering(textureFiltering);
+//        frame_two_.setMipmap(textureMipMap);
+//        frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
+//        //  frame_two_.add(frame_two,1f);
+//        tm.replaceTexture("frametwo", frame_two_);
 
-
-        NPOTTexture frame_two_ = new NPOTTexture(width , height, RGBColor.BLACK);
-        frame_two_.setFiltering(textureFiltering);
-        frame_two_.setMipmap(textureMipMap);
-        frame_two_.setTextureCompression(textureCompression);// texture compression eliminates the artifacts
-        //  frame_two_.add(frame_two,1f);
-        tm.replaceTexture("frametwo", frame_two_);
+        processing_.replaceTextures(width,height);
 
 
         NPOTTexture splat_tex_ = new NPOTTexture(width , height, RGBColor.BLACK);
@@ -544,8 +558,8 @@ public class PostProcessHandler {
 
 
 
-        frame_one= frame_one_;
-        frame_two= frame_two_;
+//        frame_one= frame_one_;
+//        frame_two= frame_two_;
         splat_tex= splat_tex_;
 
 
@@ -665,6 +679,7 @@ public class PostProcessHandler {
 
         FB.resize(GridSizes.INSTANCE.getGridWidth(), GridSizes.INSTANCE.getGridHeight());
         replaceTextures();
+        processing_.replaceTextures(GridSizes.INSTANCE.getGridWidth(),GridSizes.INSTANCE.getGridHeight());
 
     }
 
@@ -715,7 +730,7 @@ public class PostProcessHandler {
 
     public void setSplatPos(float x , float y)
     {
-        y = frame_one.getHeight() -(y/ GridSizes.INSTANCE.getSize_modifier());
+        y = processing_.frame_one.getHeight() -(y/ GridSizes.INSTANCE.getSize_modifier());
 
         x = x/ GridSizes.INSTANCE.getSize_modifier();
         //x =  frame_one.getWidth()/x;

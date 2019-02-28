@@ -1,5 +1,7 @@
-package c.lawless.gameoflife;
+package c.lawless.gameoflife.RenderHooks;
 
+import c.lawless.gameoflife.PostProcessHandler;
+import c.lawless.gameoflife.Processing;
 import com.threed.jpct.GLSLShader;
 import com.threed.jpct.IRenderHook;
 import com.threed.jpct.Object3D;
@@ -11,6 +13,7 @@ public class GOLRenderHook implements IRenderHook {
 
 
     PostProcessHandler parent;
+   // Processing parent;
     GLSLShader shader;
 
     public GOLRenderHook(PostProcessHandler parent , GLSLShader shader)

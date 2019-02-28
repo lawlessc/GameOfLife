@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
 
         val savebutton: ImageButton = findViewById(R.id.save)
         savebutton.setOnClickListener {
-            allGameObjects.INSTANCE.processHandler!!.save = true;
+            allGameObjects.INSTANCE.processHandler!!.processing_.save = true;
         }
 
 
