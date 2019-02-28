@@ -7,10 +7,9 @@ import android.app.Activity
 import android.app.FragmentManager
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
+
 import android.opengl.GLSurfaceView
-import android.support.v4.app.FragmentActivity
-import android.support.v4.view.MotionEventCompat
+
 
 import android.view.GestureDetector
 import android.view.GestureDetector.OnGestureListener

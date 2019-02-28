@@ -31,7 +31,7 @@ public class PostProcessHandler {
 
     public NPOTTexture splat_tex;
 
-    
+
     public GLSLShader GOF_shader;
     public GLSLShader random_shader;
     public GLSLShader render_shader;
@@ -150,7 +150,7 @@ public class PostProcessHandler {
         }
 
       fills_and_draws(FB);
-        processing_.process(FB,switcher);
+      processing_.process(FB,switcher);
 
       FB.resize(GridSizes.INSTANCE.getScreenWidth(), GridSizes.INSTANCE.getScreenHeight());
 
@@ -204,7 +204,7 @@ public class PostProcessHandler {
 
             if(random_fill)
             {
-                fb.setRenderTarget(processing_.frame_one);
+                fb.setRenderTarget(processing_.getFrame_one());
                 random_obj.setVisibility(true);
                 fb.clear();
                 displayWorld.renderScene(fb);
@@ -217,7 +217,7 @@ public class PostProcessHandler {
 
             if(clear_grid)
             {
-                fb.setRenderTarget(processing_.frame_one);
+                fb.setRenderTarget(processing_.getFrame_one());
                 fb.clear();
                 fb.clear(RGBColor.BLACK);
                 displayWorld.renderScene(fb);
@@ -231,7 +231,7 @@ public class PostProcessHandler {
         {
             if(random_fill)
             {
-                fb.setRenderTarget(processing_.frame_two);
+                fb.setRenderTarget(processing_.getFrame_two());
                 random_obj.setVisibility(true);
                 fb.clear();
                 displayWorld.renderScene(fb);
@@ -244,7 +244,7 @@ public class PostProcessHandler {
 
             if(clear_grid)
             {
-                fb.setRenderTarget(processing_.frame_two);
+                fb.setRenderTarget(processing_.getFrame_two());
                 fb.clear();
                 fb.clear(RGBColor.BLACK);
                 displayWorld.renderScene(fb);
@@ -263,6 +263,8 @@ public class PostProcessHandler {
         GOF_Hook = new GOLRenderHook(this,GOF_shader);
         Splat_Hook = new SplatHook(this, draw_shader);
         render_hook = new MainRender_hook(this, render_shader);
+
+        processing_.setupObjects(this,GOF_shader);
 
         draw_obj_one = Primitives.getPlane(4,10);
         draw_obj_one.setOrigin(new SimpleVector(0.01, 0, 0));
@@ -284,7 +286,7 @@ public class PostProcessHandler {
         random_obj.setVisibility(false);
 
 
-        processing_.setupObjects(this,GOF_shader);
+
 
 
 
@@ -534,7 +536,7 @@ public class PostProcessHandler {
 
     public void setSplatPos(float x , float y)
     {
-        y = processing_.frame_one.getHeight() -(y/ GridSizes.INSTANCE.getSize_modifier());
+        y = processing_.getFrame_one().getHeight() -(y/ GridSizes.INSTANCE.getSize_modifier());
 
         x = x/ GridSizes.INSTANCE.getSize_modifier();
         //x =  frame_one.getWidth()/x;
