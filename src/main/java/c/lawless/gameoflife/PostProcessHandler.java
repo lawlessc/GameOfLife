@@ -547,17 +547,4 @@ public class PostProcessHandler {
     }
 
 
-    public void blitLoad(FrameBuffer fb, int[]  tex,int width, int height )
-    {
-
-      //  fb.resize(width, height);
-        fb.blit(tex ,width,height, 0, 0, 0,0,
-                width, height,
-                false);//if set to true the blit overlays the previous screen.
-
-
-    }
-
-
-
 }
