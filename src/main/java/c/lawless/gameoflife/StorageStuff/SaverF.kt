@@ -2,7 +2,6 @@ package c.lawless.gameoflife.StorageStuff
 
 import c.lawless.gameoflife.StorageStuff.ObjectBox.boxStore
 import io.objectbox.kotlin.boxFor
-
 import com.threed.jpct.*
 import java.nio.ByteBuffer
 import java.nio.ByteOrder

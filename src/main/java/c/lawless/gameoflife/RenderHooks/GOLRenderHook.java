@@ -5,7 +5,6 @@ import c.lawless.gameoflife.Processing;
 import com.threed.jpct.GLSLShader;
 import com.threed.jpct.IRenderHook;
 import com.threed.jpct.Object3D;
-
 /**
  * Created by Chris on 29/05/2016.
  */

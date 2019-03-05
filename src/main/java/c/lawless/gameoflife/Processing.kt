@@ -1,7 +1,5 @@
 package c.lawless.gameoflife
-
 import c.lawless.gameoflife.RenderHooks.GOLRenderHook
-import c.lawless.gameoflife.StorageStuff.GOFSave
 import c.lawless.gameoflife.StorageStuff.*
 import c.lawless.gameoflife.statics.GridSizes
 import com.threed.jpct.*
@@ -15,13 +13,11 @@ class Processing {
     internal var textureMipMap: Boolean = false
     internal var setGLFiltering: Boolean = false
 
-
     lateinit var frame_one: NPOTTexture//Textures for alternating frames.
     lateinit var frame_two: NPOTTexture
 
     lateinit var fameObjOne: Object3D
     lateinit var fameObjTwo: Object3D
-
 
     lateinit internal var GOF_Hook: GOLRenderHook
     //lateinit var GOF_shader: GLSLShader
@@ -29,7 +25,6 @@ class Processing {
     var displayWorld: World
 
     //public  Boolean switcher= true;
-
     var save = false
     var loadTest = false
     var load_id: Long =0
@@ -39,7 +34,6 @@ class Processing {
         this.displayWorld = world
         setupTextures()
     }
-
 
     constructor(world: World, loadid: Long) {
         this.displayWorld = world
@@ -139,8 +133,6 @@ class Processing {
         frame_two = frame_two_
     }
 
-
-
     fun process(FB: FrameBuffer, switcher: Boolean)
     {
         loadFrame(FB, load_id)
@@ -166,7 +158,6 @@ class Processing {
             fameObjTwo.visibility = false
             saveFrame(FB)
             FB.removeRenderTarget()
-
         }
     }
 

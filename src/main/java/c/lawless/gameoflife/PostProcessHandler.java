@@ -4,14 +4,10 @@ import android.content.res.Resources;
 import c.lawless.gameoflife.RenderHooks.GOLRenderHook;
 import c.lawless.gameoflife.RenderHooks.MainRender_hook;
 import c.lawless.gameoflife.RenderHooks.SplatHook;
-import c.lawless.gameoflife.StorageStuff.GOFSave;
-import c.lawless.gameoflife.StorageStuff.SaverFKt;
 import c.lawless.gameoflife.statics.ColorSchemes;
 import c.lawless.gameoflife.statics.GridSizes;
 import c.lawless.gameoflife.statics.Rules;
 import com.threed.jpct.*;
-
-
 /**
  * Created by lawless on 12/10/2015.
  */
