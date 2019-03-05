@@ -45,13 +45,12 @@ class Processing {
         this.displayWorld = world
         this.load_id = loadid
         this.loadTest = true
-
         val save = loadFile(load_id)
 
-        replaceTextures(save.width,save.height)
+      //replaceTextures(save.width,save.height)
         GridSizes.GridWidth=save.width;
         GridSizes.GridHeight=save.height;
-
+        replaceTextures()
     }
 
 
@@ -67,7 +66,6 @@ class Processing {
         fameObjOne.setTexture(one)
         fameObjOne.culling = false
         fameObjOne.compile()
-        // advectingObj.strip();
         displayWorld.addObject(fameObjOne)
         fameObjOne.visibility = false
 
@@ -89,13 +87,15 @@ class Processing {
         frame_one = NPOTTexture(GridSizes.GridWidth, GridSizes.GridHeight, RGBColor.BLACK)
         frame_one.setFiltering(textureFiltering)
         frame_one.setMipmap(textureMipMap)
-        frame_one.setTextureCompression(textureCompression)// texture compression eliminates the artifacts
+        frame_one.setTextureCompression(textureCompression)
+        frame_one.setClamping(false);
         tm.addTexture("frameone", frame_one)
 
         frame_two = NPOTTexture(GridSizes.GridWidth, GridSizes.GridHeight, RGBColor.BLACK)
         frame_two.setFiltering(textureFiltering)
         frame_two.setMipmap(textureMipMap)
-        frame_two.setTextureCompression(textureCompression)// texture compression eliminates the artifacts
+        frame_two.setTextureCompression(textureCompression)
+        frame_two.setClamping(false);
         tm.addTexture("frametwo", frame_two)
     }
 
@@ -104,45 +104,46 @@ class Processing {
         val frame_one_ = NPOTTexture(GridSizes.GridWidth, GridSizes.GridHeight, RGBColor.BLACK)
         frame_one_.setFiltering(textureFiltering)
         frame_one_.setMipmap(textureMipMap)
-        frame_one_.setTextureCompression(textureCompression)// texture compression eliminates the artifacts
+        frame_one_.setTextureCompression(textureCompression)
+        frame_one_.setClamping(false);
         tm.replaceTexture("frameone", frame_one_)
 
         val frame_two_ = NPOTTexture(GridSizes.GridWidth, GridSizes.GridHeight, RGBColor.BLACK)
         frame_two_.setFiltering(textureFiltering)
         frame_two_.setMipmap(textureMipMap)
-        frame_two_.setTextureCompression(textureCompression)// texture compression eliminates the artifacts
+        frame_two_.setTextureCompression(textureCompression)
+        frame_two_.setClamping(false);
         tm.replaceTexture("frametwo", frame_two_)
 
         frame_one = frame_one_
         frame_two = frame_two_
-       // System.gc()
     }
 
     fun replaceTextures(width: Int, height: Int) {
 
-
         val frame_one_ = NPOTTexture(width, height, RGBColor.BLACK)
         frame_one_.setFiltering(textureFiltering)
         frame_one_.setMipmap(textureMipMap)
-        frame_one_.setTextureCompression(textureCompression)// texture compression eliminates the artifacts
+        frame_one_.setTextureCompression(textureCompression)
+        frame_one_.setClamping(false);
         tm.replaceTexture("frameone", frame_one_)
 
         val frame_two_ = NPOTTexture(width, height, RGBColor.BLACK)
         frame_two_.setFiltering(textureFiltering)
         frame_two_.setMipmap(textureMipMap)
-        frame_two_.setTextureCompression(textureCompression)// texture compression eliminates the artifacts
+        frame_two_.setTextureCompression(textureCompression)
+        frame_two_.setClamping(false);
         tm.replaceTexture("frametwo", frame_two_)
 
         frame_one = frame_one_
         frame_two = frame_two_
-      //  System.gc()
     }
 
 
 
     fun process(FB: FrameBuffer, switcher: Boolean)
     {
-
+        loadFrame(FB, load_id)
 
         if (switcher) {
 
@@ -153,7 +154,7 @@ class Processing {
             displayWorld.draw(FB)
             FB.display()
             fameObjOne.visibility = false
-            save_Frame(FB)
+            saveFrame(FB)
             FB.removeRenderTarget()
         } else {
             FB.setRenderTarget(frame_one)
@@ -163,67 +164,46 @@ class Processing {
             displayWorld.draw(FB)
             FB.display()
             fameObjTwo.visibility = false
-            save_Frame(FB)
-            load__test_Frame(FB, load_id)
+            saveFrame(FB)
             FB.removeRenderTarget()
 
-
         }
-
     }
 
-    fun save_Frame(fb: FrameBuffer) {
+    fun saveFrame(fb: FrameBuffer) {
         if (save) {
             fb.resize(GridSizes.GridWidth, GridSizes.GridHeight)
             frameSaver(fb, GridSizes.GridWidth, GridSizes.GridHeight)
+            //frameConversionTest(fb, GridSizes.GridWidth, GridSizes.GridHeight)
+
             save = false
         }
+
     }
 
-
-    fun load__test_Frame(FB: FrameBuffer, id: Long) {
+    fun loadFrame(FB: FrameBuffer, id: Long) {
         if (loadTest) {
             val save = loadFile(id)
             val tex = convertBytestoIntegers(save.savedImage)
-
-            GridSizes.GridWidth =save.width
-            GridSizes.GridHeight=save.height
-
             replaceTextures(save.width, save.height)
 
-           // FB.resize(save.width, save.height)
-            FB.setRenderTarget(frame_one)
             FB.resize(save.width, save.height)
-           // fameObjTwo.visibility = true
+            FB.setRenderTarget(frame_one)
             FB.clear()
-            System.out.println("chris frame_one w" +frame_one.width+ "h"+frame_one.height );
-            System.out.println("chris fb: w"+  FB.width +" H" + FB.height );
-            System.out.println("chris file id =" +load_id );
-            System.out.println("chris file arraysize =" +save.savedImage!!.size );
-            System.out.println("chris file: w"+  save.width +" H" + save.height );
-
-            //displayWorld.renderScene(FB)
-          //  displayWorld.draw(FB)
-
             blitLoad(FB, tex, save.width, save.height)
             FB.display()
-           // fameObjTwo.visibility = false
 
+            FB.setRenderTarget(frame_two)
+            FB.clear()
+            blitLoad(FB, tex, save.width, save.height)
+            FB.display()
             FB.removeRenderTarget()
+
             loadTest = false
         }
     }
 
-
-
-
-
-
-    fun blitLoad(fb: FrameBuffer, tex: IntArray, width: Int, height: Int) {
-
-        System.out.println("chris fb blit w"+ fb.width +" H" + fb.height );
-//        fb.flush()
-//        fb.freeMemory()
+    fun blitLoad(fb: FrameBuffer, tex: IntArray, width: Int, height: Int){
         fb.blit(
             tex,
             width,
@@ -234,8 +214,6 @@ class Processing {
             0,
             width,
             height,
-            false
-        )//if set to true the blit overlays the previous screen.
+            false)//if set to true the blit overlays the previous screen.
     }
-
 }

@@ -146,11 +146,14 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             Config.unloadImmediately = false
             Config.reuseTextureBuffers=true
             Config.maxLights=0;
+            //Config.
+            Config.glUseIgnorantBlits=false;
+
             // Config.
 
 
-            Config.maxPolysVisible = 50
-            Config.farPlane = 10f
+            Config.maxPolysVisible = 10
+            Config.farPlane = 5f
             Config.nearPlane = 0f
             mGLView!!.setPreserveEGLContextOnPause(true)
             //Config.
@@ -159,6 +162,8 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             //Config
            // Config.glDebugLevel
             //  Config.
+
+
         }
 
 
@@ -409,7 +414,8 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
 
                 if( loadnew )
                 {
-                    allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb, master, loadint);
+                    allGameObjects.INSTANCE.processHandler = PostProcessHandler(res, fb, master, loadint)
+                    isActionPaused = true
                 }
                 else
                 {

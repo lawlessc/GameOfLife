@@ -1,16 +1,13 @@
 precision lowp float;
 uniform sampler2D textureUnit0;
-uniform sampler2D textureUnit1;
+uniform sampler2D textureUnit1;//for drawing/splat
 varying vec2 v_texCoord;
 uniform  vec3 inversesizex;
 uniform  vec3 inversesizey;
 uniform  float paused;
-
-//uniform  int   firstrun;
 const  vec2 scale = vec2(0.5, 0.5);
 
 void main() {
-
 //Cell information gathering phase.
 // get cell value and value of 8 neighbours.
 vec4 cell   = texture2D(textureUnit0, v_texCoord.xy);
@@ -22,7 +19,6 @@ vec4 neighbourcells   = texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy)
      neighbourcells   += texture2D(textureUnit0, v_texCoord.xy - inversesizey.xy + inversesizex.xy);
      neighbourcells   += texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy - inversesizex.xy);
      neighbourcells   += texture2D(textureUnit0, v_texCoord.xy - inversesizey.xy - inversesizex.xy);
-
 //Rules to be implemented here.
 //    Any live cell with fewer than two live neighbors dies, as if by underpopulation.
 //    Any live cell with two or three live neighbors lives on to the next generation.
