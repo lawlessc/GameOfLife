@@ -19,7 +19,6 @@ import android.widget.Button
 import android.widget.ImageButton
 import c.lawless.gameoflife.StorageStuff.ObjectBox
 import c.lawless.gameoflife.StorageStuff.deleteAllFiles
-import c.lawless.gameoflife.StorageStuff.frameSaver
 
 import com.threed.jpct.Camera
 import com.threed.jpct.Config
@@ -33,8 +32,6 @@ import com.threed.jpct.util.AAConfigChooser
 import com.threed.jpct.util.MemoryHelper
 import javax.microedition.khronos.egl.EGLConfig
 import javax.microedition.khronos.opengles.GL10
-
-
 /**
  * @author Christopher Lawless
  */
@@ -109,6 +106,7 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             //Config.
             Config.glUseIgnorantBlits=false;
 
+            Config.glDither = false
             Config.maxPolysVisible = 10
             Config.farPlane = 5f
             Config.nearPlane = 0f
@@ -297,10 +295,11 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             if (fb != null) {
                 //	fb.dispose();
                 fb!!.resize(w, h)
+
             }
-            // else{
+             else{
             fb = FrameBuffer(w, h)
-            //	}
+            	}
             if (master == null) {
 
                 master = this@MainActivity

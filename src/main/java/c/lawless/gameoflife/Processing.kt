@@ -27,6 +27,8 @@ class Processing {
     //public  Boolean switcher= true;
     var save = false
     var loadTest = false
+    var loatTestStageOne= false;
+
     var load_id: Long =0
 
 
@@ -162,12 +164,17 @@ class Processing {
     }
 
     fun saveFrame(fb: FrameBuffer) {
-        if (save) {
-            fb.resize(GridSizes.GridWidth, GridSizes.GridHeight)
-            frameSaver(fb, GridSizes.GridWidth, GridSizes.GridHeight)
-            //frameConversionTest(fb, GridSizes.GridWidth, GridSizes.GridHeight)
 
-            save = false
+
+        if (save) {
+            if(loatTestStageOne) {
+                fb.resize(GridSizes.GridWidth, GridSizes.GridHeight)
+                frameSaver(fb, GridSizes.GridWidth, GridSizes.GridHeight)
+                //frameConversionTest(fb, GridSizes.GridWidth, GridSizes.GridHeight)
+
+                save = false
+            }
+            loatTestStageOne= true
         }
 
     }
@@ -181,12 +188,21 @@ class Processing {
             FB.resize(save.width, save.height)
             FB.setRenderTarget(frame_one)
             FB.clear()
+
             blitLoad(FB, tex, save.width, save.height)
+
             FB.display()
+
+            displayWorld.renderScene(FB)
+            displayWorld.draw(FB)
 
             FB.setRenderTarget(frame_two)
             FB.clear()
+
             blitLoad(FB, tex, save.width, save.height)
+
+
+
             FB.display()
             FB.removeRenderTarget()
 
@@ -205,6 +221,6 @@ class Processing {
             0,
             width,
             height,
-            false)//if set to true the blit overlays the previous screen.
+            FrameBuffer.OPAQUE_BLITTING)//if set to true the blit overlays the previous screen.
     }
 }
