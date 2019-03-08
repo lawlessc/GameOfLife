@@ -27,7 +27,7 @@ class Processing {
     //public  Boolean switcher= true;
     var save = false
     var loadTest = false
-    var loatTestStageOne= false;
+    //var loatTestStageOne= false;
 
     var load_id: Long =0
 
@@ -167,14 +167,14 @@ class Processing {
 
 
         if (save) {
-            if(loatTestStageOne) {
+          //  if(loatTestStageOne) {
                 fb.resize(GridSizes.GridWidth, GridSizes.GridHeight)
                 frameSaver(fb, GridSizes.GridWidth, GridSizes.GridHeight)
                 //frameConversionTest(fb, GridSizes.GridWidth, GridSizes.GridHeight)
 
                 save = false
-            }
-            loatTestStageOne= true
+           // }
+         //   loatTestStageOne= true
         }
 
     }
