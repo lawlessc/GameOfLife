@@ -84,8 +84,13 @@ public class GOFAdapter extends RecyclerView.Adapter<GOFAdapter.Saveviewholder> 
 
 
                     Intent intent = new Intent(v.getContext() ,MainActivity.class);
+                   // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    //intent.addFlags(Intent.);
                     intent.putExtra("save_id",save_id );
                     intent.putExtra("loading",true);
+                   //We clear previous activities to save memory. i hope
 
                     v.getContext().startActivity(intent);
 

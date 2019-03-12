@@ -120,7 +120,7 @@ public class PostProcessHandler {
         loadShaders(res);
         setUpCameras();//worlds
         //we replace textures here to avoid errors.
-        processing_= new Processing(displayWorld,id);
+        processing_= new Processing(displayWorld,id,fb);
         replaceTextures();
 
         this.main=main;

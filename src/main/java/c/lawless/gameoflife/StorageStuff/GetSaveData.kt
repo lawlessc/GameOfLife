@@ -15,7 +15,7 @@ abstract  class GetSaveData (context : Context){
 
     fun getData() {
 
-        saveBox = ObjectBox.boxStore.boxFor()
+        saveBox = ObjectBox.getbox(context).boxFor()
 
         val box = ObjectBox.boxStore.boxFor<GOFSave>()
         val  savefiles = box.all

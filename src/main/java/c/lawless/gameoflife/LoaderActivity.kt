@@ -45,7 +45,8 @@ class LoaderActivity : AppCompatActivity() {
             }
         }
 
-        var gSaveData = GSaveData(this)
+       // var gSaveData =
+            GSaveData(this)
 
     }
 }

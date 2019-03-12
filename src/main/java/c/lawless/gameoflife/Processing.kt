@@ -13,13 +13,14 @@ class Processing {
     internal var textureMipMap: Boolean = false
     internal var setGLFiltering: Boolean = false
 
-    lateinit var frame_one: NPOTTexture//Textures for alternating frames.
-    lateinit var frame_two: NPOTTexture
+    var frame_one: NPOTTexture? = null//Textures for alternating frames.
+    var frame_two: NPOTTexture? = null
 
     lateinit var fameObjOne: Object3D
     lateinit var fameObjTwo: Object3D
 
     lateinit internal var GOF_Hook: GOLRenderHook
+    lateinit var fb: FrameBuffer
     //lateinit var GOF_shader: GLSLShader
 
     var displayWorld: World
@@ -32,13 +33,15 @@ class Processing {
     var load_id: Long =0
 
 
+
     constructor(world: World) {
         this.displayWorld = world
         setupTextures()
     }
 
-    constructor(world: World, loadid: Long) {
+    constructor(world: World, loadid: Long,FB: FrameBuffer) {
         this.displayWorld = world
+        this.fb=FB
         this.load_id = loadid
         this.loadTest = true
         val save = loadFile(load_id)
@@ -81,41 +84,60 @@ class Processing {
     fun setupTextures()
     {
         frame_one = NPOTTexture(GridSizes.GridWidth, GridSizes.GridHeight, RGBColor.BLACK)
-        frame_one.setFiltering(textureFiltering)
-        frame_one.setMipmap(textureMipMap)
-        frame_one.setTextureCompression(textureCompression)
-        frame_one.setClamping(false);
+        frame_one!!.setFiltering(textureFiltering)
+        frame_one!!.setMipmap(textureMipMap)
+        frame_one!!.setTextureCompression(textureCompression)
+        frame_one!!.setClamping(false);
         tm.addTexture("frameone", frame_one)
 
         frame_two = NPOTTexture(GridSizes.GridWidth, GridSizes.GridHeight, RGBColor.BLACK)
-        frame_two.setFiltering(textureFiltering)
-        frame_two.setMipmap(textureMipMap)
-        frame_two.setTextureCompression(textureCompression)
-        frame_two.setClamping(false);
+        frame_two!!.setFiltering(textureFiltering)
+        frame_two!!.setMipmap(textureMipMap)
+        frame_two!!.setTextureCompression(textureCompression)
+        frame_two!!.setClamping(false);
         tm.addTexture("frametwo", frame_two)
     }
 
     fun replaceTextures() {
+
+
+        //Doing this to
+        System.gc()
+        tm.removeAndUnload("frameone",fb)
+        tm.removeAndUnload("frametwo",fb)
+        fb.flush()
+        //fb.dispose()
+        fb.freeMemory()
+        frame_one=null
+        frame_two=null
+
+        System.runFinalization()
+        System.gc()
 
         val frame_one_ = NPOTTexture(GridSizes.GridWidth, GridSizes.GridHeight, RGBColor.BLACK)
         frame_one_.setFiltering(textureFiltering)
         frame_one_.setMipmap(textureMipMap)
         frame_one_.setTextureCompression(textureCompression)
         frame_one_.setClamping(false);
-        tm.replaceTexture("frameone", frame_one_)
+       // tm.replaceTexture("frameone", frame_one_)
+        tm.addTexture("frameone", frame_one_)
 
         val frame_two_ = NPOTTexture(GridSizes.GridWidth, GridSizes.GridHeight, RGBColor.BLACK)
         frame_two_.setFiltering(textureFiltering)
         frame_two_.setMipmap(textureMipMap)
         frame_two_.setTextureCompression(textureCompression)
         frame_two_.setClamping(false);
-        tm.replaceTexture("frametwo", frame_two_)
+       // tm.replaceTexture("frametwo", frame_two_)
+        tm.addTexture("frametwo", frame_two_)
 
         frame_one = frame_one_
         frame_two = frame_two_
+
+        System.gc()
     }
 
     fun replaceTextures(width: Int, height: Int) {
+        System.gc()
 
         val frame_one_ = NPOTTexture(width, height, RGBColor.BLACK)
         frame_one_.setFiltering(textureFiltering)
@@ -133,6 +155,7 @@ class Processing {
 
         frame_one = frame_one_
         frame_two = frame_two_
+        System.gc()
     }
 
     fun process(FB: FrameBuffer, switcher: Boolean)
@@ -183,7 +206,7 @@ class Processing {
         if (loadTest) {
             val save = loadFile(id)
             val tex = convertBytestoIntegers(save.savedImage)
-            replaceTextures(save.width, save.height)
+            //replaceTextures(save.width, save.height)
 
             FB.resize(save.width, save.height)
             FB.setRenderTarget(frame_one)

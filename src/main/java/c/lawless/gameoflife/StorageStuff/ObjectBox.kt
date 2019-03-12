@@ -18,7 +18,7 @@ object ObjectBox {
     fun build(context: Context) {
         // This is the minimal setup required on Android
 
-        if(::boxStore.isInitialized == false) {
+        if (!::boxStore.isInitialized) {
             boxStore = MyObjectBox.builder().androidContext(context.applicationContext).build()
         }
 
@@ -30,5 +30,16 @@ object ObjectBox {
 //                .directory(directory)
 //                .build()
     }
+
+    fun getbox(context: Context) :BoxStore
+    {
+
+        if (!::boxStore.isInitialized) {
+            boxStore = MyObjectBox.builder().androidContext(context.applicationContext).build()
+           return boxStore
+        }
+     return boxStore
+    }
+
 
 }
