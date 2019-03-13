@@ -170,10 +170,6 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
             openLoader()
         }
 
-        val deleteAll: Button = findViewById(R.id.delete_all)
-        deleteAll.setOnClickListener {
-            deleteAllFiles()
-        }
 
         val rules_dialogue_test: Button = findViewById(R.id.openrules)
         rules_dialogue_test.setOnClickListener {
