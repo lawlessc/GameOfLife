@@ -16,14 +16,12 @@ class LoaderActivity : AppCompatActivity() {
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_loader)
 
         class GSaveData (context: Context): GetSaveData(context)
         {
-
             override fun dataReady(dataArray: ArrayList<GOFSave>) {
                 // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 viewManager = LinearLayoutManager(context)
@@ -39,7 +37,6 @@ class LoaderActivity : AppCompatActivity() {
                 }
             }
         }
-
 
         GSaveData(this)//Loads saves from memory
 
