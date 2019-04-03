@@ -18,16 +18,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageButton
 import c.lawless.gameoflife.StorageStuff.ObjectBox
-import c.lawless.gameoflife.StorageStuff.deleteAllFiles
 
-import com.threed.jpct.Camera
 import com.threed.jpct.Config
 import com.threed.jpct.FrameBuffer
 import com.threed.jpct.Logger
-import com.threed.jpct.RGBColor
-import com.threed.jpct.SimpleVector
 import com.threed.jpct.Texture
-import com.threed.jpct.World
 import com.threed.jpct.util.AAConfigChooser
 import com.threed.jpct.util.MemoryHelper
 import javax.microedition.khronos.egl.EGLConfig
@@ -188,6 +183,14 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
                 val viewX =  motionEvent.x -view.left
                 val viewY =  motionEvent.y -view.top
 
+                System.out.println("XYZ////////////////////////////////////")
+                System.out.println("XYZ////////////////////////////////////")
+
+                System.out.println("XYZ splat before  "  + allGameObjects.INSTANCE.processHandler!!.splatPos);
+                System.out.println("XYZ OUTPUTIS   "  +viewX +" and " +viewY)
+
+
+
                 when (motionEvent.action){
                      MotionEvent.ACTION_DOWN -> {
 
@@ -215,6 +218,9 @@ class MainActivity : AppCompatActivity () /*, OnScaleGestureListener*/ /*,Observ
                          }
                      }
                  }
+
+                System.out.println("XYZ splat after  "  + allGameObjects.INSTANCE.processHandler!!.splatPos);
+
               return@OnTouchListener true
             })
 

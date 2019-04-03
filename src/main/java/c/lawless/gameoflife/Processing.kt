@@ -190,14 +190,10 @@ class Processing {
 
 
         if (save) {
-          //  if(loatTestStageOne) {
                 fb.resize(GridSizes.GridWidth, GridSizes.GridHeight)
                 frameSaver(fb, GridSizes.GridWidth, GridSizes.GridHeight)
-                //frameConversionTest(fb, GridSizes.GridWidth, GridSizes.GridHeight)
-
                 save = false
-           // }
-         //   loatTestStageOne= true
+
         }
 
     }
@@ -206,7 +202,6 @@ class Processing {
         if (loadTest) {
             val save = loadFile(id)
             val tex = convertBytestoIntegers(save.savedImage)
-            //replaceTextures(save.width, save.height)
 
             FB.resize(save.width, save.height)
             FB.setRenderTarget(frame_one)
@@ -223,7 +218,6 @@ class Processing {
             FB.clear()
 
             blitLoad(FB, tex, save.width, save.height)
-
 
 
             FB.display()

@@ -30,6 +30,7 @@ public class SplatHook implements IRenderHook {
 
         //impulse.setStaticUniform("aspectRatio", parent.AspectRatio);
         splatshade.setStaticUniform("on", parent.splat_on ? 1.0f : 0.0f);
+
         splatshade.setStaticUniform("Point", parent.splatPos);
         splatshade.setStaticUniform("Radius", parent.splatRadius);
         splatshade.setStaticUniform("FillColor", fillcol);

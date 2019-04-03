@@ -180,8 +180,6 @@ public class PostProcessHandler {
             fb.display();
             render_to_screen_obj_one.setVisibility(false);
         }
-
-
     }
 
 
