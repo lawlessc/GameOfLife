@@ -33,7 +33,7 @@ public class AppiumTest {
    // @BeforeAll
    @Test
    @Order(1)
-    public static void setUp() throws MalformedURLException {
+    public /*static*/ void setUp() throws MalformedURLException {
         //Setup Appium
         DesiredCapabilities caps = DesiredCapabilities.android();
         caps.setCapability(MobileCapabilityType.APP, "c.lawless.gameoflife");
