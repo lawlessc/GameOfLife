@@ -5,15 +5,14 @@ import io.appium.java_client.TouchAction;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.touch.offset.PointOption;
-import org.junit.Test;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.springframework.core.annotation.Order;
-
+;
+//import org.testng.annotations.Test;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
@@ -30,10 +29,8 @@ public class AppiumTest {
     public static AndroidDriver driver;
     public static WebDriverWait wait;
 
-   // @BeforeAll
-   @Test
-   @Order(1)
-    public /*static*/ void setUp() throws MalformedURLException {
+    @BeforeAll
+    public static void setUp() throws MalformedURLException {
         //Setup Appium
         DesiredCapabilities caps = DesiredCapabilities.android();
         caps.setCapability(MobileCapabilityType.APP, "c.lawless.gameoflife");
@@ -45,7 +42,7 @@ public class AppiumTest {
     }
 
     @Test
-    @Order(2)
+    @Order(1)
     public void SomeTaps() throws MalformedURLException, InterruptedException,URISyntaxException {
 
         synchronized (driver)
@@ -77,7 +74,7 @@ public class AppiumTest {
     }
 
     @Test
-    @Order(3)
+    @Order(2)
     public void PauseAndSave() throws MalformedURLException, InterruptedException,URISyntaxException {
         wait.until(ExpectedConditions.elementToBeClickable(By.id("c.lawless.gameoflife:id/pause")));
         driver.findElement(By.id("c.lawless.gameoflife:id/pause")).click();
@@ -85,7 +82,7 @@ public class AppiumTest {
     }
 
     @Test
-    @Order(4)
+    @Order(3)
     public void LifeLoader() throws MalformedURLException, InterruptedException,URISyntaxException {
 
         wait.until(ExpectedConditions.elementToBeClickable(By.id("c.lawless.gameoflife:id/loader")));
@@ -98,9 +95,9 @@ public class AppiumTest {
 
     }
 
-//    @AfterAll
-//    public static void teardown(){
-//        //Teardown operation
-//        driver.quit();
-//    }
+   @AfterAll
+    public static void teardown(){
+        //Teardown operation
+        driver.quit();
+    }
 }
