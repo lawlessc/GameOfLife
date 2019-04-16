@@ -21,7 +21,7 @@ abstract  class GetSaveData (context : Context){
         val  savefiles = box.all
 
 
-            for (i in 0..savefiles!!.size - 1) {
+            for (i in savefiles!!.size-1 downTo 0 ) {
                 saveDataArray.add(savefiles[i])
 
             }
