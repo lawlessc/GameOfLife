@@ -1,5 +1,6 @@
 package c.lawless.gameoflife
 
+import c.lawless.gameoflife.StorageStuff.ObjectBox
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -14,4 +15,12 @@ class ExampleUnitTest {
     fun addition_isCorrect() {
         assertEquals(4, 2 + 2)
     }
+
+
+
+    //ObjectBox.build(this.baseContext)
+
+
+
+
 }

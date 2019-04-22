@@ -2,6 +2,11 @@ package c.lawless.gameoflife
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
+import c.lawless.gameoflife.StorageStuff.ObjectBox
+import c.lawless.gameoflife.StorageStuff.convertBytestoIntegers
+import c.lawless.gameoflife.StorageStuff.convertIntegersToBytes
+import c.lawless.gameoflife.StorageStuff.compareArrays
+
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -21,4 +26,23 @@ class ExampleInstrumentedTest {
         val appContext = InstrumentationRegistry.getTargetContext()
         assertEquals("c.lawless.gameoflife", appContext.packageName)
     }
+
+
+    @Test
+    fun create_objectBox() {
+        val appContext = InstrumentationRegistry.getTargetContext()
+        ObjectBox.build(appContext)
+    }
+
+    @Test
+    fun conversionTest() {
+
+        var vec= fb.getPixels()
+        var byteArray=   convertIntegersToBytes(vec)
+        val tex = convertBytestoIntegers(byteArray)
+        assertEquals(compareArrays(vec,tex), true)
+    }
+
+
+
 }

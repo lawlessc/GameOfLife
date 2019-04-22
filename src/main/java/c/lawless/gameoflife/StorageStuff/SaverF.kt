@@ -77,18 +77,19 @@ fun convertBytestoIntegers( bytes : ByteArray? ): IntArray
 }
 
 //https://stackoverflow.com/questions/14897366/comparing-two-integer-arrays-in-java 
-fun compareArrays(array1: IntArray?, array2: IntArray?) {
-    var b = true
+fun compareArrays(array1: IntArray?, array2: IntArray?): Boolean {
+
     if (array1 != null && array2 != null) {
         if (array1.size != array2.size)
-            b = false
+            return false
         else
             for (i in array2.indices) {
                 if (array2[i] != array1[i]) {
-                    b = false
+                   return false
                 }
             }
     } else {
-        b = false
+        return false
     }
+    return true
 }

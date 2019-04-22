@@ -50,8 +50,17 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.x.x'
     implementation 'com.google.dagger:dagger:2.13'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.13'
+
     testImplementation 'io.appium:java-client:7.0.0'
     testImplementation 'org.testng:testng:7.0.0-beta4'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0-M1'
     testImplementation 'junit:junit:4.12'
+
+
+    // Optional -- manually add native ObjectBox library to override auto-detection
+    testImplementation "io.objectbox:objectbox-linux:$objectboxVersion"
+    testImplementation "io.objectbox:objectbox-macos:$objectboxVersion"
+    testImplementation "io.objectbox:objectbox-windows:$objectboxVersion"
+
+
 }

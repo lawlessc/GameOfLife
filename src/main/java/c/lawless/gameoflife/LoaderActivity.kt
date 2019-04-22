@@ -24,7 +24,7 @@ class LoaderActivity : AppCompatActivity() {
         {
             override fun dataReady(dataArray: ArrayList<GOFSave>) {
                 // TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                viewManager = LinearLayoutManager(context)
+                viewManager = LinearLayoutManager(context) as RecyclerView.LayoutManager
                 viewAdapter = GOFAdapter(dataArray, context)
                 recyclerView = findViewById<RecyclerView>(R.id.save_recyclerview).apply {
                     // use this setting to improve performance if you know that changes
