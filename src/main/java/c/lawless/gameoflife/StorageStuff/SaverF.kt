@@ -43,7 +43,7 @@ fun deleteAllFiles()
 }
 
 //https://stackoverflow.com/questions/1086054/how-to-convert-int-to-byte
-fun convertIntegersToBytes(integers: IntArray?): ByteArray? {
+fun convertIntegersToBytes(integers: IntArray): ByteArray? {
     if (integers != null) {
         val outputBytes = ByteArray(integers.size * 4)
 
