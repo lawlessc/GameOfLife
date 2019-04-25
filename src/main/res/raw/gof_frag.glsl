@@ -11,14 +11,14 @@ void main() {
 //Cell information gathering phase.
 // get cell value and value of 8 neighbours.
 vec4 cell   = texture2D(textureUnit0, v_texCoord.xy);
-vec4 neighbourcells   = texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy);
-     neighbourcells   += texture2D(textureUnit0, v_texCoord.xy - inversesizey.xy);
-     neighbourcells   += texture2D(textureUnit0, v_texCoord.xy - inversesizex.xy);
-     neighbourcells   += texture2D(textureUnit0, v_texCoord.xy + inversesizex.xy);
-     neighbourcells   += texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy + inversesizex.xy);
-     neighbourcells   += texture2D(textureUnit0, v_texCoord.xy - inversesizey.xy + inversesizex.xy);
-     neighbourcells   += texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy - inversesizex.xy);
-     neighbourcells   += texture2D(textureUnit0, v_texCoord.xy - inversesizey.xy - inversesizex.xy);
+vec4 neighbourcells   = texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy)
+        + texture2D(textureUnit0, v_texCoord.xy - inversesizey.xy)
+        + texture2D(textureUnit0, v_texCoord.xy - inversesizex.xy)
+        + texture2D(textureUnit0, v_texCoord.xy + inversesizex.xy)
+        + texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy + inversesizex.xy)
+        + texture2D(textureUnit0, v_texCoord.xy - inversesizey.xy + inversesizex.xy)
+        + texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy - inversesizex.xy)
+        + texture2D(textureUnit0, v_texCoord.xy - inversesizey.xy - inversesizex.xy);
 //Rules to be implemented here.
 //    Any live cell with fewer than two live neighbors dies, as if by underpopulation.
 //    Any live cell with two or three live neighbors lives on to the next generation.
@@ -27,9 +27,10 @@ vec4 neighbourcells   = texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy)
 
 //I implemeted the game of life rules here using step functions as
 //step functions are faster than IF statements which cause branching.(allegedly)
-float newval = ( step(neighbourcells.x,3.0) * step(  2.0 ,  neighbourcells.x)) * cell.x;
-newval += step(neighbourcells.x, 3.0)*step(  3.0 ,  neighbourcells.x); //this will check if exactly 3 neighbours
+float newval = (( step(neighbourcells.x,3.0) * step(  2.0 ,  neighbourcells.x)) * cell.x)
+                + step(neighbourcells.x, 3.0)*step(  3.0 ,  neighbourcells.x); //this will check if exactly 3 neighbours
 
-gl_FragColor = (  (vec4(newval,newval,newval,1.0) *(1.0-paused) ) +(vec4(cell.xyz,1.0)*paused)  )+ texture2D(textureUnit1, v_texCoord.xy); //we add the splat  texture here too
-
+gl_FragColor = ((vec4(newval,newval,newval,1.0) *(1.0-paused))
+               +(vec4(cell.xyz,1.0)*paused))
+               + texture2D(textureUnit1, v_texCoord.xy); //we add the splat  texture here too
 }
