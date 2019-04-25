@@ -27,7 +27,7 @@ vec4 neighbourcells   = texture2D(textureUnit0, v_texCoord.xy + inversesizey.xy)
 
 //I implemeted the game of life rules here using step functions as
 //step functions are faster than IF statements which cause branching.(allegedly)
-float newval = (( step(neighbourcells.x,3.0) * step(  2.0 ,  neighbourcells.x)) * cell.x)
+float newval = ( step(neighbourcells.x,3.0) * step(  2.0 ,  neighbourcells.x)) * cell.x
                 + step(neighbourcells.x, 3.0)*step(  3.0 ,  neighbourcells.x); //this will check if exactly 3 neighbours
 
 gl_FragColor = ((vec4(newval,newval,newval,1.0) *(1.0-paused))
